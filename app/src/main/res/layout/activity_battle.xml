@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ico_knight"
+            android:id="@+id/imageView"
+            android:layout_weight="1"
+            android:scaleX="-1"
+            android:background="@android:color/background_dark" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="THIS IS TEXT"
+            android:layout_margin="5dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:background="@drawable/wall">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton1"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:visibility="invisible" />
+
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton2"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:visibility="invisible" />
+
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton3"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:visibility="invisible" />
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton4"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:visibility="invisible" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"></LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton5"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton6"
+
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton7"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <com.example.dima.deephearth.UnitButton
+                app:srcCompat="@null"
+                android:id="@+id/UnitButton8"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <com.example.dima.deephearth.UnitLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="horizontal"
+        android:contextClickable="true"
+        android:background="@drawable/border">
+
+        <ImageView
+            app:srcCompat="@drawable/ico_knight"
+            android:id="@+id/imageView2"
+            android:scaleType="fitCenter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:scaleX="-1" />
+
+        <TextView
+            android:text="Swordsman Stan | Health : 10/10 | Mana : 100/100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_toRightOf="@+id/imageView2"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:id="@+id/textView3"
+            android:layout_alignBottom="@+id/imageView2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:fontFamily="casual"
+            android:background="@android:color/background_dark"
+            android:gravity="center" />
+    </com.example.dima.deephearth.UnitLayout>
+
+</LinearLayout>
