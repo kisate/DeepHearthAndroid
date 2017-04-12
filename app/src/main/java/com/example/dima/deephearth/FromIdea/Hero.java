@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * Created by Dima on 23.02.2017.
  */
 public abstract class Hero extends Unit implements Hireable{
-    private int prDexterity, prPower, prdefence;
+    private int prDexterity, prPower;
     public Scale hpScale, crtScale, mpScale, speedScale, dodgeScale, dmgScale, accScale;
     public int power, dexterity, experience, level;
     public HeroClasses heroClass;

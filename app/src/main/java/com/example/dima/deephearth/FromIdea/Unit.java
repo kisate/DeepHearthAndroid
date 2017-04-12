@@ -15,8 +15,9 @@ public abstract class Unit implements Serializable{
     public int maxHealth, maxMana;
     public int stunDef, moveDef, curseDef, holyDef, nmDef;
     public int health, mana, damage, accuracy;
-    public int luck, dodge, defence, critical = 0;
+    public int luck, dodge, critical = 0;
     public int speed;
+    public double defence, prdefence;
     public String description;
     public UnitTypes type;
     public LinkedList<Skill> skills = new LinkedList<Skill>();

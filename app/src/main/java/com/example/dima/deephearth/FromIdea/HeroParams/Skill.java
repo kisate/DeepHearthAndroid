@@ -5,6 +5,7 @@ import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -12,13 +13,17 @@ import java.util.Random;
  */
 public abstract class Skill implements Serializable {
     public int cost;
-    public int power, accuracy;
+    public int power, accuracy, damage;
     public Scale dmgMod;
     public double accuracyMod;
     public String name, description;
     public Unit owner;
-    public int[] canBeUsedFrom;
-    public int[] canBeUsedOn;
+    public boolean[] canBeUsedFrom = {false, false, false, false};
+    public boolean[] canBeUsedOn = {false, false, false, false};
+    public int targetAmount = 1;
+    public boolean friendly = false;
+    public boolean onSelf = false;
+    public double bottom = 0.8, top = 0.8;
     public Skill(Unit owner) {
         this.owner = owner;
     }
@@ -27,6 +32,7 @@ public abstract class Skill implements Serializable {
         if (owner.mana < cost) System.out.println("Not enough mana");
         else{
             owner.mana-=cost;
+            damage = (int)(power*bottom + power*(top-bottom)*Math.random());
             if (new Probability(owner.luck + accuracy, owner.luck + accuracy + target.luck + target.dodge).check()) {
                 action(target);
             }
@@ -41,7 +47,7 @@ public abstract class Skill implements Serializable {
     }
 
     public void action(Unit target){
-        System.out.println(owner.name + " uses " + name + " on " + target.name);
+        showUse(target);
     }
     @Override
     public String toString() {
@@ -51,4 +57,6 @@ public abstract class Skill implements Serializable {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public void showUse(Unit target) {}
 }
