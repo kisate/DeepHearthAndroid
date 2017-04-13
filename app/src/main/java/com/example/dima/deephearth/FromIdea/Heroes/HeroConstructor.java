@@ -2,7 +2,11 @@ package com.example.dima.deephearth.FromIdea.Heroes;
 
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Skills.CuttingStrike;
+import com.example.dima.deephearth.FromIdea.Skills.DagerStrike;
+import com.example.dima.deephearth.FromIdea.Skills.DemonicArrow;
 import com.example.dima.deephearth.FromIdea.Skills.Heal;
+import com.example.dima.deephearth.FromIdea.Skills.HingedBlow;
+import com.example.dima.deephearth.FromIdea.Skills.PointStrike;
 import com.example.dima.deephearth.FromIdea.Skills.Skip;
 import com.example.dima.deephearth.FromIdea.Skills.SwordStrike;
 import com.example.dima.deephearth.FromIdea.Team;
@@ -26,4 +30,18 @@ public class HeroConstructor {
         return  product;
     }
     public Swordsman constructSwordsman(String name, Team team){return constructSwordsman(5, 10, name, team);}
+
+    public Archer constructArcher(int dex, int pwr, String name, Team team) {
+        Archer product = new Archer(dex, pwr, name, team);
+        product.skills.add(new DagerStrike(product));
+        product.skills.add(new PointStrike(product));
+        product.skills.add(new HingedBlow(product));
+        product.skills.add(new DemonicArrow(product));
+
+        return product;
+    }
+
+    public Archer constructArcher(String name, Team team) {
+        return constructArcher(8, 8, name, team);
+    }
 }

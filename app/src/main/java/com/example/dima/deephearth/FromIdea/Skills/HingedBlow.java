@@ -3,6 +3,7 @@ package com.example.dima.deephearth.FromIdea.Skills;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by student3 on 12.04.17.
@@ -24,15 +25,17 @@ public class HingedBlow extends Skill{
         bottom = 0.6;
         top = 1.3;
         description = "Закидать команду противника градом стрел";
+        skillIco = R.drawable.skillico3;
         setup();
     }
 
     @Override
-    public void use(Unit target) {
+    public boolean use(Unit target) {
         for (Unit unit :
                 target.team) {
             super.use(unit);
         }
+        return true;
     }
 
     @Override

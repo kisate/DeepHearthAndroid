@@ -3,6 +3,7 @@ package com.example.dima.deephearth.FromIdea.Heroes;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by student3 on 12.04.17.
@@ -23,8 +24,11 @@ public class Archer extends Hero {
         curseDef = 10;
         moveDef = 15;
         nmDef = 30;
+        demDef = 5;
         stunDef = 25;
         luck = 13;
-        spriteId = R.drawable.mage;
+        spriteId = R.drawable.archer;
+        icoId = R.drawable.archer_ico;
+        countStats();
     }
 }

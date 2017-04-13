@@ -5,6 +5,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by Dima on 27.03.2017.
@@ -17,6 +18,7 @@ public class CuttingStrike extends Skill  {
         dmgMod = Scale.D;
         accuracyMod = 0.85;
         description = "Add target unit bleeding" + power +" for 3 turns";
+        skillIco = R.drawable.skillico;
         setup();
     }
 
@@ -25,11 +27,11 @@ public class CuttingStrike extends Skill  {
         super.action(target);
         if (new Probability(100 - target.nmDef, 100).check()) {
             target.effects.add(new Bleeding(target, 3, power));
-            System.out.println(owner.name + " used Cutting Strike on " + target.name + " giving " + power + " bleeding for 3 turns");
+            view.setText(owner.name + " used Cutting Strike on " + target.name + " giving " + power + " bleeding for 3 turns");
         }
         else
         {
-            System.out.println("resist");
+            view.setText("resist");
         }
     }
 }

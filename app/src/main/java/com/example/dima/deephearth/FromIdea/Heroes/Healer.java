@@ -29,6 +29,7 @@ public class Healer extends Hero{
         stunDef = 30;
         luck = 10;
         spriteId = R.drawable.mage;
+        icoId = R.drawable.mage_ico;
 
         countStats();
     }

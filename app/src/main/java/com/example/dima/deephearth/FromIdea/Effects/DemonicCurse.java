@@ -5,25 +5,24 @@ import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Unit;
 
 /**
- * Created by Dima on 20.03.2017.
+ * Created by Dima on 12.04.2017.
  */
-public class Bleeding extends Effect {
 
-    public Bleeding(Unit target) {
+public class DemonicCurse extends Effect {
+    public DemonicCurse(Unit target) {
         super(target);
-        type = EffectTypes.Nonmagic;
+        type = EffectTypes.Demonic;
     }
 
-    public Bleeding(Unit target, int power, int turns){
+    public DemonicCurse(Unit target, int power, int turns) {
         this(target);
-        this.turns = turns;
         this.power = power;
+        this.turns = turns;
     }
 
     @Override
     public void apply() {
         super.apply();
         target.modHealth(power);
-        System.out.println(target.name + " has lost " + power + " health from bleeding");
     }
 }

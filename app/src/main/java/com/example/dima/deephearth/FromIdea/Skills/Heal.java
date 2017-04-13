@@ -3,6 +3,7 @@ package com.example.dima.deephearth.FromIdea.Skills;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by Dima on 23.02.2017.
@@ -15,13 +16,15 @@ public class Heal extends Skill{
         dmgMod = Scale.C;
         accuracyMod = 1;
         description = "Add target unit " + power +" health points " + owner.damage;
+        skillIco = R.drawable.skillico;
         setup();
     }
 
     @Override
-    public void use(Unit target) {
-        super.use(target);
-        System.out.println("Healed " + target.name + " giving" + power + "hp");
+    public boolean use(Unit target) {
+        if (owner.mana - cost < 0) return false;
+        view.setText("Healed " + target.name + " giving" + power + "hp");
         target.modHealth(-power);
+        return true;
     }
 }

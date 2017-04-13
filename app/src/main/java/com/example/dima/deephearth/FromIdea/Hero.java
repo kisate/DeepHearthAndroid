@@ -30,13 +30,15 @@ public abstract class Hero extends Unit implements Hireable{
     public void manaEnd() {}
 
     public void countStats() {
-        maxHealth = (int)(power * hpScale.scale);
-        maxMana = (int)(power * mpScale.scale);
+        maxHealth = 3*(int)(power * hpScale.scale);
+        maxMana = 5*(int)(power * mpScale.scale);
         critical = (int)(power * crtScale.scale);
         dodge = (int)(dexterity * dodgeScale.scale);
         speed = (int)(dexterity * speedScale.scale);
         damage = (int)(power* dmgScale.scale);
         accuracy = (int)(power*accScale.scale);
+        health = maxHealth;
+        mana = maxMana;
     }
 
     public LinkedList<Feature> features = new LinkedList<Feature>();

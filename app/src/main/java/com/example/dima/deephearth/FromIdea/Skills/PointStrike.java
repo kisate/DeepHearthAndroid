@@ -5,6 +5,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by student3 on 12.04.17.
@@ -26,6 +27,7 @@ public class PointStrike extends Skill {
         bottom = 0.9;
         top = 1.5;
         description = "Выстрел в слабое место противника, может вызвать кровотечение.";
+        skillIco = R.drawable.skillico4;
         setup();
     }
 
@@ -33,7 +35,8 @@ public class PointStrike extends Skill {
     public void action(Unit target) {
         super.action(target);
         target.modHealth((int)((1 - target.defence)*damage));
-        if(!(new Probability(target.nmDef, 100).check())) target.effects.add(new Bleeding(target, 2, 2));
+        if(!(new Probability(target.nmDef, 100).check())) target.effects.add(new Bleeding(target, (int)(2*effectMod), 2));
+
     }
 
 

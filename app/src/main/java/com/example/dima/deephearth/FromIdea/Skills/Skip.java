@@ -12,9 +12,9 @@ public class Skip extends Skill {
     }
 
     @Override
-    public void use(Unit target) {
-        super.use(target);
-        System.out.println(owner.name + "skipped his move");
+    public boolean use(Unit target) {
+        view.setText(owner.name + "skipped his move");
         setup();
+        return true;
     }
 }

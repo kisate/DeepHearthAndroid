@@ -29,6 +29,7 @@ public class Swordsman extends Hero {
         stunDef = 50;
         luck = 10;
         spriteId = R.drawable.knight;
+        icoId = R.drawable.knight_ico;
         countStats();
     }
 }

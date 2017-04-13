@@ -3,6 +3,7 @@ package com.example.dima.deephearth.FromIdea.Skills;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 /**
  * Created by student3 on 12.04.17.
@@ -21,6 +22,7 @@ public class DagerStrike extends Skill{
         bottom = 0.8;
         top = 1.1;
         description = "Атаковать цель кинжалом";
+        skillIco = R.drawable.skillico1;
         setup();
     }
 
@@ -28,5 +30,6 @@ public class DagerStrike extends Skill{
     public void action(Unit target) {
         super.action(target);
         target.modHealth((int)(damage*(1-target.defence)));
+        view.setText(view.getText() + "\nТеряет " + (String)((int)(damage*(1-target.defence)) + " здоровья"));
     }
 }

@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 public abstract class Unit implements Serializable{
     public int maxHealth, maxMana;
-    public int stunDef, moveDef, curseDef, holyDef, nmDef;
+    public int stunDef, moveDef, curseDef, holyDef, nmDef, demDef;
     public int health, mana, damage, accuracy;
     public int luck, dodge, critical = 0;
     public int speed;
@@ -26,6 +26,7 @@ public abstract class Unit implements Serializable{
     public boolean isDead = false, manaEnded = false;
     public Team team;
     public int spriteId;
+    public int icoId;
     public void modHealth (int amount) {
         health-=amount;
         if ((health <= 0) && !isDead) die();

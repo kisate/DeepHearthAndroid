@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
+import com.example.dima.deephearth.FromIdea.Heroes.Swordsman;
 import com.example.dima.deephearth.FromIdea.Player;
 
 public class DungeonActivity extends AppCompatActivity {
@@ -29,8 +30,10 @@ public class DungeonActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         player = getPlayer();
-        player.team.add(constructor.constructSwordsman("Swordsman1", player.team));
-        player.team.add(constructor.constructHealer("Healer1", player.team));
+        player.team.add(constructor.constructArcher("Майк", player.team));
+        player.team.add(constructor.constructArcher("Пит", player.team));
+        player.team.add(constructor.constructHealer("Роберт", player.team));
+        player.team.add(constructor.constructSwordsman("Джереми", player.team));
     }
 
     public void onClick(View v){
