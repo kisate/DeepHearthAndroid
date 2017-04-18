@@ -30,10 +30,6 @@ public class DungeonActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         player = getPlayer();
-        player.team.add(constructor.constructArcher("Майк", player.team));
-        player.team.add(constructor.constructArcher("Пит", player.team));
-        player.team.add(constructor.constructHealer("Роберт", player.team));
-        player.team.add(constructor.constructSwordsman("Джереми", player.team));
     }
 
     public void onClick(View v){
@@ -43,8 +39,11 @@ public class DungeonActivity extends AppCompatActivity {
     private void launchBattle(){
         Intent intent = new Intent(this, BattleActivity.class);
         Player player2 = new Player();
-        player2.team.add(constructor.constructHealer("Healer2", player2.team));
-        player2.team.add(constructor.constructSwordsman("Swordsman2", player2.team));
+        player2.team.add(constructor.constructHealer("P21", player2.team));
+        player2.team.add(constructor.constructSwordsman("P22", player2.team));
+        player2.team.add(constructor.constructArcher("P23", player2.team));
+        player2.team.add(constructor.constructArcher("P24", player2.team));
+        player.team.get(1).spriteId = R.drawable.knight_double;
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
         startActivity(intent);
@@ -80,6 +79,11 @@ public class DungeonActivity extends AppCompatActivity {
     }
 
     private Player getPlayer(){
-        return new Player();
+        Player player = new Player();
+        player.team.add(constructor.constructArcher("P11", player.team));
+        player.team.add(constructor.constructArcher("P12", player.team));
+        player.team.add(constructor.constructHealer("P13", player.team));
+        player.team.add(constructor.constructSwordsman("P14", player.team));
+        return player;
     }
 }

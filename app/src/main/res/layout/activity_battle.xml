@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,117 +34,412 @@
             android:layout_margin="5dp"
             android:fontFamily="casual"
             android:textStyle="normal|bold"
-            android:id="@+id/textView4" />
+            android:id="@+id/textView6" />
 
     </LinearLayout>
-    <LinearLayout
+
+    <com.example.dima.deephearth.CustomRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="horizontal"
-        android:background="@drawable/wall">
+        android:background="@drawable/wall"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:id="@+id/LinearLayout1">
 
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton1"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:scaleX="-1"
-                android:visibility="invisible" />
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout1"
+                android:clipChildren="false">
 
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton2"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:scaleX="-1"
-                android:visibility="invisible" />
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton1"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"
+                    android:maxWidth="90dp" />
 
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton3"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:scaleX="-1"
-                android:visibility="invisible" />
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton4"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:scaleX="-1"
-                android:visibility="invisible" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"></LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:orientation="horizontal">
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton5"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:visibility="invisible" />
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton6"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView1"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:scaleX="1"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom" />
 
+            </FrameLayout>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar1"
                 android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
                 android:visibility="invisible" />
 
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton7"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:visibility="invisible" />
-
-            <com.example.dima.deephearth.UnitButton
-                app:srcCompat="@drawable/knight"
-                android:id="@+id/UnitButton8"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitEnd"
-                android:background="@null"
-                android:layout_height="match_parent"
-                android:visibility="invisible" />
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:id="@+id/LinearLayout2">
 
-    </LinearLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout2"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton2"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView2"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar2"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:id="@+id/LinearLayout3"
+            android:gravity="center">
+
+            <FrameLayout
+                android:id="@+id/FrameLayout3"
+                android:clipChildren="false"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton3"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView3"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar3"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:id="@+id/LinearLayout4">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout4"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton4"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView4"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar4"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/LinearLayout8">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout8"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton8"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView8"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar8"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/LinearLayout7">
+
+            <FrameLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout7"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton7"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView7"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar7"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:paddingLeft="35dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="35dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+
+            android:id="@+id/LinearLayout6">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout6"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton6"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView6"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar6"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:paddingLeft="35dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="35dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/LinearLayout5">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:id="@+id/FrameLayout5"
+                android:clipChildren="false">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:id="@+id/UnitButton5"
+                    android:layout_width="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/foreground_chosen"
+                    android:id="@+id/fgView5"
+                    android:scaleType="fitEnd"
+                    android:visibility="invisible"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"/>
+
+            </FrameLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/progressBar5"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:paddingLeft="35dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="35dp" />
+        </LinearLayout>
+
+
+    </com.example.dima.deephearth.CustomRelativeLayout>
 
     <com.example.dima.deephearth.UnitLayout
         android:layout_width="match_parent"
@@ -173,7 +470,7 @@
             android:layout_toRightOf="@+id/imageView2"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:id="@+id/textView4"
+            android:id="@+id/textView5"
             android:layout_alignBottom="@+id/imageView2"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -205,9 +502,10 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/textView4"
-            android:layout_alignTop="@+id/textView4"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="5dp"
+            android:layout_toRightOf="@+id/textView4"
+            android:layout_alignTop="@+id/textView4">
 
             <com.example.dima.deephearth.SkillButton
                 android:layout_width="0dp"
@@ -249,20 +547,18 @@
 
         <TextView
             android:text="УРН : 10  УКЛ : 10\nКРТ : 10% УДЧ : 10 \nСКР : 10  ТЧН : 10"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:id="@+id/textView4"
             android:textStyle="normal|bold"
             android:fontFamily="casual"
             android:textAlignment="viewStart"
             android:gravity="start"
             android:layout_width="140dp"
-            android:layout_below="@+id/textView4"
+            android:paddingTop="3dp"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
             android:layout_toRightOf="@+id/textView2"
             android:layout_toEndOf="@+id/textView2"
-            android:paddingTop="3dp"
-            android:layout_height="44dp"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="match_parent" />
     </com.example.dima.deephearth.UnitLayout>
 
 </LinearLayout>

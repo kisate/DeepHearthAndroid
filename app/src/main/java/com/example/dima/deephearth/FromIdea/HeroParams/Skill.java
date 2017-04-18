@@ -25,7 +25,7 @@ public abstract class Skill implements Serializable {
     public int targetAmount = 1;
     public boolean friendly = false;
     public boolean onSelf = false;
-    public double bottom = 0.8, top = 0.8;
+    public double bottom = 0.8, top = 1.2;
     public double effectMod = 1;
     public int skillIco;
     public TextView view;

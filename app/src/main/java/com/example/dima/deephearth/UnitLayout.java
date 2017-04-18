@@ -30,7 +30,7 @@ public class UnitLayout extends RelativeLayout {
     }
 
     public void updateUnitInfo(Unit unit){
-        TextView nameView = (TextView) findViewById(R.id.textView4);
+        TextView nameView = (TextView) findViewById(R.id.textView5);
         nameView.setText("" + unit.name + " | Здоровье : " + unit.health + "/" + unit.maxHealth + " | Мана :" + unit.mana + "/" + unit.maxMana);
         TextView statView = (TextView) findViewById(R.id.textView2);
         TextView stat2View = (TextView) findViewById(R.id.textView4);
@@ -46,7 +46,7 @@ public class UnitLayout extends RelativeLayout {
     }
 
     public void updateHeroInfo(Hero hero){
-        TextView nameView = (TextView) findViewById(R.id.textView4);
+        TextView nameView = (TextView) findViewById(R.id.textView5);
         nameView.setText(hero.heroClass + " " + hero.name + " | Здоровье : " + hero.health + "/" + hero.maxHealth + " | Мана :" + hero.mana + "/" + hero.maxMana);
         TextView statView = (TextView) findViewById(R.id.textView2);
         TextView stat2View = (TextView) findViewById(R.id.textView4);

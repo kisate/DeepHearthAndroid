@@ -7,6 +7,8 @@ import java.util.LinkedList;
  */
 public class Team extends LinkedList<Unit> {
 
+    Player player;
+
     public void applyEffects() {
         for (Unit unit : this) {
             for (Effect effect :
@@ -14,5 +16,10 @@ public class Team extends LinkedList<Unit> {
                 effect.apply();
             }
         }
+    }
+
+    public Team(Player player) {
+        super();
+        this.player = player;
     }
 }

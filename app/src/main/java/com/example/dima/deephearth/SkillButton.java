@@ -31,7 +31,7 @@ public class SkillButton extends AppCompatImageButton {
     }
 
     public boolean useSkill(Unit target){
-        TextView view = (TextView) findViewById(R.id.textView4);
+        TextView view = (TextView) findViewById(R.id.textView5);
         skill.view = view;
         view.setText(skill.owner.name + " использует " + skill.name + " на " + target.name);
         return skill.use(target);

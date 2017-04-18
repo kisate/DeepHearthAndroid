@@ -27,6 +27,7 @@ public abstract class Unit implements Serializable{
     public Team team;
     public int spriteId;
     public int icoId;
+    public int moves = 1;
     public void modHealth (int amount) {
         health-=amount;
         if ((health <= 0) && !isDead) die();

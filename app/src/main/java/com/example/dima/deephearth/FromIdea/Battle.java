@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Battle {
     Player player1, player2;
     int turnNumber = 0;
-    Team moveOrder = new Team();
+    Team moveOrder = new Team(null);
     Scanner sc = new Scanner(System.in);
     public Battle(Player player1, Player player2) {
         this.player1 = player1;
