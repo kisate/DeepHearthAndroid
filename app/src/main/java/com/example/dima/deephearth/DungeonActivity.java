@@ -7,10 +7,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dima.deephearth.FromIdea.ComputerIntellect;
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
 import com.example.dima.deephearth.FromIdea.Heroes.Swordsman;
+import com.example.dima.deephearth.FromIdea.HumanIntellect;
 import com.example.dima.deephearth.FromIdea.Player;
+import com.example.dima.deephearth.FromIdea.PlayerConstructor;
 
 public class DungeonActivity extends AppCompatActivity {
 
@@ -38,12 +41,13 @@ public class DungeonActivity extends AppCompatActivity {
 
     private void launchBattle(){
         Intent intent = new Intent(this, BattleActivity.class);
-        Player player2 = new Player();
+        Player player2 = PlayerConstructor.construct(new ComputerIntellect());
         player2.team.add(constructor.constructHealer("P21", player2.team));
         player2.team.add(constructor.constructSwordsman("P22", player2.team));
         player2.team.add(constructor.constructArcher("P23", player2.team));
         player2.team.add(constructor.constructArcher("P24", player2.team));
         player.team.get(1).spriteId = R.drawable.knight_double;
+        player.team.get(1).moves = 2;
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
         startActivity(intent);
@@ -79,7 +83,7 @@ public class DungeonActivity extends AppCompatActivity {
     }
 
     private Player getPlayer(){
-        Player player = new Player();
+        Player player = PlayerConstructor.construct(new HumanIntellect());
         player.team.add(constructor.constructArcher("P11", player.team));
         player.team.add(constructor.constructArcher("P12", player.team));
         player.team.add(constructor.constructHealer("P13", player.team));

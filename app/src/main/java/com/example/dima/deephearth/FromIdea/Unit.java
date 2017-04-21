@@ -2,7 +2,9 @@ package com.example.dima.deephearth.FromIdea;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.widget.TextView;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 
 import java.io.Serializable;
@@ -30,17 +32,12 @@ public abstract class Unit implements Serializable{
     public int moves = 1;
     public void modHealth (int amount) {
         health-=amount;
-        if ((health <= 0) && !isDead) die();
     }
 
     public void manaEnd(){
-        System.out.println(name + " is out of mana");
+        BattleActivity.writeStatus(name + " is out of mana");
     }
 
-    public void die() {
-        System.out.println(name + " died");
-        isDead = true;
-    }
 
     @Override
     public String toString() {
@@ -49,5 +46,12 @@ public abstract class Unit implements Serializable{
                 ", mana=" + mana +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public void applyEffects()
+    {
+        for (Effect effect : effects) {
+            effect.apply();
+        }
     }
 }

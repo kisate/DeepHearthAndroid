@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Unit;
 
@@ -12,9 +13,12 @@ public class Skip extends Skill {
     }
 
     @Override
-    public boolean use(Unit target) {
-        view.setText(owner.name + "skipped his move");
+    public void setup() {
+    }
+
+    @Override
+    public void use(Unit target) {
+        BattleActivity.writeStatus(owner.name + "skipped his move");
         setup();
-        return true;
     }
 }

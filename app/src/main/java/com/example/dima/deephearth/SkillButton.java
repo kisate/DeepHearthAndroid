@@ -1,8 +1,10 @@
 package com.example.dima.deephearth;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
@@ -30,10 +32,8 @@ public class SkillButton extends AppCompatImageButton {
         setImageResource(skill.skillIco);
     }
 
-    public boolean useSkill(Unit target){
-        TextView view = (TextView) findViewById(R.id.textView5);
-        skill.view = view;
-        view.setText(skill.owner.name + " использует " + skill.name + " на " + target.name);
-        return skill.use(target);
+    public void useSkill(UnitButton target){
+        BattleActivity.writeStatus(skill.owner.name + " использует " + skill.name + " на " + target.unit.name);
+        skill.use(target.unit);
     }
 }

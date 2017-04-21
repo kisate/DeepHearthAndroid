@@ -2,9 +2,11 @@ package com.example.dima.deephearth.FromIdea.HeroParams;
 
 import android.widget.TextView;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -27,16 +29,13 @@ public abstract class Skill implements Serializable {
     public boolean onSelf = false;
     public double bottom = 0.8, top = 1.2;
     public double effectMod = 1;
-    public int skillIco;
-    public TextView view;
+    public int skillIco = R.drawable.skillico;
     public Skill(Unit owner) {
         this.owner = owner;
     }
 
-    public boolean use(Unit target){
+    public void use(Unit target){
 
-        if (owner.mana < cost) {view.setText("Не хватает маны, выберите другой навык"); return false;}
-        else{
             setup();
             owner.mana-=cost;
             damage = (int)(power*bottom + power*(top-bottom)*Math.random());
@@ -44,10 +43,8 @@ public abstract class Skill implements Serializable {
             if (new Probability(owner.luck + accuracy, owner.luck + accuracy + target.luck + target.dodge).check()) {
                 action(target);
             }
-            else view.setText(view.getText() + "\n" + owner.name + " промахнулся");
+            else BattleActivity.writeStatus(owner.name + " промахнулся");
             if (owner.mana <= 0) owner.manaEnd();
-            return true;
-        }
     }
 
     public void setup(){

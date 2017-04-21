@@ -30,12 +30,11 @@ public class HingedBlow extends Skill{
     }
 
     @Override
-    public boolean use(Unit target) {
+    public void use(Unit target) {
         for (Unit unit :
                 target.team) {
             super.use(unit);
         }
-        return true;
     }
 
     @Override

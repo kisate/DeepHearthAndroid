@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -21,10 +22,11 @@ public class Heal extends Skill{
     }
 
     @Override
-    public boolean use(Unit target) {
-        if (owner.mana - cost < 0) return false;
-        view.setText("Healed " + target.name + " giving" + power + "hp");
-        target.modHealth(-power);
-        return true;
+    public void use(Unit target) {
+        BattleActivity.writeStatus("Healed " + target.name + " giving" + power + "hp");
+
+        if ((target.maxHealth - target.health) < power) target.modHealth(target.health-target.maxHealth);
+
+        else target.modHealth(-power);
     }
 }

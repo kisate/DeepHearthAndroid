@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -21,7 +22,7 @@ public class SwordStrike extends Skill {
     }
     @Override
     public void action(Unit target) {
-        view.setText("Stroke " + target.name + " dealing " + power +" damage");
+        BattleActivity.writeStatus("Stroke " + target.name + " dealing " + power +" damage");
         target.modHealth(power);
     }
 }

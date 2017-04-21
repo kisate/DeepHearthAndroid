@@ -18,6 +18,9 @@ public class HeroConstructor {
     public Healer constructHealer(int dexterity, int power, String name,  Team team) {
         Healer product = new Healer(dexterity, power, name, team);
         product.skills.add(new Heal(product));
+        product.skills.add(new Heal(product));
+        product.skills.add(new Heal(product));
+        product.skills.add(new Heal(product));
         return product;
     }
     public Healer constructHealer(String name, Team team) {return constructHealer(3, 10, name, team);}
@@ -26,6 +29,7 @@ public class HeroConstructor {
         Swordsman product = new Swordsman(dexterity, power, name, team);
         product.skills.add(new SwordStrike(product));
         product.skills.add(new CuttingStrike(product));
+        product.skills.add(new Skip(product));
         product.skills.add(new Skip(product));
         return  product;
     }

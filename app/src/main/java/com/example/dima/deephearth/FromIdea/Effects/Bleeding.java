@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Effects;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.Effect;
 import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -24,6 +25,6 @@ public class Bleeding extends Effect {
     public void apply() {
         super.apply();
         target.modHealth(power);
-        System.out.println(target.name + " has lost " + power + " health from bleeding");
+        BattleActivity.writeStatus(target.name + " has lost " + power + " health from bleeding");
     }
 }

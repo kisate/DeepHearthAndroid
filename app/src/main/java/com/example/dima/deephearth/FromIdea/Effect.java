@@ -1,5 +1,9 @@
 package com.example.dima.deephearth.FromIdea;
 
+import android.widget.TextView;
+
+import com.example.dima.deephearth.BattleActivity;
+
 import java.io.Serializable;
 
 /**

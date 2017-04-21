@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
+import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.Effects.Bleeding;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
@@ -27,11 +28,11 @@ public class CuttingStrike extends Skill  {
         super.action(target);
         if (new Probability(100 - target.nmDef, 100).check()) {
             target.effects.add(new Bleeding(target, 3, power));
-            view.setText(owner.name + " used Cutting Strike on " + target.name + " giving " + power + " bleeding for 3 turns");
+            BattleActivity.writeStatus(owner.name + " used Cutting Strike on " + target.name + " giving " + power + " bleeding for 3 turns");
         }
         else
         {
-            view.setText("resist");
+            BattleActivity.writeStatus("resist");
         }
     }
 }

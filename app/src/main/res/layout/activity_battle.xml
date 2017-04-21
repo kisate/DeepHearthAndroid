@@ -34,7 +34,9 @@
             android:layout_margin="5dp"
             android:fontFamily="casual"
             android:textStyle="normal|bold"
-            android:id="@+id/textView6" />
+            android:id="@+id/textView6"
+            android:scrollbars="vertical"
+            android:maxLines="10" />
 
     </LinearLayout>
 
@@ -53,7 +55,27 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:clipChildren="false"
-            android:id="@+id/LinearLayout1">
+            android:id="@+id/LinearLayout1"
+            android:visibility="visible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -70,7 +92,6 @@
                     android:background="@null"
                     android:layout_height="wrap_content"
                     android:scaleX="-1"
-                    android:visibility="invisible"
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"
                     android:maxWidth="90dp" />
@@ -81,10 +102,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView1"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
                     android:scaleX="1"
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom" />
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
 
@@ -94,7 +115,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar1"
                 android:layout_weight="1"
-                android:visibility="invisible" />
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
@@ -104,7 +125,27 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:clipChildren="false"
-            android:id="@+id/LinearLayout2">
+            android:id="@+id/LinearLayout2"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout2">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -121,7 +162,6 @@
                     android:background="@null"
                     android:layout_height="wrap_content"
                     android:scaleX="-1"
-                    android:visibility="invisible"
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -130,9 +170,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView2"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
             </FrameLayout>
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
@@ -140,7 +181,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar2"
                 android:layout_weight="1"
-                android:visibility="invisible" />
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -150,7 +191,26 @@
             android:layout_alignParentBottom="true"
             android:clipChildren="false"
             android:id="@+id/LinearLayout3"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout3">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/FrameLayout3"
@@ -167,7 +227,7 @@
                     android:background="@null"
                     android:layout_height="wrap_content"
                     android:scaleX="-1"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -176,9 +236,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView3"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
             <ProgressBar
@@ -187,7 +248,8 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar3"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:layout_gravity="center"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -196,7 +258,26 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:clipChildren="false"
-            android:id="@+id/LinearLayout4">
+            android:id="@+id/LinearLayout4"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout4">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -213,7 +294,7 @@
                     android:background="@null"
                     android:layout_height="wrap_content"
                     android:scaleX="-1"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -222,9 +303,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView4"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
             <ProgressBar
@@ -232,7 +314,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar4"
                 android:layout_weight="1"
-                android:visibility="invisible"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content" />
 
         </LinearLayout>
@@ -245,7 +327,26 @@
             android:clipChildren="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/LinearLayout8">
+            android:id="@+id/LinearLayout8"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout8">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -261,7 +362,7 @@
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -270,9 +371,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView8"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
             <ProgressBar
@@ -281,7 +383,8 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar8"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:layout_gravity="center"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -292,7 +395,26 @@
             android:clipChildren="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/LinearLayout7">
+            android:id="@+id/LinearLayout7"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout7">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
 
@@ -309,7 +431,7 @@
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -318,9 +440,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView7"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
             </FrameLayout>
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
@@ -328,11 +451,9 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar7"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                android:paddingLeft="35dp"
-                android:paddingRight="5dp"
-                android:paddingEnd="5dp"
-                android:paddingStart="35dp" />
+                android:layout_gravity="center"
+
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -344,7 +465,26 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
 
-            android:id="@+id/LinearLayout6">
+            android:id="@+id/LinearLayout6"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout6">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -360,7 +500,7 @@
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -369,9 +509,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView6"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
             <ProgressBar
@@ -380,11 +521,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar6"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                android:paddingLeft="35dp"
-                android:paddingRight="5dp"
-                android:paddingEnd="5dp"
-                android:paddingStart="35dp"/>
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -395,7 +532,26 @@
             android:clipChildren="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/LinearLayout5">
+            android:id="@+id/LinearLayout5"
+            android:visibility="invisible"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/movePointLayout5">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/movepoint"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -411,7 +567,7 @@
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
                     android:layout_gravity="bottom"/>
                 <ImageView
@@ -420,9 +576,10 @@
                     app:srcCompat="@drawable/foreground_chosen"
                     android:id="@+id/fgView5"
                     android:scaleType="fitEnd"
-                    android:visibility="invisible"
+
                     android:adjustViewBounds="true"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:visibility="invisible" />
 
             </FrameLayout>
             <ProgressBar
@@ -431,11 +588,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/progressBar5"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                android:paddingLeft="35dp"
-                android:paddingRight="5dp"
-                android:paddingEnd="5dp"
-                android:paddingStart="35dp" />
+                android:layout_gravity="center"/>
         </LinearLayout>
 
 
