@@ -1,5 +1,5 @@
 <resources>
-
+    <color name="manaBar_color">#427df4</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->

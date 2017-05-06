@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -25,21 +26,19 @@ public class HingedBlow extends Skill{
         bottom = 0.6;
         top = 1.3;
         description = "Закидать команду противника градом стрел";
-        skillIco = R.drawable.skillico3;
+        skillIco = R.drawable.skillico_hingedblow;
+        attackType = AttackTypes.Ranged;
         setup();
+        animMap.put("pivotX", 0.5f);
+        animMap.put("pivotY", 0.5f);
+        animMap.put("drawable", R.drawable.hitanim_arrow);
     }
 
-    @Override
-    public void use(Unit target) {
-        for (Unit unit :
-                target.team) {
-            super.use(unit);
-        }
-    }
 
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.modHealth((int)(damage*(1-target.defence)));
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
     }
 }

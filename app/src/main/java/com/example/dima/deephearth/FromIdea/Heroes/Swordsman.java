@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Heroes;
 
+import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Skills.SwordStrike;
@@ -22,13 +23,21 @@ public class Swordsman extends Hero {
         speedScale = Scale.B;
         dmgScale = Scale.B;
         accScale = Scale.B;
-        holyDef = 80;
-        curseDef = 40;
-        moveDef = 50;
-        nmDef = 60;
-        stunDef = 50;
+        effectDefs.put(EffectTypes.Holy, 100);
+        effectDefs.put(EffectTypes.Curse, 40);
+        effectDefs.put(EffectTypes.Move, 50);
+        effectDefs.put(EffectTypes.Nonmagic, 60);
+        effectDefs.put(EffectTypes.Demonic, 5);
+        effectDefs.put(EffectTypes.Stun, 50);
         luck = 10;
-        spriteId = R.drawable.knight;
+
+
+        spriteIds.put("idle", R.drawable.knight);
+        spriteIds.put("prepairing", R.drawable.knight_prepairing);
+        spriteIds.put("attack", R.drawable.knight_attack);
+        spriteIds.put("dodge", R.drawable.knight);
+        spriteIds.put("hit", R.drawable.knight);
+
         icoId = R.drawable.knight_ico;
         countStats();
     }

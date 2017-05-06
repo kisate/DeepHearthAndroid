@@ -2,6 +2,7 @@ package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.Effects.Bleeding;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
@@ -18,21 +19,21 @@ public class CuttingStrike extends Skill  {
         cost = 0;
         dmgMod = Scale.D;
         accuracyMod = 0.85;
+        canBeUsedFrom[0] = true;
+        canBeUsedFrom[1] = true;
+        canBeUsedOn[0] = true;
+        canBeUsedOn[1] = true;
         description = "Add target unit bleeding" + power +" for 3 turns";
-        skillIco = R.drawable.skillico;
+        skillIco = R.drawable.skillico_cuttingstrike;
+        attackType = AttackTypes.Melee;
         setup();
+        effects.add(new Bleeding(null, (int)(2*effectMod), 2));
     }
 
     @Override
     public void action(Unit target) {
         super.action(target);
-        if (new Probability(100 - target.nmDef, 100).check()) {
-            target.effects.add(new Bleeding(target, 3, power));
-            BattleActivity.writeStatus(owner.name + " used Cutting Strike on " + target.name + " giving " + power + " bleeding for 3 turns");
-        }
-        else
-        {
-            BattleActivity.writeStatus("resist");
-        }
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
     }
 }

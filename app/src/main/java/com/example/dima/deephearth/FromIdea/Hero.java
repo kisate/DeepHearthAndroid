@@ -16,6 +16,7 @@ public abstract class Hero extends Unit implements Hireable{
     public HeroClasses heroClass;
 
     public Hero(int dexterity, int power, String name,  Team team) {
+        super();
         this.prDexterity = dexterity;
         this.prPower = power;
         this.power = power;
@@ -30,8 +31,8 @@ public abstract class Hero extends Unit implements Hireable{
     public void manaEnd() {}
 
     public void countStats() {
-        maxHealth = 3*(int)(power * hpScale.scale);
-        maxMana = 5*(int)(power * mpScale.scale);
+        maxHealth = 10 + (int)(2*power * hpScale.scale);
+        maxMana = 60 + 3*(int)(power * mpScale.scale);
         critical = (int)(power * crtScale.scale);
         dodge = (int)(dexterity * dodgeScale.scale);
         speed = (int)(dexterity * speedScale.scale);
@@ -62,5 +63,10 @@ public abstract class Hero extends Unit implements Hireable{
                 ", items=" + items +
                 ", skills=" + skills +
                 '}';
+    }
+
+    @Override
+    public String getName() {
+        return heroClass + " " + name;
     }
 }

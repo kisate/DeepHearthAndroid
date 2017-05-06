@@ -1,6 +1,7 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.FromIdea.Effects.DemonicCurse;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
@@ -29,14 +30,19 @@ public class DemonicArrow extends Skill {
         bottom = 0.9;
         top = 1.2;
         description = "Выпустить стрелу, пропитанную кровью демона.";
-        skillIco = R.drawable.skillico2;
+        skillIco = R.drawable.skillico_demonicarrow;
+        attackType = AttackTypes.Ranged;
         setup();
+        effects.add(new DemonicCurse(null, (int)(1*effectMod), 5));
+        animMap.put("pivotX", 0.5f);
+        animMap.put("pivotY", 0.5f);
+        animMap.put("drawable", R.drawable.hitanim_arrow);
     }
 
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.modHealth((int)(damage*(1-target.defence)));
-        if(!(new Probability(target.demDef, 100).check())) target.effects.add(new DemonicCurse(target, 2, 2));
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.BattleActivity;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -16,17 +17,21 @@ public class Heal extends Skill{
         cost = 10;
         dmgMod = Scale.C;
         accuracyMod = 1;
+        friendly = true;
+        canBeUsedFrom[0] = true;
+        canBeUsedFrom[1] = true;
+        canBeUsedFrom[2] = true;
+        canBeUsedFrom[3] = true;
         description = "Add target unit " + power +" health points " + owner.damage;
-        skillIco = R.drawable.skillico;
+        skillIco = R.drawable.skillico_heal;
+        attackType = AttackTypes.Ranged;
         setup();
     }
 
     @Override
-    public void use(Unit target) {
-        BattleActivity.writeStatus("Healed " + target.name + " giving" + power + "hp");
-
+    public void action(Unit target) {
+        super.action(target);
         if ((target.maxHealth - target.health) < power) target.modHealth(target.health-target.maxHealth);
-
         else target.modHealth(-power);
     }
 }

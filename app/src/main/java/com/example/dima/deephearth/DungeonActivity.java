@@ -42,12 +42,13 @@ public class DungeonActivity extends AppCompatActivity {
     private void launchBattle(){
         Intent intent = new Intent(this, BattleActivity.class);
         Player player2 = PlayerConstructor.construct(new ComputerIntellect());
-        player2.team.add(constructor.constructHealer("P21", player2.team));
-        player2.team.add(constructor.constructSwordsman("P22", player2.team));
+        player2.team.add(constructor.constructSwordsman("P21", player2.team));
+        player2.team.add(constructor.constructHealer("P22", player2.team));
         player2.team.add(constructor.constructArcher("P23", player2.team));
         player2.team.add(constructor.constructArcher("P24", player2.team));
-        player.team.get(1).spriteId = R.drawable.knight_double;
+        player.team.get(1).spriteIds.put("idle", R.drawable.knight_double);
         player.team.get(1).moves = 2;
+        player.team.get(1).maxMoves = 2;
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
         startActivity(intent);
@@ -84,10 +85,10 @@ public class DungeonActivity extends AppCompatActivity {
 
     private Player getPlayer(){
         Player player = PlayerConstructor.construct(new HumanIntellect());
-        player.team.add(constructor.constructArcher("P11", player.team));
+        player.team.add(constructor.constructSwordsman("P11", player.team));
         player.team.add(constructor.constructArcher("P12", player.team));
-        player.team.add(constructor.constructHealer("P13", player.team));
-        player.team.add(constructor.constructSwordsman("P14", player.team));
+        player.team.add(constructor.constructArcher("P13", player.team));
+        player.team.add(constructor.constructHealer("P14", player.team));
         return player;
     }
 }

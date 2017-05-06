@@ -17,7 +17,7 @@ public abstract class Intellect implements Serializable{
 
     public Intellect(){}
 
-    public Pair<UnitButton, SkillButton> think(Battle battle) {
+    public Pair<UnitButton, Skill> think(Battle battle) {
         return null;
     }
 }

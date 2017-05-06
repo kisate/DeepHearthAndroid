@@ -1,6 +1,7 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.BattleActivity;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -16,13 +17,19 @@ public class SwordStrike extends Skill {
         dmgMod = Scale.B;
         accuracyMod = 0.9;
         cost = 0;
+        canBeUsedFrom[0] = true;
+        canBeUsedFrom[1] = true;
+        canBeUsedOn[0] = true;
+        canBeUsedOn[1] = true;
         description = "Hit target dealing " + power +" damage";
-        skillIco = R.drawable.skillico;
+        skillIco = R.drawable.skillico_sword_strike;
+        attackType = AttackTypes.Melee;
         setup();
     }
     @Override
     public void action(Unit target) {
-        BattleActivity.writeStatus("Stroke " + target.name + " dealing " + power +" damage");
-        target.modHealth(power);
+        super.action(target);
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
     }
 }

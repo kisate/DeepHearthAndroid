@@ -1,6 +1,7 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.FromIdea.Effects.Bleeding;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Scale;
@@ -27,15 +28,20 @@ public class PointStrike extends Skill {
         bottom = 0.9;
         top = 1.5;
         description = "Выстрел в слабое место противника, может вызвать кровотечение.";
-        skillIco = R.drawable.skillico4;
+        skillIco = R.drawable.skillico_pointstrike;
+        attackType = AttackTypes.Ranged;
         setup();
+        effects.add(new Bleeding(null, (int)(2*effectMod), 2));
+        animMap.put("pivotX", 0.5f);
+        animMap.put("pivotY", 0.5f);
+        animMap.put("drawable", R.drawable.hitanim_arrow);
     }
 
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.modHealth((int)((1 - target.defence)*damage));
-        if(!(new Probability(target.nmDef, 100).check())) target.effects.add(new Bleeding(target, (int)(2*effectMod), 2));
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
 
     }
 

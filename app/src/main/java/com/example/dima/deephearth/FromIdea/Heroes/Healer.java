@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Heroes;
 
+import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Skills.Heal;
@@ -22,13 +23,21 @@ public class Healer extends Hero{
         speedScale = Scale.C;
         dmgScale = Scale.C;
         accScale = Scale.B;
-        holyDef = 100;
-        curseDef = 70;
-        moveDef = 30;
-        nmDef = 20;
-        stunDef = 30;
+        effectDefs.put(EffectTypes.Holy, 100);
+        effectDefs.put(EffectTypes.Curse, 70);
+        effectDefs.put(EffectTypes.Move, 30);
+        effectDefs.put(EffectTypes.Nonmagic, 20);
+        effectDefs.put(EffectTypes.Demonic, 5);
+        effectDefs.put(EffectTypes.Stun, 30);
         luck = 10;
-        spriteId = R.drawable.mage;
+
+
+        spriteIds.put("idle", R.drawable.mage);
+        spriteIds.put("prepairing", R.drawable.mage);
+        spriteIds.put("attack", R.drawable.mage);
+        spriteIds.put("dodge", R.drawable.mage);
+        spriteIds.put("hit", R.drawable.mage);
+
         icoId = R.drawable.mage_ico;
 
         countStats();

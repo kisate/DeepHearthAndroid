@@ -217,7 +217,7 @@
             android:text="МОЩЬ : 10 \nЛВК : 10 \nЗАЩ : 33%"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
+            android:id="@+id/dmgDodgeTView"
             android:layout_alignParentBottom="true"
             android:textSize="14sp"
             android:fontFamily="casual"
@@ -232,11 +232,11 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/textView4"
+            android:layout_toEndOf="@+id/LCTView"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:layout_toRightOf="@+id/textView4"
-            android:layout_alignTop="@+id/textView4">
+            android:layout_toRightOf="@+id/LCTView"
+            android:layout_alignTop="@+id/LCTView">
 
             <com.example.dima.deephearth.SkillButton
                 android:layout_width="0dp"
@@ -278,17 +278,17 @@
 
         <TextView
             android:text="УРН : 10  УКЛ : 10\nКРТ : 10% УДЧ : 10 \nСКР : 10  ТЧН : 10"
-            android:id="@+id/textView4"
+            android:id="@+id/LCTView"
             android:textStyle="normal|bold"
             android:fontFamily="casual"
             android:textAlignment="viewStart"
             android:gravity="start"
             android:layout_width="140dp"
             android:paddingTop="3dp"
-            android:layout_alignBaseline="@+id/textView2"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_toRightOf="@+id/textView2"
-            android:layout_toEndOf="@+id/textView2"
+            android:layout_alignBaseline="@+id/dmgDodgeTView"
+            android:layout_alignBottom="@+id/dmgDodgeTView"
+            android:layout_toRightOf="@+id/dmgDodgeTView"
+            android:layout_toEndOf="@+id/dmgDodgeTView"
             android:layout_height="match_parent" />
     </com.example.dima.deephearth.UnitLayout>
 

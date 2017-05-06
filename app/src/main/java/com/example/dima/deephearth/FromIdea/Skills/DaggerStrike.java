@@ -1,6 +1,7 @@
 package com.example.dima.deephearth.FromIdea.Skills;
 
 import com.example.dima.deephearth.BattleActivity;
+import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
@@ -9,8 +10,8 @@ import com.example.dima.deephearth.R;
 /**
  * Created by student3 on 12.04.17.
  */
-public class DagerStrike extends Skill{
-    public DagerStrike(Unit owner) {
+public class DaggerStrike extends Skill{
+    public DaggerStrike(Unit owner) {
         super(owner);
         name = "Удар кинжалом";
         dmgMod = Scale.B;
@@ -23,14 +24,16 @@ public class DagerStrike extends Skill{
         bottom = 0.8;
         top = 1.1;
         description = "Атаковать цель кинжалом";
-        skillIco = R.drawable.skillico1;
+        skillIco = R.drawable.skillico_daggerstrike;
+        attackType = AttackTypes.Melee;
         setup();
     }
 
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.modHealth((int)(damage*(1-target.defence)));
+        damage = (int)(damage*(1-target.defence));
+        target.modHealth(damage);
         BattleActivity.writeStatus("Теряет " + (String)((int)(damage*(1-target.defence)) + " здоровья"));
     }
 }

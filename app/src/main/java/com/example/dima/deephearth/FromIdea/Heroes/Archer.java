@@ -1,6 +1,8 @@
 package com.example.dima.deephearth.FromIdea.Heroes;
 
+import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Hero;
+import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Team;
 import com.example.dima.deephearth.R;
@@ -20,14 +22,20 @@ public class Archer extends Hero {
         speedScale = Scale.A;
         dmgScale = Scale.B;
         accScale = Scale.A;
-        holyDef = 100;
-        curseDef = 10;
-        moveDef = 15;
-        nmDef = 30;
-        demDef = 5;
-        stunDef = 25;
+        effectDefs.put(EffectTypes.Holy, 100);
+        effectDefs.put(EffectTypes.Curse, 10);
+        effectDefs.put(EffectTypes.Move, 15);
+        effectDefs.put(EffectTypes.Nonmagic, 30);
+        effectDefs.put(EffectTypes.Demonic, 5);
+        effectDefs.put(EffectTypes.Stun, 25);
         luck = 13;
-        spriteId = R.drawable.archer;
+        nature = NatureTypes.Alive;
+        spriteIds.put("idle", R.drawable.archer);
+        spriteIds.put("prepairing", R.drawable.archer_prepairing);
+        spriteIds.put("attack", R.drawable.archer_attack);
+        spriteIds.put("dodge", R.drawable.archer);
+        spriteIds.put("hit", R.drawable.archer);
+
         icoId = R.drawable.archer_ico;
         countStats();
     }
