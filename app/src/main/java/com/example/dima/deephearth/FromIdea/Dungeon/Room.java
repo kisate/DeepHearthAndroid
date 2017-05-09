@@ -1,7 +1,9 @@
 package com.example.dima.deephearth.FromIdea.Dungeon;
 
 import com.example.dima.deephearth.FromIdea.Main;
+import com.example.dima.deephearth.FromIdea.Player;
 import com.example.dima.deephearth.FromIdea.Probability;
+import com.example.dima.deephearth.RoomButton;
 
 import java.util.*;
 
@@ -12,6 +14,9 @@ public class Room {
     //public LinkedList<Room> neighbours = new LinkedList<>();
     //public LinkedList<Corridor> corridors = new LinkedList<>();
     public LinkedList<LinkedList<Cell>> cells = new LinkedList<>();
+    public Corridor[] corridors = {null, null, null, null};
+    public RoomButton button;
+    public Interactable interactable;
 
     public int x, y;
 
@@ -27,6 +32,30 @@ public class Room {
             cells.add(temp);
         }
         Generate();
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
+    public LinkedList<Event> onEnter(Player player) {
+        return interactable.interact(player);
+    }
+    public void onLeave(Player player) {
+
+    }
+
+    public void setInteractable (Interactable interactable) {
+        this.interactable = interactable;
+    }
+
+    public void setButton(RoomButton button) {
+        this.button = button;
+        button.update();
     }
 
     public void Generate(){}

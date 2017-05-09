@@ -28,6 +28,9 @@ public class CuttingStrike extends Skill  {
         attackType = AttackTypes.Melee;
         setup();
         effects.add(new Bleeding(null, (int)(2*effectMod), 2));
+        animMap.put("pivotX", 0.5f);
+        animMap.put("pivotY", 0.5f);
+        animMap.put("drawable", R.drawable.hitanim_arrow);
     }
 
     @Override

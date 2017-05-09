@@ -64,7 +64,6 @@ public class SkillButton extends AppCompatImageButton implements Cloneable{
     }
 
     public void useSkill(UnitButton target, Skill skill) {
-        BattleActivity.writeStatus(skill.owner.name + " использует " + skill.name + " на " + target.unit.name);
         skill.use(target.unit);
     }
 

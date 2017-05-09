@@ -25,6 +25,9 @@ public class SwordStrike extends Skill {
         skillIco = R.drawable.skillico_sword_strike;
         attackType = AttackTypes.Melee;
         setup();
+        animMap.put("pivotX", 0.5f);
+        animMap.put("pivotY", 0.5f);
+        animMap.put("drawable", R.drawable.hitanim_arrow);
     }
     @Override
     public void action(Unit target) {

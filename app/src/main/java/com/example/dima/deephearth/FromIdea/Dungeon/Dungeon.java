@@ -1,5 +1,12 @@
 package com.example.dima.deephearth.FromIdea.Dungeon;
 
+import android.util.Log;
+import android.util.Pair;
+
+import com.example.dima.deephearth.CorridorView;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
+import com.example.dima.deephearth.RandomSelector;
+
 import java.util.LinkedList;
 
 /**
@@ -8,32 +15,52 @@ import java.util.LinkedList;
 public class Dungeon {
     public LinkedList<Room> rooms = new LinkedList<>();
     public LinkedList<Corridor> corridors = new LinkedList<>();
+    private RandomSelector<Interactable> selector;
 
-    public Dungeon (int size) {
-        Genetate(size);
+    LinkedList<Pair<Interactable, Integer>> interactables = new LinkedList<>();
+
+    public int maxX, maxY, minX, minY;
+
+    public Dungeon(int size, LinkedList<Pair<Interactable, Integer>> interactables) {
+        this.interactables = interactables;
+        selector = new RandomSelector(interactables);
+        Generate(size);
     }
 
-    public void Genetate(int size){
-        rooms.add(new Room(0,0));
-        int count = 1;
-        while (count < size){
+    private void Generate(int size){
+        Room start = new Room(0,0);
+        start.setInteractable(new Empty());
+        rooms.add(start);
+        maxX = 0; maxY = 0; minX = 0; minY = 0;
+        while (rooms.size() < size){
             rooms.add(nextRoom());
         }
     }
 
-    public Room nextRoom () {
-        int r = (int)Math.random()*4;
-
+    private Room nextRoom () {
         Room core = rooms.get((int)(Math.random()*rooms.size()));
         int x = core.x , y = core.y;
-        switch (r) {
-            case 0 : x++; break;
-            case 1 : y++; break;
-            case 2 : x--; break;
-            case 3 : y--; break;
-            default: break;
+        int orientaion = CorridorView.HORIZONTAL;
+        LinkedList<Integer> vars = new LinkedList<>();
+        for (int i = 0; i < 4; i++) {
+            if (core.corridors[i] == null) vars.add(i);
+        }
+        while (vars.size() == 0) {
+            core = rooms.get((int)(Math.random()*rooms.size()));
+            for (int i = 0; i < 4; i++) {
+                if (core.corridors[i] == null) vars.add(i);
+            }
         }
 
+        int r = vars.get((int)(Math.random()*vars.size()));
+
+        switch (r) {
+            case 0 : y++; break;
+            case 1 : x++; break;
+            case 2 : y--; break;
+            case 3 : x--; break;
+            default: break;
+        }
         boolean t = false;
         for (Room room :
                 rooms) {
@@ -42,10 +69,26 @@ public class Dungeon {
 
         if(t) return nextRoom();
 
-        Room next = new Room(x,y);
+        if (x > maxX) maxX = x;
+        if (x < minX) minX = x;
+        if (y > maxY) maxY = y;
+        if (y < minY) minY = y;
 
-        corridors.add(new Corridor(core, next));
+        if (r == 0 || r == 2) orientaion = CorridorView.VERTICAL;
+
+        Room next = new Room(x,y);
+        Interactable interactable = selector.getRandomElement();
+        next.setInteractable(interactable);
+        Corridor res = new Corridor(core, next, orientaion);
+
+        core.corridors[r] = res;
+        Corridor revRes = new Corridor(next, core , orientaion);
+        res.setRevCorridor(revRes);
+        revRes.setRevCorridor(res);
+        next.corridors[(r + 2) % 4] = revRes;
+        corridors.add(res);
 
         return next;
     }
+
 }
