@@ -79,16 +79,16 @@ public class UnitButton extends AppCompatImageButton{
 
         healthBar.getLayoutParams().width = (int) (positionWidth*0.55);
         healthBar.invalidate();
-        healthBar.setMax(unit.maxHealth);
-        healthBar.setProgress(unit.health);
+        healthBar.setMax((int)unit.maxHealth);
+        healthBar.setProgress((int)unit.health);
         healthBar.getProgressDrawable().setColorFilter(
                 Color.RED, PorterDuff.Mode.MULTIPLY);
 
 
         manaBar.getLayoutParams().width = (int) (positionWidth*0.55);
         manaBar.invalidate();
-        manaBar.setMax(unit.maxMana);
-        manaBar.setProgress(unit.mana);
+        manaBar.setMax((int)unit.maxMana);
+        manaBar.setProgress((int)unit.mana);
         manaBar.getProgressDrawable().setColorFilter(
                 Color.BLUE, PorterDuff.Mode.MULTIPLY);
         parentLayout.setVisibility(VISIBLE);
@@ -121,8 +121,8 @@ public class UnitButton extends AppCompatImageButton{
                 unitLayout.updateUnitInfo(unit);
             }
 
-            healthBar.setProgress(unit.health);
-            manaBar.setProgress(unit.mana);
+            healthBar.setProgress((int) unit.health);
+            manaBar.setProgress((int) unit.mana);
             movePointsView.setText(unit.moves + "");
             if (unit.health <= 0) {unit.isDead = true; BattleActivity.writeStatus(unit.name + " died");}
         }

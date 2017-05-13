@@ -18,6 +18,7 @@ public class Heal extends Skill{
         dmgMod = Scale.C;
         accuracyMod = 1;
         friendly = true;
+        onSelf = true;
         canBeUsedFrom[0] = true;
         canBeUsedFrom[1] = true;
         canBeUsedFrom[2] = true;
@@ -31,7 +32,7 @@ public class Heal extends Skill{
     @Override
     public void action(Unit target) {
         super.action(target);
-        if ((target.maxHealth - target.health) < power) target.modHealth(target.health-target.maxHealth);
+        if ((target.maxHealth - target.health) < power) target.modHealth((int)(target.health-target.maxHealth));
         else target.modHealth(-power);
     }
 }

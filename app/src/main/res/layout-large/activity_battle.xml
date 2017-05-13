@@ -41,7 +41,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="horizontal"
-        android:background="@drawable/wall">
+        android:background="@drawable/wall_tiled">
 
         <com.example.dima.deephearth.UnitButton
             app:srcCompat="@drawable/knight"

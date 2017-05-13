@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.IntellectTypes;
 import com.example.dima.deephearth.FromIdea.Player;
+import com.example.dima.deephearth.FromIdea.PlayerSkill;
 import com.example.dima.deephearth.FromIdea.Probability;
 import com.example.dima.deephearth.FromIdea.Skills.Swap;
 import com.example.dima.deephearth.FromIdea.SpeedComparator;
@@ -47,6 +49,7 @@ import com.example.dima.deephearth.FromIdea.Team;
 import com.example.dima.deephearth.FromIdea.Unit;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -63,14 +66,17 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     LinkedList<UnitButton> playerButtons = new LinkedList<>(), enemyButtons = new LinkedList<>();
     LinkedList<UnitButton> unitButtons = new LinkedList<>();
     SkillButton[] skillButtons;
+    PlayerSkillButton[] playerSkillButtons;
     int curNumber;
     int posWidth, height;
     BattleStates state = BattleStates.Init;
-    boolean animationRunning = false;
+    boolean pSkillused = false, pSkillPicked = false;
 
+    PlayerSkillButton curPSButton;
     UnitButton curUButton, activeButton, pickedHero;
     SkillButton curSButton;
     Skill pickedSkill;
+    PlayerSkill pickedPlayerSkill;
 
     SkillDescLayout skillDescLayout;
 
@@ -118,6 +124,13 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 (UnitButton) findViewById(R.id.UnitButton7), (UnitButton) findViewById(R.id.UnitButton8)};
 
         skillDescLayout = (SkillDescLayout) findViewById(R.id.skillDescLayout);
+
+        playerSkillButtons = new PlayerSkillButton[]{(PlayerSkillButton) findViewById(R.id.playerSkillButton1), (PlayerSkillButton) findViewById(R.id.playerSkillButton2), (PlayerSkillButton) findViewById(R.id.playerSkillButton3)};
+
+        for (int i = 0; i < 3; i++) {
+            playerSkillButtons[i].setPlayerSkill(player1.skills.get(i));
+            playerSkillButtons[i].setOnClickListener(this);
+        }
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -198,6 +211,9 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         bl = (CustomRelativeLayout) findViewById(R.id.battleLayout);
 
+        ImageButton playerButton = (ImageButton) findViewById(R.id.playerSkillButton);
+        playerButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -252,9 +268,67 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         if (t) {
             sButtonClick((SkillButton) v);
         }
+
+        if (v.getId() == R.id.playerSkillButton) {
+            playerSkillDescClick(v);
+        }
+
+        t = false;
+
+        for (PlayerSkillButton b :
+                playerSkillButtons) {
+            if (v.getId() == b.getId()) t = true;
+        }
+
+        if (t) playerSkillButtonClick((PlayerSkillButton) v);
+    }
+
+    private void playerSkillButtonClick(PlayerSkillButton v) {
+
+        if(!pSkillPicked || pSkillPicked&&(v != curPSButton)) {
+            if (curPSButton != null) curPSButton.setCurrent(false);
+            curPSButton = v;
+
+            if (v.usable) {
+                curPSButton.setCurrent(true);
+                pSkillPicked = true;
+                pickedPlayerSkill = curPSButton.playerSkill;
+
+                if (!pickedPlayerSkill.friendly) {
+                    for (int i = 0; i < enemyButtons.size(); i++) {
+                        enemyButtons.get(i).setCanBeTarget(true);
+                    }
+                }
+
+                else {
+                    for (UnitButton b :
+                            playerButtons) {
+                        b.setCanBeTarget(true);
+                    }
+                }
+            }
+        }
+
+        else {
+            curPSButton.setCurrent(false);
+            curPSButton = null;
+            pSkillPicked = false;
+            pickedPlayerSkill = null;
+            for (UnitButton b :
+                    playerButtons) {
+                b.setCanBeTarget(false);
+            }
+            for (UnitButton b :
+                    enemyButtons) {
+                b.setCanBeTarget(false);
+            }
+        }
     }
 
     public  void sButtonClick(SkillButton v){
+
+        if (pSkillPicked) interruptPlayerSkill();
+
         if (!skillPicked && v.getId() != R.id.moveSkillButton) {
             skillDescLayout.setVisibility(View.VISIBLE);
             skillDescLayout.setEnabled(true);
@@ -306,11 +380,21 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uButtonClick(UnitButton v) {
 
-        if (heroPicked && v != pickedHero) {heroPicked = false; pickedHero.setPicked(false); pickedHero = null;}
+        if (heroPicked && v != pickedHero) {heroPicked = false; pSkillPicked = false; pickedHero.setPicked(false); pickedHero = null; skillDescLayout.setTarget(null);}
 
         if (heroPicked && skillPicked) {useSkill(pickedHero); return;}
 
-        if (skillPicked && v.canBeTarget) {heroPicked = true; pickedHero = v; pickedHero.setPicked(true);}
+        if (heroPicked && pSkillPicked) {usePlayerSkill(pickedHero, pickedPlayerSkill); return;}
+
+        if ((skillPicked || pSkillPicked) && v.canBeTarget) {
+            heroPicked = true;
+            pickedHero = v;
+            pickedHero.setPicked(true); Log.d("Debug", "picked");
+            skillDescLayout.setTarget(pickedHero.unit);
+            RelativeLayout skillLayout = (RelativeLayout) skillDescLayout.findViewById(R.id.skillLayout);
+            if (pSkillPicked) skillLayout.setVisibility(View.INVISIBLE);
+            else skillLayout.setVisibility(View.VISIBLE);
+        }
 
         if(activeButton == v) {
             for (SkillButton s :
@@ -339,7 +423,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     void nextMove()
     {
-
+        pSkillused = false;
         for (UnitButton b :
                 moveOrder) {
             if ((b.unit.nature == NatureTypes.Alive) && (b.unit.mana + 1 <= b.unit.maxMana)) {b.unit.mana += 1; b.UpdateInfo();}
@@ -460,6 +544,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
             pickedSkill.owner.mana -= pickedSkill.cost;
 
+            LinkedList<LinkedList<Pair<Effect, Boolean>>> efs = new LinkedList<>();
+
             if (pickedSkill.onSelf) pickedSkill.action(target.unit);
 
             else if (pickedSkill.friendly) {
@@ -469,17 +555,21 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 for (UnitButton b :
                         targets) {
-                    if (new Probability(pickedSkill.accuracy + pickedSkill.owner.luck, pickedSkill.accuracy + pickedSkill.owner.luck + b.unit.luck + b.unit.dodge).check()) {
+                    if (new Probability((int)pickedSkill.accuracy + (int)pickedSkill.owner.luck, (int)pickedSkill.accuracy + (int)pickedSkill.owner.luck + (int)b.unit.luck + (int)b.unit.dodge).check()) {
                         pickedSkill.action(b.unit);
                         damages.add(pickedSkill.damage);
+
+                        LinkedList<Pair<Effect, Boolean>> _efs = new LinkedList<>();
+
                         for (Effect e :
                                 pickedSkill.effects) {
                             if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
                                 e.addToTarget(b.unit);
-                                writeStatus("Added " + e.name + " to " + b.unit.name);
+                                _efs.add(new Pair<>(e, true));
                             } else {
-                                writeStatus(b.unit + " resisted");
+                                _efs.add(new Pair<>(e, false));
                             }
+                            efs.add(_efs);
                         }
 
                     } else {
@@ -490,7 +580,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             if (!pickedSkill.friendly && !pickedSkill.onSelf) {
-                startAnim(targets, damages);
+                startAnim(targets, efs, damages);
             } else {
                 finishUsage(targets);
             }
@@ -530,7 +620,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         battle.skillButtons = skillButtons;
     }
 
-    public void startAnim(final LinkedList<UnitButton> targets, LinkedList<Integer> damages) {
+    public void startAnim(final LinkedList<UnitButton> targets, LinkedList<LinkedList<Pair<Effect, Boolean>>> efs, LinkedList<Integer> damages) {
         int height = targets.get(0).parentLayout.getHeight();
         expandBattle();
 
@@ -735,6 +825,9 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             RelativeLayout rl2 = (RelativeLayout) b.getParent();
             if (b.getScaleX() >  0) hitview.setScaleX(-1f);
             rl2.addView(hitview);
+
+            //AnimatorSet effectSet = new AnimatorSet();
+
             i++;
         }
 
@@ -820,12 +913,13 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-        heroPicked = false; if (pickedHero != null) {pickedHero.UpdateInfo(); pickedHero.setPicked(false); pickedHero = null;}
+        heroPicked = false; if (pickedHero != null) {pickedHero.UpdateInfo(); pickedHero.setPicked(false); pickedHero = null; skillDescLayout.setTarget(null);}
         nextMove();
     }
 
     public void expandBattle() {
-        CustomRelativeLayout battleLayout = (CustomRelativeLayout) findViewById(R.id.battleLayout);
+        CustomRelativeLayout battleLayout1 = (CustomRelativeLayout) findViewById(R.id.battleLayout);
+        RelativeLayout battleLayout = (RelativeLayout) battleLayout1.getParent();
         RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
         LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
 
@@ -840,10 +934,11 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void shrinkBattle(){
-        final CustomRelativeLayout battleLayout = (CustomRelativeLayout) findViewById(R.id.battleLayout);
-        final RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
-        final LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
-        final Animation ensmallen = AnimationUtils.loadAnimation(this, R.anim.anim_ensmallen);
+        CustomRelativeLayout battleLayout1 = (CustomRelativeLayout) findViewById(R.id.battleLayout);
+        RelativeLayout battleLayout = (RelativeLayout) battleLayout1.getParent();
+        RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
+        LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
+        Animation ensmallen = AnimationUtils.loadAnimation(this, R.anim.anim_ensmallen);
 
         for (LinearLayout ll :
                 uButLayouts) {
@@ -869,6 +964,79 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     public void closeDesc(View v){
         skillDescLayout.setVisibility(View.INVISIBLE);
         skillDescLayout.setEnabled(false);
+    }
+
+    void usePlayerSkill(UnitButton target, PlayerSkill skill) {
+        Log.d("Debug", "Used");
+        skill.action(target.unit);
+        target.UpdateInfo();
+        LinkedList<Pair<Effect, Boolean>> efs = new LinkedList<>();
+        for (Effect e :
+                skill.effects) {
+            if (!(target.unit.effectDefs.get(e.type) / 100 > Math.random())) {
+                e.addToTarget(target.unit);
+                efs.add(new Pair<>(e, true));
+            } else {
+                efs.add(new Pair<>(e, false));
+            }
+        }
+        for (UnitButton b :
+                playerButtons) {
+            b.setCanBeTarget(false);
+        }
+        for (UnitButton b :
+                enemyButtons) {
+            b.setCanBeTarget(false);
+        }
+
+        pSkillused = true;
+        curPSButton.setCurrent(false);
+        pickedPlayerSkill = null;
+        pSkillPicked = false;
+        heroPicked = false;
+        pickedHero.setPicked(false);
+        pickedHero = null;
+    }
+
+    void playerSkillDescClick(View v) {
+        LinearLayout playerSkillLayout = (LinearLayout) findViewById(R.id.playerSkillLayout);
+        if (playerSkillLayout.getVisibility() == View.VISIBLE) {
+            playerSkillLayout.setVisibility(View.INVISIBLE);
+            ImageButton b = (ImageButton) findViewById(R.id.playerSkillButton);
+            if (pSkillPicked) b.setImageResource(curPSButton.playerSkill.skillIco);
+        }
+        else {
+            playerSkillLayout.setVisibility(View.VISIBLE);
+            interruptPlayerSkill();
+            if(curSButton != null) curSButton.setCurrent(false);
+            curSButton = null;
+            skillPicked = false;
+            for (PlayerSkillButton b :
+                    playerSkillButtons) {
+                if (pSkillused || player1.mp < b.playerSkill.cost) b.setUsable(false);
+                else b.setUsable(true);
+            }
+        }
+    }
+
+    void interruptPlayerSkill(){
+        if (pSkillPicked){
+            if (curPSButton != null) curPSButton.setCurrent(false);
+            pSkillPicked = false;
+            curPSButton = null;
+            if (pickedHero != null) pickedHero.setPicked(false);
+            pickedHero = null;
+            heroPicked = false;
+            pickedSkill = null;
+            for (UnitButton b :
+                    playerButtons) {
+                b.setCanBeTarget(false);
+            }
+            for (UnitButton b :
+                    enemyButtons) {
+                b.setCanBeTarget(false);
+            }
+        }
     }
 
     @Override

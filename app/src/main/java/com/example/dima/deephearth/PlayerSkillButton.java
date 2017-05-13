@@ -1,68 +1,68 @@
 package com.example.dima.deephearth;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
-import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.FromIdea.PlayerSkill;
 
 /**
- * Created by Dima on 12.04.2017.
+ * Created by Dima on 12.05.2017.
  */
 
-public class SkillButton extends AppCompatImageButton implements Cloneable{
+public class PlayerSkillButton extends AppCompatImageButton {
 
-    FrameLayout frameLayout;
+    FrameLayout parent;
     ImageView foreground;
 
-    boolean usable = false, current = false;
-
-    public SkillButton(Context context) {
+    public PlayerSkillButton(Context context) {
         super(context);
     }
 
-    public SkillButton(Context context, AttributeSet attrs) {
+    public PlayerSkillButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SkillButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlayerSkillButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-    public Skill skill;
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-        setImageResource(skill.skillIco);
-        frameLayout = (FrameLayout)getParent();
-        foreground = (ImageView) frameLayout.getChildAt(1);
-    }
+
+    PlayerSkill playerSkill;
+    boolean usable = true, current = false;
 
     public void setUsable(boolean usable) {
         this.usable = usable;
+
         if (!usable) {
             foreground.setImageResource(R.drawable.skillico_unusable);
             foreground.setAlpha(0.7f);
-            setCurrent(false);
         }
 
         else {
             foreground.setImageResource(0);
             foreground.setAlpha(1f);
-            if (current) setCurrent(current);
         }
     }
 
     public void setCurrent(boolean current){
         this.current = current;
+
+
+
         if (current) foreground.setImageResource(R.drawable.skillico_selected);
         else {
             if (usable) foreground.setImageResource(0);
         }
+    }
+
+    public void setPlayerSkill(PlayerSkill playerSkill) {
+        this.playerSkill = playerSkill;
+
+        parent = (FrameLayout)  getParent();
+        foreground = (ImageView) parent.getChildAt(1);
+
+        setImageResource(playerSkill.skillIco);
     }
 }

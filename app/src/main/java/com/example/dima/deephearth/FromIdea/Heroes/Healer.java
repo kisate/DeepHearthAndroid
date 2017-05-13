@@ -23,12 +23,12 @@ public class Healer extends Hero{
         speedScale = Scale.C;
         dmgScale = Scale.C;
         accScale = Scale.B;
-        effectDefs.put(EffectTypes.Holy, 100);
-        effectDefs.put(EffectTypes.Curse, 70);
-        effectDefs.put(EffectTypes.Move, 30);
-        effectDefs.put(EffectTypes.Nonmagic, 20);
-        effectDefs.put(EffectTypes.Demonic, 5);
-        effectDefs.put(EffectTypes.Stun, 30);
+        effectDefs.put(EffectTypes.Holy, 100.0);
+        effectDefs.put(EffectTypes.Curse, 70.0);
+        effectDefs.put(EffectTypes.Move, 30.0);
+        effectDefs.put(EffectTypes.Nonmagic, 20.0);
+        effectDefs.put(EffectTypes.Demonic, 5.0);
+        effectDefs.put(EffectTypes.Stun, 30.0);
         luck = 10;
 
 

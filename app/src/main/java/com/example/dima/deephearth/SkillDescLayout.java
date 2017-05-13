@@ -2,9 +2,11 @@ package com.example.dima.deephearth;
 
 import android.content.Context;
 import android.media.Image;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,8 +15,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.dima.deephearth.FromIdea.Effect;
+import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Unit;
+
+import org.w3c.dom.Text;
+
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by Dima on 24.04.2017.
@@ -82,6 +90,73 @@ public class SkillDescLayout extends LinearLayout {
 
     public void setTarget(Unit target) {
         this.target = target;
+        targetLayout = (RelativeLayout) findViewById(R.id.targetLayout);
+        if (target != null) {
+            targetLayout.setVisibility(VISIBLE);
+            TextView nameView = (TextView) findViewById(R.id.targetName);
+            TextView hmView = (TextView) findViewById(R.id.targetHM);
+            TextView ddView = (TextView) findViewById(R.id.targetDD);
+            TextView dalView = (TextView) findViewById(R.id.targetDAL);
+            ImageView icoView = (ImageView) findViewById(R.id.skillTargetIco);
+            icoView.setImageResource(target.icoId);
+            nameView.setText(target.getName());
+            hmView.setText("Hp: " + (int)target.health + "/" + (int)target.maxHealth + " | Mp: " + (int)target.mana  + "/" + (int)target.maxMana);
+            ddView.setText("Def: " + (int)target.defence*100 + "%\nDg : " + (int)target.dodge);
+            dalView.setText("Dmg: " + (int)target.damage + "\nAcc: " + (int)target.accuracy + "\nLuck: " + (int)target.luck);
+
+
+            TableLayout skillTable = (TableLayout) findViewById(R.id.skillTable);
+            TableLayout effectTable = (TableLayout) findViewById(R.id.targetEffectTable);
+            skillTable.removeAllViews();
+            for (Skill s :
+                    target.skills) {
+                TableRow row = (TableRow) LayoutInflater.from(getContext()).inflate(R.layout.skillrow, skillTable, false);
+                LinearLayout ll = (LinearLayout) row.getChildAt(0);
+                TextView skillNameView = (TextView) ll.getChildAt(0);
+                skillNameView.setText(s.name);
+                for (Effect e :
+                        s.effects) {
+                    ImageView iv = new ImageView(getContext());
+                    LinearLayout.LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+                    int height = (int) skillNameView.getTextSize();
+                    lp.setMarginStart(height/2);
+                    lp.setMargins(height/2, 0, 0, 0);
+                    iv.setLayoutParams(lp);
+                    iv.setImageResource(e.icoId);
+                    iv.setMaxHeight(height);
+                    iv.setAdjustViewBounds(true);
+                    ll.addView(iv, lp);
+                }
+                skillTable.addView(row);
+            }
+
+            Iterator<EffectTypes> i = target.effectDefs.keySet().iterator();
+            effectTable.removeAllViews();
+            while (i.hasNext()) {
+                EffectTypes et = i.next();
+                TableRow row = (TableRow) LayoutInflater.from(getContext()).inflate(R.layout.effectrow, effectTable, false);
+                LinearLayout mll = (LinearLayout) row.getChildAt(0);
+                LinearLayout ll1 = (LinearLayout) mll.getChildAt(0);
+                ImageView iv = (ImageView) ll1.getChildAt(0);
+                TextView tv = (TextView) ll1.getChildAt(1);
+                iv.setImageResource(et.icoId);
+                tv.setText("" + target.effectDefs.get(et).intValue() + "%");
+                LinearLayout ll2 = (LinearLayout) mll.getChildAt(1);
+                if (i.hasNext()) {
+                    ll2.setVisibility(VISIBLE);
+                    et = i.next();
+                    iv = (ImageView) ll2.getChildAt(0);
+                    tv = (TextView) ll2.getChildAt(1);
+                    iv.setImageResource(et.icoId);
+                    tv.setText("" + target.effectDefs.get(et).intValue() + "%");
+                }
+
+                else ll2.setVisibility(INVISIBLE);
+                effectTable.addView(row);
+            }
+        }
+
+        else targetLayout.setVisibility(INVISIBLE);
     }
 
     public SkillDescLayout(Context context) {

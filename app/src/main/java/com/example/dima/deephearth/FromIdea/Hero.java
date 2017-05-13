@@ -10,10 +10,12 @@ import java.util.LinkedList;
  * Created by Dima on 23.02.2017.
  */
 public abstract class Hero extends Unit implements Hireable{
-    private int prDexterity, prPower;
+    private double prDexterity, prPower;
     public Scale hpScale, crtScale, mpScale, speedScale, dodgeScale, dmgScale, accScale;
-    public int power, dexterity, experience, level;
+    public double power, dexterity, experience, level;
     public HeroClasses heroClass;
+    public Inventory inventory = new Inventory(this);
+    boolean initialized = false;
 
     public Hero(int dexterity, int power, String name,  Team team) {
         super();
@@ -38,8 +40,11 @@ public abstract class Hero extends Unit implements Hireable{
         speed = (int)(dexterity * speedScale.scale);
         damage = (int)(power* dmgScale.scale);
         accuracy = (int)(power*accScale.scale);
+        if (!initialized || health > maxHealth)
         health = maxHealth;
+        if (!initialized || mana > maxMana)
         mana = maxMana;
+        initialized = true;
     }
 
     public LinkedList<Feature> features = new LinkedList<Feature>();

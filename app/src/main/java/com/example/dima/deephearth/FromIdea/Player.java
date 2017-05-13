@@ -9,7 +9,8 @@ import java.util.LinkedList;
 public class Player implements Serializable {
     public Intellect intellect;
     public int mp = 130, maxMp = 130;
-    public LinkedList<PlayerSkill> skills;
+    public int souls = 0;
+    public LinkedList<PlayerSkill> skills = new LinkedList<>();
 
 
     public Player(Intellect intellect) {

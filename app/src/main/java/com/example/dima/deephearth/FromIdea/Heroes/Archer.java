@@ -22,12 +22,12 @@ public class Archer extends Hero {
         speedScale = Scale.A;
         dmgScale = Scale.B;
         accScale = Scale.A;
-        effectDefs.put(EffectTypes.Holy, 100);
-        effectDefs.put(EffectTypes.Curse, 10);
-        effectDefs.put(EffectTypes.Move, 15);
-        effectDefs.put(EffectTypes.Nonmagic, 30);
-        effectDefs.put(EffectTypes.Demonic, 5);
-        effectDefs.put(EffectTypes.Stun, 25);
+        effectDefs.put(EffectTypes.Holy, 100.0);
+        effectDefs.put(EffectTypes.Curse, 10.0);
+        effectDefs.put(EffectTypes.Move, 15.0);
+        effectDefs.put(EffectTypes.Nonmagic, 30.0);
+        effectDefs.put(EffectTypes.Demonic, 5.0);
+        effectDefs.put(EffectTypes.Stun, 25.0);
         luck = 13;
         nature = NatureTypes.Alive;
         spriteIds.put("idle", R.drawable.archer);

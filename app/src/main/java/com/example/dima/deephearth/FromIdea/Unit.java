@@ -8,16 +8,18 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import static com.example.dima.deephearth.FromIdea.EffectTypes.Buff;
+
 /**
  * Created by Dima on 23.02.2017.
  */
 public abstract class Unit implements Serializable{
-    public int maxHealth, maxMana;
-    public HashMap<EffectTypes, Integer> effectDefs = new HashMap<>();
+    public double maxHealth, maxMana;
+    public HashMap<EffectTypes, Double> effectDefs = new HashMap<>();
     public HashMap<String, Integer> spriteIds = new HashMap<>();
-    public int health, mana, damage, accuracy;
-    public int luck, dodge, critical = 0;
-    public int speed;
+    public double health, mana, damage, accuracy;
+    public double luck, dodge, critical = 0;
+    public double speed;
     public double defence, prdefence;
     public String description;
     public UnitTypes type;
@@ -35,13 +37,14 @@ public abstract class Unit implements Serializable{
     }
 
     public Unit(){
-        effectDefs.put(EffectTypes.Stun, 0);
-        effectDefs.put(EffectTypes.Move, 0);
-        effectDefs.put(EffectTypes.Demonic, 0);
-        effectDefs.put(EffectTypes.Curse, 0);
-        effectDefs.put(EffectTypes.Holy, 0);
-        effectDefs.put(EffectTypes.Nonmagic, 0);
-        effectDefs.put(EffectTypes.Other, 0);
+        effectDefs.put(EffectTypes.Stun, 0.0);
+        effectDefs.put(EffectTypes.Move, 0.0);
+        effectDefs.put(EffectTypes.Demonic, 0.0);
+        effectDefs.put(EffectTypes.Curse, 0.0);
+        effectDefs.put(EffectTypes.Holy, 0.0);
+        effectDefs.put(EffectTypes.Nonmagic, 0.0);
+        effectDefs.put(EffectTypes.Other, 0.0);
+        effectDefs.put(Buff, 0.0);
     }
 
     public void manaEnd(){

@@ -41,7 +41,7 @@ public abstract class Skill implements Serializable {
 
     public void use(Unit target){
             setup();
-            if (new Probability(owner.luck + accuracy, owner.luck + accuracy + target.luck + target.dodge).check()) {
+            if (new Probability((int)(owner.luck + accuracy),(int) (owner.luck + accuracy + target.luck + target.dodge)).check()) {
                 action(target);
             }
             else BattleActivity.writeStatus(owner.name + " промахнулся");

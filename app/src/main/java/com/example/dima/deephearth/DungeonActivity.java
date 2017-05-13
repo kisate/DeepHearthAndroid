@@ -29,11 +29,16 @@ import com.example.dima.deephearth.FromIdea.Dungeon.InteractableTypes;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Enemy;
 import com.example.dima.deephearth.FromIdea.Dungeon.Room;
+import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
 import com.example.dima.deephearth.FromIdea.Heroes.Swordsman;
 import com.example.dima.deephearth.FromIdea.HumanIntellect;
+import com.example.dima.deephearth.FromIdea.Items.FireSword;
 import com.example.dima.deephearth.FromIdea.Player;
 import com.example.dima.deephearth.FromIdea.PlayerConstructor;
+import com.example.dima.deephearth.FromIdea.PlayerSkills.Curse;
+import com.example.dima.deephearth.FromIdea.PlayerSkills.Renewal;
+import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -350,6 +355,11 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         player.team.add(constructor.constructArcher("P12", player.team));
         player.team.add(constructor.constructArcher("P13", player.team));
         player.team.add(constructor.constructHealer("P14", player.team));
+        Hero hero = (Hero) player.team.get(0);
+        hero.inventory.add(new FireSword());
+        player.skills.add(new Renewal(player));
+        player.skills.add(new Curse(player));
+        player.skills.add(new UndeadRage(player));
         return player;
     }
 

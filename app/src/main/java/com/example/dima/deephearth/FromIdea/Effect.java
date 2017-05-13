@@ -1,11 +1,13 @@
 package com.example.dima.deephearth.FromIdea;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.Effects.Bleeding;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -17,7 +19,7 @@ public abstract class Effect implements Serializable {
     public Unit target;
     public int turns, power;
     public int icoId;
-
+    public int id = 0;
 
     public Effect(Unit target) {
         this.target = target;setData();
@@ -36,9 +38,19 @@ public abstract class Effect implements Serializable {
         this.turns = turns;
     }
 
-    public void addToTarget(Unit target) {
+    public Effect addToTarget(Unit target) {
+        Effect ef = new Effect(target) {
+            @Override
+            public void apply() {
+                super.apply();
+                Log.wtf("Debug", "wtf");
+            }
+        };
         try {
-            target.effects.add(this.getClass().getDeclaredConstructor(Unit.class, Integer.class, Integer.class).newInstance(target, power, turns));
+
+            Constructor<? extends Effect> constructor = this.getClass().getConstructor(Unit.class, int.class, int.class);
+            ef = constructor.newInstance(target, power, turns);
+            target.effects.add(ef);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -48,16 +60,21 @@ public abstract class Effect implements Serializable {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
+        return ef;
     }
 
 
     public void apply(){
         if (turns == 0) {
-            target.effects.remove(this);
+            remove();
         }
         else turns--;
     }
 
     public void setData(){
+    }
+
+    public void remove() {
+        target.effects.remove(this);
     }
 }

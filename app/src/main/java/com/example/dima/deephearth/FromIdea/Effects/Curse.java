@@ -10,9 +10,16 @@ import com.example.dima.deephearth.R;
  */
 
 public class Curse extends Effect {
-    public Curse(Unit target) {
-        super(target);
+
+    public Curse(Unit target, int power, int turns) {
+        super(target, power, turns);
+    }
+
+    @Override
+    public void setData() {
+        super.setData();
         type = EffectTypes.Curse;
         icoId = R.drawable.effectico_curse;
+        name = "Curse";
     }
 }

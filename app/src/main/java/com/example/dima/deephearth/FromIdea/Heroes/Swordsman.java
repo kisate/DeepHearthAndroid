@@ -23,12 +23,12 @@ public class Swordsman extends Hero {
         speedScale = Scale.B;
         dmgScale = Scale.B;
         accScale = Scale.B;
-        effectDefs.put(EffectTypes.Holy, 100);
-        effectDefs.put(EffectTypes.Curse, 40);
-        effectDefs.put(EffectTypes.Move, 50);
-        effectDefs.put(EffectTypes.Nonmagic, 60);
-        effectDefs.put(EffectTypes.Demonic, 5);
-        effectDefs.put(EffectTypes.Stun, 50);
+        effectDefs.put(EffectTypes.Holy, 100.0);
+        effectDefs.put(EffectTypes.Curse, 40.0);
+        effectDefs.put(EffectTypes.Move, 50.0);
+        effectDefs.put(EffectTypes.Nonmagic, 60.0);
+        effectDefs.put(EffectTypes.Demonic, 5.0);
+        effectDefs.put(EffectTypes.Stun, 50.0);
         luck = 10;
 
 

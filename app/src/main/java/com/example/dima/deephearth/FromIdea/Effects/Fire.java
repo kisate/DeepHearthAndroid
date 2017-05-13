@@ -10,9 +10,22 @@ import com.example.dima.deephearth.R;
  */
 
 public class Fire extends Effect {
-    public Fire(Unit target) {
-        super(target);
+
+    public Fire(Unit target, int power, int turns) {
+        super(target, power, turns);
+    }
+
+    @Override
+    public void apply() {
+        super.apply();
+        target.modHealth(power);
+    }
+
+    @Override
+    public void setData() {
+        super.setData();
         type = EffectTypes.Nonmagic;
         icoId = R.drawable.effectico_fire;
+        name = "Fire";
     }
 }
