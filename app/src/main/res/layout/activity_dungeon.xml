@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.dima.deephearth.DungeonActivity"
@@ -8,59 +8,124 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6">
+        </RelativeLayout>
 
-        <HorizontalScrollView
-        android:id="@+id/activity_dungeon_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:overScrollMode="never">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <android.support.v4.widget.NestedScrollView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+
+            <HorizontalScrollView
+            android:id="@+id/activity_dungeon_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:overScrollMode="never">
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never">
-                    <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <android.support.v4.widget.NestedScrollView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/activity_dungeon">
+                        android:overScrollMode="never">
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/activity_dungeon">
 
-                    </RelativeLayout>
-                </android.support.v4.widget.NestedScrollView>
-            </LinearLayout>
-        </HorizontalScrollView>
+                        </RelativeLayout>
+                    </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
+            </HorizontalScrollView>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:text="Player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:id="@+id/playerButton" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:id="@+id/eventLayout"
+        android:background="@android:color/black"
+        android:visibility="invisible">
 
-        <Button
-            android:text="Team"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="24dp"
-            android:layout_marginEnd="24dp"
-            android:id="@+id/teamButton" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-</LinearLayout>
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventName"
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventImage"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventDesc"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchMode="columnWidth"
+                android:numColumns="auto_fit"
+                android:id="@+id/choiceGrid" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

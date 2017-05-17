@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -16,6 +18,9 @@ import com.example.dima.deephearth.FromIdea.Skills.Swap;
 import com.example.dima.deephearth.FromIdea.Team;
 import com.example.dima.deephearth.FromIdea.Unit;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class TeamInspectorActivity extends AppCompatActivity implements View.OnClickListener{
@@ -151,7 +156,8 @@ public class TeamInspectorActivity extends AppCompatActivity implements View.OnC
             curSButton = v;
             if (v.getId() != R.id.moveSkillButton) {
                 skillDescLayout.setSkill(v.skill);
-                skillDescLayout.setVisibility(View.VISIBLE);
+                ((View) skillDescLayout.getParent()).setVisibility(View.VISIBLE);
+                skillDescLayout.setClickable(true);
             }
             if (v.getId() == R.id.moveSkillButton){
                 curSButton.setCurrent(false);
@@ -160,7 +166,8 @@ public class TeamInspectorActivity extends AppCompatActivity implements View.OnC
                 curSButton = v;
                 if (v.getId() != R.id.moveSkillButton) {
                     skillDescLayout.setSkill(v.skill);
-                    skillDescLayout.setVisibility(View.VISIBLE);
+                    ((View) skillDescLayout.getParent()).setVisibility(View.VISIBLE);
+                    skillDescLayout.setClickable(true);
                 }
                 if (v.getId() == R.id.moveSkillButton) {
                     for (UnitButton b :
@@ -203,18 +210,46 @@ public class TeamInspectorActivity extends AppCompatActivity implements View.OnC
     }
 
     public void closeDesc(View view) {
-        skillDescLayout.setVisibility(View.INVISIBLE);
+        ((View) skillDescLayout.getParent()).setVisibility(View.INVISIBLE);
+        skillDescLayout.setClickable(false);
     }
 
     public LinkedList<UnitButton> swapUnits(UnitButton u1, UnitButton u2){
+
+        LinkedList<UnitButton> buttons = playerButtons;
+
+        int index1 = buttons.indexOf(u1);
+        int index2 = buttons.indexOf(u2);
+
+        UnitButton[] temp = new UnitButton[buttons.size()];
+
+        for (int i = 0; i < buttons.size(); i++) {
+            temp[i] = buttons.get(i);
+        }
+
+        if (index1 > index2) {
+            System.arraycopy(temp, index2, temp, index2 + 1, index1 - index2);
+            temp[index2] = u1;
+        }
+
+        else {
+            System.arraycopy(temp, index1 + 1, temp, index1, index2 - index1);
+            temp[index2] = u1;
+        }
+
+        buttons.clear();
+
+        Collections.addAll(buttons, temp);
+
         Team team = u1.unit.team;
-        LinkedList<UnitButton> buttons;
-        team.remove(u1.unit);
-        team.add(team.indexOf(u2.unit), u1.unit);
-        int kwidth = ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth();
-        buttons = playerButtons;
-        buttons.remove(u1);
-        buttons.add(buttons.indexOf(u2), u1);
+
+        team.clear();
+
+        for (UnitButton b :
+                buttons) {
+            team.add(b.unit);
+        }
+
         for (int i = 0; i < buttons.size(); i++) {
 
             UnitButton b = buttons.get(i);

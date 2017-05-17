@@ -3,27 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.example.dima.deephearth.RoomButton
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/room"
-        android:background="@null"
-        android:adjustViewBounds="true"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/roomButton"
-        android:maxWidth="50dp" />
 
-    <com.example.dima.deephearth.RoomButton
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/room"
-        android:background="@null"
-        android:adjustViewBounds="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="50dp"
-        android:layout_alignTop="@+id/roomButton"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_toLeftOf="@+id/roomButton" />
 </RelativeLayout>

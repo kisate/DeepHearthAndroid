@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.example.dima.deephearth.FromIdea.Dungeon.Corridor;
 import com.example.dima.deephearth.FromIdea.Dungeon.Room;
+import com.example.dima.deephearth.FromIdea.Player;
 
 /**
  * Created by Dima on 07.05.2017.
@@ -16,6 +17,7 @@ import com.example.dima.deephearth.FromIdea.Dungeon.Room;
 public class RoomButton extends AppCompatImageButton {
 
     public Room room;
+    public Player player;
 
     public boolean current, accessible, picked;
 
@@ -29,6 +31,10 @@ public class RoomButton extends AppCompatImageButton {
 
     public RoomButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public void setRoom(Room room) {
@@ -69,6 +75,7 @@ public class RoomButton extends AppCompatImageButton {
         }
         else iv.setAlpha(0.6f);
         this.accessible = accessible;
+        if (accessible && room.covered && (player.uncoverChance > Math.random())) setCovered(false);
     }
 
     public void setPicked(boolean picked) {
@@ -98,5 +105,13 @@ public class RoomButton extends AppCompatImageButton {
 
     public void update(){
         setImageResource(room.interactable.image);
+    }
+
+    public void setCovered(boolean covered) {
+        room.covered = covered;
+        FrameLayout parent = (FrameLayout) getParent();
+        ImageView imageView = (ImageView) parent.getChildAt(1);
+        if (covered) imageView.setImageResource(R.drawable.room_background);
+        else imageView.setImageResource(0);
     }
 }

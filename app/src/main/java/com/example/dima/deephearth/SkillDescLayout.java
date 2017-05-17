@@ -93,6 +93,7 @@ public class SkillDescLayout extends LinearLayout {
         targetLayout = (RelativeLayout) findViewById(R.id.targetLayout);
         if (target != null) {
             targetLayout.setVisibility(VISIBLE);
+            setClickable(true);
             TextView nameView = (TextView) findViewById(R.id.targetName);
             TextView hmView = (TextView) findViewById(R.id.targetHM);
             TextView ddView = (TextView) findViewById(R.id.targetDD);

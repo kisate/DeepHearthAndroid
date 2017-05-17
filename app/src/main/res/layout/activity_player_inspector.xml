@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_player_inspector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dima.deephearth.PlayerInspectorActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/manaView"
+                    android:layout_weight="0.1"
+                    android:gravity="center" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_height="match_parent"
+                    android:id="@+id/manaBar"
+                    android:layout_weight="1.3"
+                    android:layout_width="0dp"
+                    android:paddingLeft="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/effectico_fire"
+                        android:id="@+id/imageView10"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/soulView"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="100000000000" />
+
+                    <Button
+                        android:text="exchange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/exchangeButton"
+                        android:background="@null" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/teamView"
+                android:paddingTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/teamView">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/inventoryView"
+                    android:layout_weight="2" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/skillLayout">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <com.example.dima.deephearth.PlayerSkillButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:scaleType="fitCenter" />
+
+                    </FrameLayout>
+
+                    <FrameLayout android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1">
+
+                        <com.example.dima.deephearth.PlayerSkillButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:scaleType="fitCenter" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <com.example.dima.deephearth.PlayerSkillButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:scaleType="fitCenter" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ListView
+                android:layout_height="match_parent"
+                android:layout_width="200dp"
+                android:id="@+id/teamView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:text="Team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/teamButton" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

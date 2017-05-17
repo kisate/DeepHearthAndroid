@@ -9,6 +9,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Inventory;
 import com.example.dima.deephearth.FromIdea.Item;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 import java.util.LinkedList;
 
@@ -20,6 +21,7 @@ public class FireSword extends Item {
     public FireSword() {
         name = "Fire Sword";
         description = "Sword shrouded with fire. Sets enemies on fire. Safe for user.";
+        icoId = R.drawable.skillico1;
         Buff buff = new Buff(owner, 0, -1) {
 
             Effect effect = new Fire(null, 2, 3);

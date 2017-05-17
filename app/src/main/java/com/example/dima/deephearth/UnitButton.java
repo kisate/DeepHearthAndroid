@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -100,6 +101,7 @@ public class UnitButton extends AppCompatImageButton{
         if (canBeTarget) {
             foreground.setImageResource(foregroundId);
             foreground.setVisibility(VISIBLE);
+            Log.d("Debug", "can");
         }
         else foreground.setVisibility(INVISIBLE);
     }

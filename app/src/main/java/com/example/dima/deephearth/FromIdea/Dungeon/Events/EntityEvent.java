@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Dungeon.Events;
 
+import com.example.dima.deephearth.DungeonEventHandler;
 import com.example.dima.deephearth.FromIdea.Dungeon.Event;
 
 /**
@@ -7,7 +8,7 @@ import com.example.dima.deephearth.FromIdea.Dungeon.Event;
  */
 
 public class EntityEvent extends Event {
-    public EntityEvent(String name, String description) {
-        super(name, description);
+    public EntityEvent(DungeonEventHandler handler, String name, String description) {
+        super(handler, name, description);
     }
 }

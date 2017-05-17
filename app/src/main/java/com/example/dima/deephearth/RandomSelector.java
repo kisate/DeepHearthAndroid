@@ -16,15 +16,10 @@ import java.util.Random;
 public class RandomSelector<T>{
     private LinkedList<Pair<T, Integer>> list;
     private int totalSum = 0;
-
+    Random random;
     public RandomSelector(LinkedList<Pair<T, Integer>> list) {
         this.list = list;
-        Collections.sort(list, new Comparator<Pair<T, Integer>>() {
-            @Override
-            public int compare(Pair<T, Integer> o1, Pair<T, Integer> o2) {
-                return o1.second - o2.second;
-            }
-        });
+        random = new Random();
         for (Pair<T, Integer> p :
                 list) {
             totalSum+= p.second;
@@ -32,12 +27,12 @@ public class RandomSelector<T>{
     }
 
     public T getRandomElement(){
-        int index = (int)(Math.random()*totalSum);
+        int index = random.nextInt(totalSum + 1);
         int sum = 0, i = 0;
         while (sum < index) {
             sum+= list.get(i++).second;
         }
-
+        Log.d("Debug", "" + (i-1));
         return list.get(Math.max(0, i-1)).first;
     }
 }

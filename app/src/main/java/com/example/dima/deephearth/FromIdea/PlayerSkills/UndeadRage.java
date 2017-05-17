@@ -31,6 +31,12 @@ public class UndeadRage extends PlayerSkill {
         friendly = true;
     }
 
+    @Override
+    public void action(Unit target) {
+        super.action(target);
+        player.mp-= cost;
+    }
+
     private class UndeadRageBuff extends Buff {
 
 
@@ -46,6 +52,7 @@ public class UndeadRage extends PlayerSkill {
                 hero.power*=(power + 100.0)/100;
                 Log.d("Debug", "" + hero.power);
                 hero.countStats();
+                hero.health = hero.maxHealth;
             }
             applied = true;
             if (turns == 0) remove();
@@ -69,6 +76,7 @@ public class UndeadRage extends PlayerSkill {
             Hero hero = (Hero) target;
             hero.power/=(100 + power)/100.0;
             hero.countStats();
+            hero.health = hero.maxHealth;
             Log.d("Debug", "" + hero.power);
         }
 

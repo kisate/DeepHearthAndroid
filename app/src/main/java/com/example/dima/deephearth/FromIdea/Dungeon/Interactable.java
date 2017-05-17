@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Dungeon;
 
+import com.example.dima.deephearth.DungeonEventHandler;
 import com.example.dima.deephearth.FromIdea.Player;
 
 import java.util.LinkedList;
@@ -12,11 +13,13 @@ public abstract class Interactable {
     public InteractableTypes type;
     public LinkedList<Event> events = new LinkedList<>();
     public int image;
+    DungeonEventHandler handler;
 
-    public Interactable() {
+    public Interactable(DungeonEventHandler handler) {
+        this.handler = handler;
     }
 
-    public LinkedList<Event> interact(Player player) {
-        return events;
+    public void interact(Player player) {
+        handler.handle(events);
     }
 }

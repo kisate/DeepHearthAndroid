@@ -26,7 +26,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TeamInspectorActivity"></activity>
+        <activity
+            android:name=".TeamInspectorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".HeroInspectorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ExpeditionSetupActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity android:name=".PlayerInspectorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

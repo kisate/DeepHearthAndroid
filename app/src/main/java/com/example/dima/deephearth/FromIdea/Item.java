@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public abstract class Item implements Serializable, Droppable{
     public String name, description;
     public LinkedList<Effect> effects = new LinkedList<>();
-
+    public int icoId;
     public Unit owner;
 
     public Item(){}

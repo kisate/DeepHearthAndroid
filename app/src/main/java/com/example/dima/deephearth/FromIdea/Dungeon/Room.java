@@ -17,6 +17,7 @@ public class Room {
     public Corridor[] corridors = {null, null, null, null};
     public RoomButton button;
     public Interactable interactable;
+    public boolean covered;
 
     public int x, y;
 
@@ -42,9 +43,7 @@ public class Room {
                 '}';
     }
 
-    public LinkedList<Event> onEnter(Player player) {
-        return interactable.interact(player);
-    }
+
     public void onLeave(Player player) {
 
     }

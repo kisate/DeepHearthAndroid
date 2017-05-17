@@ -1,5 +1,6 @@
 package com.example.dima.deephearth.FromIdea.Dungeon.Interactables;
 
+import com.example.dima.deephearth.DungeonEventHandler;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactable;
 import com.example.dima.deephearth.FromIdea.Dungeon.InteractableTypes;
 import com.example.dima.deephearth.R;
@@ -9,7 +10,8 @@ import com.example.dima.deephearth.R;
  */
 
 public class Entity extends Interactable {
-    public Entity() {
+    public Entity(DungeonEventHandler handler) {
+        super(handler);
         type = InteractableTypes.Entity;
         image = R.drawable.room_empty;
     }

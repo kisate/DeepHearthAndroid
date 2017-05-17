@@ -1,37 +1,38 @@
 package com.example.dima.deephearth;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.ComputerIntellect;
+import com.example.dima.deephearth.FromIdea.Dungeon.Choice;
 import com.example.dima.deephearth.FromIdea.Dungeon.Corridor;
+import com.example.dima.deephearth.FromIdea.Dungeon.Drop;
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
+import com.example.dima.deephearth.FromIdea.Dungeon.Event;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactable;
-import com.example.dima.deephearth.FromIdea.Dungeon.InteractableTypes;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Enemy;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Treasue;
 import com.example.dima.deephearth.FromIdea.Dungeon.Room;
+import com.example.dima.deephearth.FromIdea.Dungeon.Soul;
+import com.example.dima.deephearth.FromIdea.Dungeon.SoulSizes;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
-import com.example.dima.deephearth.FromIdea.Heroes.Swordsman;
 import com.example.dima.deephearth.FromIdea.HumanIntellect;
 import com.example.dima.deephearth.FromIdea.Items.FireSword;
 import com.example.dima.deephearth.FromIdea.Player;
@@ -40,6 +41,7 @@ import com.example.dima.deephearth.FromIdea.PlayerSkills.Curse;
 import com.example.dima.deephearth.FromIdea.PlayerSkills.Renewal;
 import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -71,6 +73,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         player = getPlayer();
         int size = getIntent().getIntExtra("Size", 5);
+        handler = new DungeonEventHandler(this);
 
         Player player2 = PlayerConstructor.construct(new ComputerIntellect());
         player2.team.add(constructor.constructSwordsman("P21", player2.team));
@@ -78,11 +81,26 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         player2.team.add(constructor.constructArcher("P23", player2.team));
         player2.team.add(constructor.constructArcher("P24", player2.team));
 
-        LinkedList<Pair<Interactable, Integer>> pairs = new LinkedList<>();
-        pairs.add(new Pair<Interactable, Integer>(new Empty(), 5));
-        pairs.add(new Pair<Interactable, Integer>(new Enemy(player2), 1));
+        Player player3 = PlayerConstructor.construct(new ComputerIntellect());
+        player3.team.add(constructor.constructSwordsman("Lonely knight", player3.team));
 
-        dungeon = new Dungeon(size, pairs);
+        Drop drop1 = new Drop();
+
+        drop1.add(new FireSword());
+        drop1.add(new Soul(SoulSizes.Common));
+
+        Drop drop2 = new Drop();
+
+        drop2.add(new Soul(SoulSizes.Legendary));
+
+        LinkedList<Pair<Interactable, Integer>> pairs = new LinkedList<>();
+        pairs.add(new Pair<Interactable, Integer>(new Empty(handler), 6));
+        pairs.add(new Pair<Interactable, Integer>(new Enemy(player2, handler), 1));
+        pairs.add(new Pair<Interactable, Integer>(new Enemy(player3, handler), 2));
+        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop1, handler), 1));
+        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop2, handler), 2));
+
+        dungeon = new Dungeon(size, pairs, handler);
         checkedRooms = new boolean[dungeon.maxX - dungeon.minX + 1][dungeon.maxY - dungeon.minY + 1];
         Display display = getWindowManager().getDefaultDisplay();
         Point screenSize = new Point();
@@ -108,6 +126,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         rb.setMaxWidthToAll(roomWidth);
         rb.setRoom(dungeon.rooms.get(0));
         rb.setOnClickListener(this);
+        rb.setPlayer(player);
         rb.setAccessible(true);
         dungeon.rooms.get(0).setButton(rb);
         dungeon_layout.addView(centerB);
@@ -134,9 +153,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        handler = new DungeonEventHandler(this);
-
-        Button button = (Button) findViewById(R.id.teamButton);
+        Button button = (Button) findViewById(R.id.playerButton);
         button.setOnClickListener(this);
     }
 
@@ -160,7 +177,9 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         rb.setOnClickListener(this);
         next.setButton(rb);
         rb.setMaxWidthToAll(roomWidth);
+        rb.setPlayer(player);
         rb.setAccessible(false);
+        rb.setCovered(true);
         parent.addView(nextB);
         nextB.setId(count);
         RelativeLayout.LayoutParams lp =(RelativeLayout.LayoutParams) nextB.getLayoutParams();
@@ -274,8 +293,8 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         if(v.getTag() == "room"){
             roomButtonClick((RoomButton) v);
         }
-        if (v.getId() == R.id.teamButton) {
-            Intent intent = new Intent(this, TeamInspectorActivity.class);
+        if (v.getId() == R.id.playerButton) {
+            Intent intent = new Intent(this, PlayerInspectorActivity.class);
             intent.putExtra("Player", player);
             startActivityForResult(intent, 1);
         }
@@ -293,7 +312,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         player.team.get(1).maxMoves = 2;
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -350,11 +369,14 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private Player getPlayer(){
-        Player player = PlayerConstructor.construct(new HumanIntellect());
+        /*Player player = PlayerConstructor.construct(new HumanIntellect());
         player.team.add(constructor.constructSwordsman("P11", player.team));
         player.team.add(constructor.constructArcher("P12", player.team));
         player.team.add(constructor.constructArcher("P13", player.team));
-        player.team.add(constructor.constructHealer("P14", player.team));
+        player.team.add(constructor.constructHealer("P14", player.team));*/
+
+        player = (Player) getIntent().getSerializableExtra("startPlayer");
+
         Hero hero = (Hero) player.team.get(0);
         hero.inventory.add(new FireSword());
         player.skills.add(new Renewal(player));
@@ -367,7 +389,9 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         currentRoomButton = next.button;
         next.button.setAccessible(true);
         next.button.setCurrent(true);
-        handler.handle(next.button.room.onEnter(player));
+        next.interactable.interact(player);
+        if (next.interactable.getClass() != Empty.class)next.setInteractable(new Empty(handler));
+        next.button.update();
     }
 
     void leaveRoom () {
@@ -380,6 +404,19 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     void leaveCorridor() {
+
+    }
+
+    void showEvent(Event event) {
+        LinearLayout eventLayout = (LinearLayout) findViewById(R.id.eventLayout);
+        TextView nameView = (TextView) eventLayout.findViewById(R.id.eventName);
+        TextView descView = (TextView) eventLayout.findViewById(R.id.eventDesc);
+        ImageView imageView = (ImageView) eventLayout.findViewById(R.id.eventImage);
+        nameView.setText(event.name);
+        descView.setText(event.description);
+        imageView.setImageResource(event.imageId);
+
+        ArrayList<Choice> choices = event.choices;
 
     }
 }
