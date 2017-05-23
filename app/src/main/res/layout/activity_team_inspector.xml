@@ -561,7 +561,7 @@
                     android:gravity="center"
                     android:layout_alignParentTop="true"
                     android:background="@android:color/darker_gray"
-                    android:layout_above="@+id/relativeLayout" />
+                    android:layout_above="@+id/relativeLayout2" />
 
                 <ImageView
                     app:srcCompat="@drawable/knight_ico"
@@ -614,7 +614,7 @@
                     android:paddingBottom="5dp"
                     android:layout_toRightOf="@+id/LCTView"
                     android:layout_below="@+id/textView5"
-                    android:id="@+id/relativeLayout">
+                    android:id="@+id/relativeLayout2">
 
                     <LinearLayout
                         android:orientation="horizontal"

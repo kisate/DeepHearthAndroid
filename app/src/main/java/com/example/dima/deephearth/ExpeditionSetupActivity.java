@@ -1,5 +1,6 @@
 package com.example.dima.deephearth;
 
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -122,15 +123,14 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
         HeroConstructor constructor = new HeroConstructor();
 
         while (heroes.size() < size) {
-            int r = (int)(Math.random()*3);
+            int r = (int)(Math.random()*4);
             Hero hero = new Archer(0,0,"",null);
             switch (r) {
                 case 0 : hero = constructor.constructArcher(HeroNames.getName(), null); break;
                 case 1 : hero = constructor.constructSwordsman(HeroNames.getName(), null); break;
                 case 2 : hero = constructor.constructHealer(HeroNames.getName(), null); break;
+                case 3 : hero = constructor.constructGunner(HeroNames.getName(), null); break;
             }
-
-            hero.health = Math.random()*hero.health;
 
             heroes.add(hero);
         }

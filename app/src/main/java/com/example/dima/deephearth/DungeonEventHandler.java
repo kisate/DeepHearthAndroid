@@ -16,6 +16,7 @@ import com.example.dima.deephearth.FromIdea.Dungeon.Events.ChoiceEvents.TakeEven
 import com.example.dima.deephearth.FromIdea.Dungeon.Events.EnemyEvent;
 import com.example.dima.deephearth.FromIdea.Dungeon.Events.EntityEvent;
 import com.example.dima.deephearth.FromIdea.Dungeon.Events.TreasureEvent;
+import com.example.dima.deephearth.FromIdea.Item;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -45,6 +46,10 @@ public class DungeonEventHandler {
                     TakeEvent te = (TakeEvent) e;
                     activity.player.collect(te.drop);
                     Toast.makeText(activity, "" +activity.player.souls , Toast.LENGTH_SHORT).show();
+                    for (Item item:
+                         activity.player.items) {
+                        Log.d("Debug", "" + item.name);
+                    }
                     eventLayout.setVisibility(View.INVISIBLE);
                     break;
                 case leave:

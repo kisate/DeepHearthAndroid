@@ -97,8 +97,8 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         pairs.add(new Pair<Interactable, Integer>(new Empty(handler), 6));
         pairs.add(new Pair<Interactable, Integer>(new Enemy(player2, handler), 1));
         pairs.add(new Pair<Interactable, Integer>(new Enemy(player3, handler), 2));
-        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop1, handler), 1));
-        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop2, handler), 2));
+        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop1, handler), 3));
+        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop2, handler), 1));
 
         dungeon = new Dungeon(size, pairs, handler);
         checkedRooms = new boolean[dungeon.maxX - dungeon.minX + 1][dungeon.maxY - dungeon.minY + 1];

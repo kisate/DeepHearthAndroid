@@ -27,6 +27,7 @@ public class Heal extends Skill{
         skillIco = R.drawable.skillico_heal;
         attackType = AttackTypes.Ranged;
         setup();
+        animMap.put("drawable", R.drawable.heal_anim);
     }
 
     @Override

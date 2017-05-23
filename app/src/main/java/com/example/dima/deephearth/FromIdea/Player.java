@@ -17,6 +17,7 @@ public class Player implements Serializable {
     public Intellect intellect;
     public int mp = 130, maxMp = 130;
     public int souls = 0;
+    public double lastMpCost = 10;
     public double uncoverChance = 0.5;
     public LinkedList<PlayerSkill> skills = new LinkedList<>();
     public LinkedList<Item> items = new LinkedList<>();
@@ -36,7 +37,7 @@ public class Player implements Serializable {
         for (Droppable d :
                 drop) {
             if (d.getClass() == Soul.class) souls+= ((Soul) d).getValue();
-            if (d.getClass() == Item.class) items.add((Item) d);
+            else if (d instanceof Item) {items.add((Item) d); Log.d("Debug", "Item");};
         }
     }
 }

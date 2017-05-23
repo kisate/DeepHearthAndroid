@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -528,6 +529,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         if (pickedSkill.getClass() != Swap.class) {
 
             if (state == BattleStates.PlayerMove) writeStatus("");
+            boolean self = false;
+            self = pickedHero == activeButton;
 
             String info = activeButton.unit.name + " uses " + pickedSkill.name;
 
@@ -564,7 +567,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
 
-            if (!pickedSkill.onSelf) {
+            if (!self) {
                 info += " on ";
                 if (targets.size() == 1) info += target.unit.name;
                 else {
@@ -582,11 +585,23 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
             LinkedList<LinkedList<Pair<Effect, Boolean>>> efs = new LinkedList<>();
 
-            if (pickedSkill.onSelf) pickedSkill.action(target.unit);
-
-            else if (pickedSkill.friendly) {
+            if (pickedSkill.friendly || pickedSkill.onSelf) {
                 for (UnitButton b : targets) {
                     pickedSkill.action(b.unit);
+                    damages.add(pickedSkill.damage);
+
+                    LinkedList<Pair<Effect, Boolean>> _efs = new LinkedList<>();
+
+                    for (Effect e :
+                            pickedSkill.effects) {
+                        if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
+                            e.addToTarget(b.unit);
+                            _efs.add(new Pair<>(e, true));
+                        } else {
+                            _efs.add(new Pair<>(e, false));
+                        }
+                        efs.add(_efs);
+                    }
                 }
             } else {
                 for (UnitButton b :
@@ -615,11 +630,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
 
-            if (!pickedSkill.friendly && !pickedSkill.onSelf) {
-                startAnim(targets, efs, damages);
-            } else {
-                finishUsage(targets);
-            }
+            startAnim(targets, efs, damages, self);
         }
 
         else {LinkedList bs = swapUnits(activeButton, pickedHero); finishUsage(bs);}
@@ -656,11 +667,12 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         battle.skillButtons = skillButtons;
     }
 
-    public void startAnim(final LinkedList<UnitButton> targets, LinkedList<LinkedList<Pair<Effect, Boolean>>> efs, LinkedList<Integer> damages) {
-        int height = targets.get(0).parentLayout.getHeight();
+    public void startAnim(final LinkedList<UnitButton> targets, LinkedList<LinkedList<Pair<Effect, Boolean>>> efs, LinkedList<Integer> damages, boolean onSelf) {
         expandBattle();
 
-        RelativeLayout battleLayout =(RelativeLayout) findViewById(R.id.battleLayout);
+        Log.d("Debug", "anim");
+
+        final RelativeLayout battleLayout =(RelativeLayout) findViewById(R.id.battleLayout);
 
         for (LinearLayout ll :
                 uButLayouts) {
@@ -719,32 +731,11 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         slideTo.setDuration(time);
 
         slideBack.setDuration(time / 2);
-        slideBack.setStartDelay(500);
+        slideBack.setStartDelay(1000);
 
         activeButton.setPivotY(activeButton.getHeight());
 
         battleLayout.bringChildToFront((RelativeLayout)activeButton.parentLayout.getParent());
-
-        slideTo.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                activeButton.setMaxWidth(activeButton.maxAWidth);
-                activeButton.setImageResource(activeButton.unit.spriteIds.get("attack"));
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
         slideBack.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -764,32 +755,24 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             public void onAnimationRepeat(Animator animation) {
             }
         });
-        set.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                shrinkBattle();
-                finishUsage(targets);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
 
         set.playSequentially(slideTo, slideBack);
 
+        final TextView textView = new TextView(this);
+        textView.setText(pickedSkill.name);
+        battleLayout.addView(textView);
+        textView.setTextSize(28);
+        RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) textView.getLayoutParams();
+        params2.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        params2.setMargins(0, 20, 0, 0);
+        float delta = posWidth/2;
+        if (activeButton.getScaleX() < 0) delta*=-1;
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(textView, "translationX", delta);
+        objectAnimator.setDuration(300);
+        set.playTogether(slideTo,  objectAnimator);
+
         int i = 0;
+        final LinkedList<ImageView> views = new LinkedList<>();
 
         for (UnitButton b :
                 targets) {
@@ -809,8 +792,10 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             at2.setDuration(time/2);
             at2.setStartDelay(500);
 
-            set.play(at1).with(slideTo);
-            set.play(at2).after(at1);
+            if (!onSelf) {
+                set.play(at1).with(slideTo);
+                set.play(at2).after(at1);
+            }
 
             final TextView hittext = (TextView) LayoutInflater.from(this).inflate(R.layout.hittext, null);
             if (damages.get(i) == -1) hittext.setText("MISS");
@@ -855,20 +840,71 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             hitview.setMaxWidth(mWidth);
             hitview.setAdjustViewBounds(true);
             hitview.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b.getLayoutParams();
             hitview.setLayoutParams(params);
             RelativeLayout rl2 = (RelativeLayout) b.getParent();
-            if (b.getScaleX() >  0) hitview.setScaleX(-1f);
+            if (b.getScaleX() <  0) hitview.setScaleX(-1f);
             rl2.addView(hitview);
-
+            hitview.setVisibility(View.INVISIBLE);
+            views.add(hitview);
             //AnimatorSet effectSet = new AnimatorSet();
-
             i++;
         }
 
-        set.start();
+        slideTo.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
 
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                activeButton.setMaxWidth(activeButton.maxAWidth);
+                activeButton.setImageResource(activeButton.unit.spriteIds.get("attack"));
+                for (ImageView v : views) {
+                    v.setVisibility(View.VISIBLE);
+                    ((AnimationDrawable)v.getDrawable()).start();
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                for (ImageView v :
+                        views) {
+                    ((RelativeLayout)v.getParent()).removeView(v);
+                }
+                shrinkBattle();
+                battleLayout.removeView(textView);
+                finishUsage(targets);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        set.start();
     }
 
     public LinkedList<UnitButton> swapUnits(UnitButton u1, UnitButton u2){
@@ -954,7 +990,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         }
         pickedSkill = null;
         skillPicked = false;
-        curSButton.setCurrent(false);
+        if (curSButton != null)curSButton.setCurrent(false);
+        curSButton = null;
         ((View)skillDescLayout.getParent()).setVisibility(View.INVISIBLE);
         skillDescLayout.setClickable(false);
         for (UnitButton b :
