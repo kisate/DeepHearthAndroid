@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
+import com.example.dima.deephearth.FromIdea.Game;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.HeroNames;
 import com.example.dima.deephearth.FromIdea.Heroes.Archer;
@@ -35,6 +36,7 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
     LinkedList<Hero> heroes = new LinkedList<>();
     HeroAdapter adapter;
     Player player;
+    Game game;
     Team team;
     IcoButton[] heroButtons;
     Hero[] pickedHeroes = new Hero[4];
@@ -78,14 +80,15 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
             }
         });
 
-        fillData();
+        game = (Game) getIntent().getSerializableExtra("Game");
+
+        heroes = game.reserve;
 
         adapter = new HeroAdapter(this, heroes);
 
         ListView listView = (ListView) findViewById(R.id.teamList);
 
         listView.setAdapter(adapter);
-
         player = PlayerConstructor.construct(new HumanIntellect());
         player.items.add(new FireSword());
         player.items.add(new GreatStaff());
@@ -115,25 +118,6 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-    }
-
-    void fillData() {
-        int size = (int) (10 * Math.random());
-
-        HeroConstructor constructor = new HeroConstructor();
-
-        while (heroes.size() < size) {
-            int r = (int)(Math.random()*4);
-            Hero hero = new Archer(0,0,"",null);
-            switch (r) {
-                case 0 : hero = constructor.constructArcher(HeroNames.getName(), null); break;
-                case 1 : hero = constructor.constructSwordsman(HeroNames.getName(), null); break;
-                case 2 : hero = constructor.constructHealer(HeroNames.getName(), null); break;
-                case 3 : hero = constructor.constructGunner(HeroNames.getName(), null); break;
-            }
-
-            heroes.add(hero);
-        }
     }
 
     public void addHero(View view) {
@@ -231,5 +215,17 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         player = (Player) data.getSerializableExtra("Player");
+        Intent intent = new Intent();
+        intent.putExtra("Player", player);
+        setResult(1, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("Player", player);
+        setResult(1, intent);
+        finish();
     }
 }

@@ -2,6 +2,7 @@ package com.example.dima.deephearth.FromIdea.Heroes;
 
 import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Hero;
+import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Skills.SwordStrike;
 import com.example.dima.deephearth.FromIdea.Team;
@@ -16,6 +17,7 @@ public class Swordsman extends Hero {
         super(dexterity, power, name, team);
         description = "Strikes enemies with his sword";
         heroClass = HeroClasses.Swordsman;
+        nature = NatureTypes.Alive;
         hpScale = Scale.A;
         mpScale = Scale.D;
         dodgeScale = Scale.B;

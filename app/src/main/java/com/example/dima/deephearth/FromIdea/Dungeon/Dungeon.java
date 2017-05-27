@@ -19,6 +19,7 @@ public class Dungeon {
     public LinkedList<Corridor> corridors = new LinkedList<>();
     private RandomSelector<Interactable> selector;
     DungeonEventHandler handler;
+    public int enemyCount = 0;
 
     LinkedList<Pair<Interactable, Integer>> interactables = new LinkedList<>();
 
@@ -91,7 +92,7 @@ public class Dungeon {
 
         Room next = new Room(x,y);
         Interactable interactable = selector.getRandomElement();
-        if (interactable.type == InteractableTypes.Treasure);
+        if (interactable.type == InteractableTypes.Enemy) enemyCount++;
         next.setInteractable(interactable);
         Corridor res = new Corridor(core, next, orientation);
 

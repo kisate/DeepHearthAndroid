@@ -6,4 +6,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_hero_inspector">HeroInspectorActivity</string>
+
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

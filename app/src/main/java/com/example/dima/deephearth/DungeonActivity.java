@@ -27,6 +27,7 @@ import com.example.dima.deephearth.FromIdea.Dungeon.Event;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactable;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Enemy;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Exit;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Treasue;
 import com.example.dima.deephearth.FromIdea.Dungeon.Room;
 import com.example.dima.deephearth.FromIdea.Dungeon.Soul;
@@ -304,6 +305,8 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         player = (Player) data.getSerializableExtra("Player");
+        if (data.getBooleanExtra("result", false)) dungeon.enemyCount--;
+        if (dungeon.enemyCount == 0) currentRoomButton.room.interactable = new Exit(handler);
     }
 
     public void launchBattle(Player player2){
@@ -313,17 +316,6 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
         startActivityForResult(intent, 1);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //thread.notify();
     }
 
     @Override
@@ -369,16 +361,8 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private Player getPlayer(){
-        /*Player player = PlayerConstructor.construct(new HumanIntellect());
-        player.team.add(constructor.constructSwordsman("P11", player.team));
-        player.team.add(constructor.constructArcher("P12", player.team));
-        player.team.add(constructor.constructArcher("P13", player.team));
-        player.team.add(constructor.constructHealer("P14", player.team));*/
 
         player = (Player) getIntent().getSerializableExtra("startPlayer");
-
-        Hero hero = (Hero) player.team.get(0);
-        hero.inventory.add(new FireSword());
         player.skills.add(new Renewal(player));
         player.skills.add(new Curse(player));
         player.skills.add(new UndeadRage(player));
@@ -407,16 +391,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    void showEvent(Event event) {
-        LinearLayout eventLayout = (LinearLayout) findViewById(R.id.eventLayout);
-        TextView nameView = (TextView) eventLayout.findViewById(R.id.eventName);
-        TextView descView = (TextView) eventLayout.findViewById(R.id.eventDesc);
-        ImageView imageView = (ImageView) eventLayout.findViewById(R.id.eventImage);
-        nameView.setText(event.name);
-        descView.setText(event.description);
-        imageView.setImageResource(event.imageId);
-
-        ArrayList<Choice> choices = event.choices;
+    public void exitDungeon() {
 
     }
 }

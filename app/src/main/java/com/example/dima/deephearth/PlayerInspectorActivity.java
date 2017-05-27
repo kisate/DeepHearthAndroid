@@ -225,4 +225,10 @@ public class PlayerInspectorActivity extends AppCompatActivity implements View.O
             close(v);
         }
     }
+
+    public void displayHero(View v) {
+        Intent intent = new Intent(this, HeroInspectorActivity.class);
+        intent.putExtra("Hero", ((HeroButton) v).hero);
+        startActivity(intent);
+    }
 }

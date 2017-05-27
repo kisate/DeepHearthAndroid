@@ -19,14 +19,9 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".TeamInspectorActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".TeamInspectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
@@ -41,7 +36,8 @@
             android:name=".PlayerInspectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
-        <activity android:name=".MainMenu"
+        <activity
+            android:name=".MainMenu"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -50,6 +46,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InnActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

@@ -56,6 +56,10 @@ public class DungeonEventHandler {
                     LeaveEvent le = (LeaveEvent) e;
                     eventLayout.setVisibility(View.INVISIBLE);
                     break;
+                case leaveDungeon:
+                    eventLayout.setVisibility(View.INVISIBLE);
+                    activity.exitDungeon();
+                    break;
                 case toDisplay:
                     showEvent(e);
                     break;
@@ -83,6 +87,5 @@ public class DungeonEventHandler {
         }
 
         gridView.setAdapter(new ChoiseAdapter(choices, activity));
-
     }
 }

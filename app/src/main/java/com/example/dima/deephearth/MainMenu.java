@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.dima.deephearth.FromIdea.Game;
+
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -39,6 +41,9 @@ public class MainMenu extends AppCompatActivity {
 
     public void newGame(View v) {
         Intent intent = new Intent(this, MainActivity.class);
+        Game game = new Game();
+        game.unlockedBuildings.put("Inn", true);
+        intent.putExtra("Game", game);
         startActivity(intent);
     }
 

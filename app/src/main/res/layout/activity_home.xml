@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.dima.deephearth.HomeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home"
@@ -7,38 +7,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.dima.deephearth.HomeActivity"
     android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    android:background="@android:color/background_dark">
 
     <ImageView
         android:layout_width="match_parent"
+        app:srcCompat="@drawable/cave_empty"
+        android:id="@+id/imageView5"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/wall"
-        android:id="@+id/imageView5" />
-
-    <ExpandableListView
-        android:layout_height="match_parent"
-        android:id="@+id/lv"
-        android:layout_width="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/border"
-        android:id="@+id/imageButton2"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:elevation="0dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/lv"
-        android:layout_toStartOf="@+id/lv">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:text="TextView"
@@ -47,4 +33,27 @@
             android:id="@+id/textView2" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/button_inn"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:onClick="enterInn"
+        android:background="@null" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/button_dungeon"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:onClick="enterDungeon"
+        android:background="@null" />
+
+</com.example.dima.deephearth.HomeLayout>

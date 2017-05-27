@@ -2,6 +2,7 @@ package com.example.dima.deephearth.FromIdea.Heroes;
 
 import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Hero;
+import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Skills.Heal;
 import com.example.dima.deephearth.FromIdea.Team;
@@ -16,6 +17,7 @@ public class Healer extends Hero{
         super(dexterity, power, name, team);
         description = "Heals allies";
         heroClass = HeroClasses.Healer;
+        nature = NatureTypes.Alive;
         hpScale = Scale.C;
         mpScale = Scale.S;
         dodgeScale = Scale.B;

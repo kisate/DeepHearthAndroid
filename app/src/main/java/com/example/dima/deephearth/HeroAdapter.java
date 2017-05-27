@@ -31,6 +31,7 @@ public class HeroAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflater;
     LinkedList<Hero> objects;
+    public static String heroTag = "hero view";
 
     public HeroAdapter(Context context, LinkedList<Hero> objects) {
         this.context = context;
@@ -80,6 +81,7 @@ public class HeroAdapter extends BaseAdapter {
         manaBar.setProgress((int)hero.mana);
         HeroButton button = (HeroButton) view.findViewById(R.id.button3);
         button.setHero(hero);
+        button.setTag(heroTag);
 
         if (context.getClass() == ExpeditionSetupActivity.class) {
             button.setOnClickListener(new View.OnClickListener() {
@@ -90,9 +92,26 @@ public class HeroAdapter extends BaseAdapter {
             });
         }
 
+        else if (context.getClass() == PlayerInspectorActivity.class) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((PlayerInspectorActivity) context).displayHero(v);
+                }
+            });
+        }
+        else if (context.getClass() == InnActivity.class) {
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ((InnActivity) context).onLongHeroClick(v);
+                    return false;
+                }
+            });
+        }
+
         MyDragEventListener myDragEventListener = new MyDragEventListener();
         view.setOnDragListener(myDragEventListener);
-
         return view;
     }
 
@@ -108,7 +127,7 @@ public class HeroAdapter extends BaseAdapter {
 
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED :
-                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) && event.getClipDescription().toString().equals(ItemAdapter.itemTag)) {
                         v.setBackgroundColor(Color.RED);
                         v.invalidate();
                         return true;

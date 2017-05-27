@@ -670,7 +670,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     public void startAnim(final LinkedList<UnitButton> targets, LinkedList<LinkedList<Pair<Effect, Boolean>>> efs, LinkedList<Integer> damages, boolean onSelf) {
         expandBattle();
 
-        Log.d("Debug", "anim");
+        long attackDuration = 1000;
 
         final RelativeLayout battleLayout =(RelativeLayout) findViewById(R.id.battleLayout);
 
@@ -731,7 +731,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         slideTo.setDuration(time);
 
         slideBack.setDuration(time / 2);
-        slideBack.setStartDelay(1000);
+        slideBack.setStartDelay(attackDuration);
 
         activeButton.setPivotY(activeButton.getHeight());
 
@@ -790,7 +790,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             at1.setDuration(time);
             at2 = ObjectAnimator.ofPropertyValuesHolder(b, t1, t2);
             at2.setDuration(time/2);
-            at2.setStartDelay(500);
+            at2.setStartDelay(attackDuration);
 
             if (!onSelf) {
                 set.play(at1).with(slideTo);

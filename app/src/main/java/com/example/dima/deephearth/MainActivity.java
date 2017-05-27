@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click(View v) {
-        Intent intent = new Intent(this, ExpeditionSetupActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("Game", getIntent().getSerializableExtra("Game"));
         //EditText et = (EditText) findViewById(R.id.editText);
         //int size = Integer.parseInt(et.getText().toString());
         //intent.putExtra("Size", size);
