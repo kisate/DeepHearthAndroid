@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.dima.deephearth.FromIdea.Effect;
 import com.example.dima.deephearth.FromIdea.EffectTypes;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +20,7 @@ public class Buff extends Effect {
     public Buff(Unit target, int power, int turns) {
         super(target, power, turns);
         type = EffectTypes.Buff;
+        icoId = R.drawable.effectico_buff;
     }
 
     public Buff(Unit target) {
@@ -26,7 +28,8 @@ public class Buff extends Effect {
     }
 
     @Override
-    public void apply() {
+    public boolean apply() {
+        return true;
     }
 
     @Override
@@ -39,9 +42,10 @@ public class Buff extends Effect {
     public Effect addToTarget(Unit target) {
         Effect ef = new Effect(target) {
             @Override
-            public void apply() {
-                super.apply();
+            public boolean apply() {
+                boolean res = super.apply();
                 Log.wtf("Debug", "wtf");
+                return res;
             }
         };
         try {
@@ -58,7 +62,7 @@ public class Buff extends Effect {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-        ef.apply();
+        if (!ef.apply()) target.effects.remove(ef);
 
         return ef;
     }

@@ -28,12 +28,14 @@ public class Heal extends Skill{
         attackType = AttackTypes.Ranged;
         setup();
         animMap.put("drawable", R.drawable.heal_anim);
+        heals = true;
     }
 
     @Override
     public void action(Unit target) {
-        super.action(target);
-        if ((target.maxHealth - target.health) < power) target.modHealth((int)(target.health-target.maxHealth));
-        else target.modHealth(-power);
+        setup();
+        damage = (int) (power*bottom + power*(top-bottom)*Math.random());
+        if ((target.maxHealth - target.health) < damage) target.modHealth((int)(target.health-target.maxHealth));
+        else target.modHealth(-damage);
     }
 }

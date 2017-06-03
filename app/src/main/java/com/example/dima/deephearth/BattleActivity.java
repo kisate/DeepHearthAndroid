@@ -42,6 +42,8 @@ import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.Battle;
 import com.example.dima.deephearth.FromIdea.Effect;
+import com.example.dima.deephearth.FromIdea.Effects.Move;
+import com.example.dima.deephearth.FromIdea.Effects.Stun;
 import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
@@ -49,11 +51,15 @@ import com.example.dima.deephearth.FromIdea.IntellectTypes;
 import com.example.dima.deephearth.FromIdea.Player;
 import com.example.dima.deephearth.FromIdea.PlayerSkill;
 import com.example.dima.deephearth.FromIdea.Probability;
+import com.example.dima.deephearth.FromIdea.Skills.Devastation;
+import com.example.dima.deephearth.FromIdea.Skills.Resurrection;
 import com.example.dima.deephearth.FromIdea.Skills.Swap;
 import com.example.dima.deephearth.FromIdea.SpeedComparator;
 import com.example.dima.deephearth.FromIdea.Team;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.Scripts.FinishLichBattleScript;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -68,8 +74,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     public Battle battle = new Battle();
     Player player1, player2;
-    LinkedList<UnitButton> moveOrder = new LinkedList<>();
-    LinkedList<UnitButton> playerButtons = new LinkedList<>(), enemyButtons = new LinkedList<>();
+    LinkedList<Unit> moveOrder = new LinkedList<>();
+    ArrayList<UnitButton> playerButtons = new ArrayList<>(), enemyButtons = new ArrayList<>(4);
     LinkedList<UnitButton> unitButtons = new LinkedList<>();
     SkillButton[] skillButtons;
     PlayerSkillButton[] playerSkillButtons;
@@ -77,8 +83,10 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     int posWidth, height;
     BattleStates state = BattleStates.Init;
     boolean pSkillused = false, pSkillPicked = false;
+    int turnNumber = 1;
 
     boolean usingSkill = false;
+    public boolean interactable = true;
 
     PlayerSkillButton curPSButton;
     UnitButton curUButton, activeButton, pickedHero;
@@ -89,12 +97,6 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     SkillDescLayout skillDescLayout;
 
     public static TextView statusTextView;
-
-    LinearLayout[] uButLayouts;
-
-    UnitButton[] buttons1;
-
-    UnitButton[] buttons2;
 
     CustomRelativeLayout bl;
 
@@ -122,15 +124,6 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         statusTextView.setMovementMethod(new ScrollingMovementMethod());
 
-        uButLayouts = new LinearLayout[]{(LinearLayout) findViewById(R.id.LinearLayout1),(LinearLayout) findViewById(R.id.LinearLayout2),(LinearLayout) findViewById(R.id.LinearLayout3),(LinearLayout) findViewById(R.id.LinearLayout4),
-                (LinearLayout) findViewById(R.id.LinearLayout5),(LinearLayout) findViewById(R.id.LinearLayout6),(LinearLayout) findViewById(R.id.LinearLayout7),(LinearLayout) findViewById(R.id.LinearLayout8)};
-
-        buttons1 = new UnitButton[]{(UnitButton) findViewById(R.id.UnitButton1),(UnitButton) findViewById(R.id.UnitButton2),
-                (UnitButton) findViewById(R.id.UnitButton3), (UnitButton) findViewById(R.id.UnitButton4)};
-
-        buttons2 = new UnitButton[]{(UnitButton) findViewById(R.id.UnitButton5),(UnitButton) findViewById(R.id.UnitButton6),
-                (UnitButton) findViewById(R.id.UnitButton7), (UnitButton) findViewById(R.id.UnitButton8)};
-
         skillDescLayout = (SkillDescLayout) findViewById(R.id.skillDescLayout);
 
         playerSkillButtons = new PlayerSkillButton[]{(PlayerSkillButton) findViewById(R.id.playerSkillButton1), (PlayerSkillButton) findViewById(R.id.playerSkillButton2), (PlayerSkillButton) findViewById(R.id.playerSkillButton3)};
@@ -138,86 +131,45 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         for (int i = 0; i < 3; i++) {
             playerSkillButtons[i].setPlayerSkill(player1.skills.get(i));
             playerSkillButtons[i].setOnClickListener(this);
+            playerSkillButtons[i].setTag("pSkill");
         }
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-
-        int scHeight = size.y;
         int scWidth  = size.x;
+        posWidth = (int) (scWidth/8.5);
 
-        int maxWidth = (int) (scWidth/8.5);
+        bl = (CustomRelativeLayout) findViewById(R.id.battleLayout);
 
-        posWidth = maxWidth;
-
-        int kwidth = ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth();
-
-        for (int i = 0; i < player1.team.size(); i++) {
-            Unit unit = player1.team.get(i);
-            UnitButton button = buttons1[i];
-            button.unitLayout = (UnitLayout) findViewById(R.id.unitLayout);
-            button.setOnClickListener(this);
-            button.friendly = true;
-            button.setUnit(unit, maxWidth);
-            playerButtons.add(button);
-            unitButtons.add(button);
-
-            Drawable d = ContextCompat.getDrawable(this, unit.spriteIds.get("idle"));
-            int width = (int)(maxWidth*d.getIntrinsicWidth()/kwidth);
-
-            RelativeLayout rl = (RelativeLayout) uButLayouts[i].getParent();
-
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
-            int margin = maxWidth*(3-i) - maxWidth*(d.getIntrinsicWidth() - kwidth)/2/kwidth;
-            layoutParams.setMarginStart(margin);
-            layoutParams.setMargins(margin, 0, 0, 0);
-        }
-
-        for (int i = 0; i < player2.team.size(); i++) {
-            Unit unit = player2.team.get(i);
-            UnitButton button = buttons2[i];
-            button.unitLayout = (UnitLayout) findViewById(R.id.unitLayout);
-            button.setOnClickListener(this);
-            button.setUnit(unit, maxWidth);
-            enemyButtons.add(button);
-            unitButtons.add(button);
-
-            Drawable d = ContextCompat.getDrawable(this, unit.spriteIds.get("idle"));
-            int width = (int)(maxWidth*d.getIntrinsicWidth()/ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth());
-
-            RelativeLayout rl = (RelativeLayout) uButLayouts[i + 4].getParent();
-
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
-            int margin = maxWidth*(3-i) - maxWidth*(d.getIntrinsicWidth() - kwidth)/2/kwidth;
-            layoutParams.setMarginEnd(margin);
-            layoutParams.setMargins(0, 0, margin, 0);
-        }
-
-        TableLayout effectTable = (TableLayout) findViewById(R.id.effectTable);
+        setUpEnemyButtons();
+        setUpPlayerButtons();
 
         for (SkillButton button :
                 skillButtons) {
             button.setOnClickListener(this);
+            button.setTag("skill");
         }
         ((ImageView) findViewById(R.id.imageView)).setImageResource(player1.team.get(0).icoId);
 
-        for (UnitButton b :
-                playerButtons) {
-            moveOrder.add(b);
+        for (Unit u : player1.team) {
+            if (u != null) {
+                moveOrder.add(u);
+                u.moves = u.maxMoves;
+            }
         }
-        for (UnitButton b :
-                enemyButtons) {
-            moveOrder.add(b);
+
+        for (Unit u : player2.team) {
+            if (u != null) {
+                moveOrder.add(u);
+                u.moves = u.maxMoves;
+            }
         }
 
         Collections.sort(moveOrder, new SpeedComparator());
 
         curNumber = -1;
 
-        Log.d("Debug", "created");
-
-        bl = (CustomRelativeLayout) findViewById(R.id.battleLayout);
 
         ImageButton playerButton = (ImageButton) findViewById(R.id.playerSkillButton);
         playerButton.setOnClickListener(this);
@@ -226,15 +178,22 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         ProgressBar pb2 = (ProgressBar) findViewById(R.id.playerManaBar2);
 
         pb1.getProgressDrawable().setColorFilter(
-                Color.BLUE, PorterDuff.Mode.MULTIPLY);
+                Color.BLUE, PorterDuff.Mode.SRC_ATOP);
 
         pb2.getProgressDrawable().setColorFilter(
-                Color.BLUE, PorterDuff.Mode.MULTIPLY);
+                Color.BLUE, PorterDuff.Mode.SRC_ATOP);
 
 
         pb1.setMax(player1.maxMp);
         pb2.setMax(player1.maxMp);
         updatePlayerMana(player1.mp);
+
+        findViewById(R.id.button10).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.escapeLayout).setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -269,41 +228,23 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        int[] butidS = {R.id.UnitButton1, R.id.UnitButton2, R.id.UnitButton3, R.id.UnitButton4, R.id.UnitButton5, R.id.UnitButton6, R.id.UnitButton7, R.id.UnitButton8};
-        boolean t = false;
-        for (int a :
-                butidS) {
-            if(a == v.getId()) t = true;
+
+        if (v.getTag() != null) switch (v.getTag().toString()) {
+            case "unit" :
+                if (!usingSkill && interactable) uButtonClick((UnitButton) v);
+                break;
+            case "skill" :
+                if (!usingSkill) sButtonClick((SkillButton) v);
+                break;
+            case "pSkill" :
+                playerSkillButtonClick((PlayerSkillButton) v);
+                break;
+            default: break;
         }
 
-        if (t && (v.getVisibility() == View.VISIBLE) && !usingSkill) {
-            uButtonClick((UnitButton) v);
-        }
-
-        int[] skillIds = {R.id.skillButton1, R.id.skillButton2, R.id.skillButton3, R.id.skillButton4, R.id.moveSkillButton};
-
-        t = false;
-
-        for (int a :
-                skillIds) {
-            if(a == v.getId()) t = true;
-        }
-        if (t) {
-            sButtonClick((SkillButton) v);
-        }
-
-        if (v.getId() == R.id.playerSkillButton) {
+        if (v.getId() == R.id.playerSkillButton && !usingSkill) {
             playerSkillDescClick(v);
         }
-
-        t = false;
-
-        for (PlayerSkillButton b :
-                playerSkillButtons) {
-            if (v.getId() == b.getId()) t = true;
-        }
-
-        if (t) playerSkillButtonClick((PlayerSkillButton) v);
     }
 
     private void playerSkillButtonClick(PlayerSkillButton v) {
@@ -315,6 +256,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 b.setCanBeTarget(false);
             }
             curPSButton = v;
+            PlayerSkillDescLayout layout = (PlayerSkillDescLayout) findViewById(R.id.playerSkillDesc);
+            layout.setSkill(v.playerSkill);
 
             if (v.usable) {
                 curPSButton.setCurrent(true);
@@ -324,14 +267,14 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (!pickedPlayerSkill.friendly) {
                     for (int i = 0; i < enemyButtons.size(); i++) {
-                        enemyButtons.get(i).setCanBeTarget(true);
+                        if (enemyButtons.get(i) != null) enemyButtons.get(i).setCanBeTarget(true);
                     }
                 }
 
                 else {
                     for (UnitButton b :
                             playerButtons) {
-                        b.setCanBeTarget(true);
+                        if (b != null) b.setCanBeTarget(true);
                     }
                 }
             }
@@ -344,11 +287,11 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             pickedPlayerSkill = null;
             for (UnitButton b :
                     playerButtons) {
-                b.setCanBeTarget(false);
+                if (b != null) b.setCanBeTarget(false);
             }
             for (UnitButton b :
                     enemyButtons) {
-                b.setCanBeTarget(false);
+                if (b != null) b.setCanBeTarget(false);
             }
         }
     }
@@ -357,7 +300,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         if (pSkillPicked) interruptPlayerSkill();
 
-        if (!skillPicked && v.getId() != R.id.moveSkillButton) {
+        if (!skillPicked && v.getId() != R.id.moveSkillButton || skillPicked && v.getId() != R.id.moveSkillButton) {
             ((View) skillDescLayout.getParent()).setVisibility(View.VISIBLE);
             skillDescLayout.setClickable(true);
             skillDescLayout.setSkill(v.skill);
@@ -373,14 +316,14 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (!pickedSkill.friendly && !pickedSkill.onSelf) {
                     for (int i = 0; i < enemyButtons.size(); i++) {
-                        enemyButtons.get(i).setCanBeTarget(pickedSkill.canBeUsedOn[i]);
+                        if (enemyButtons.get(i) != null) enemyButtons.get(i).setCanBeTarget(pickedSkill.canBeUsedOn[i]);
                     }
                 }
 
                 if (pickedSkill.friendly) {
                     for (UnitButton b :
                             playerButtons) {
-                        b.setCanBeTarget(true);
+                        if (b != null) b.setCanBeTarget(true);
                     }
                 }
 
@@ -396,12 +339,12 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             pickedSkill = null;
             for (UnitButton b :
                     playerButtons) {
-                b.setCanBeTarget(false);
+                if (b != null) b.setCanBeTarget(false);
             }
 
             for (UnitButton b :
                     enemyButtons) {
-                b.setCanBeTarget(false);
+                if (b != null) b.setCanBeTarget(false);
             }
         }
     }
@@ -454,29 +397,42 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
     {
         updatePlayerMana(player1.mp);
         pSkillused = false;
-        for (UnitButton b :
+        for (Unit u :
                 moveOrder) {
-            if ((b.unit.nature == NatureTypes.Alive) && (b.unit.mana + 1 <= b.unit.maxMana)) {b.unit.mana += 1; b.UpdateInfo();}
+            if ((u.nature == NatureTypes.Alive) && (u.mana + 1 <= u.maxMana)) {u.mana += 1; u.button.UpdateInfo();}
         }
 
-        if (playerButtons.size() == 0) defeat();
+        int ecount = 0, pcount = 0;
 
-        else if (enemyButtons.size() == 0) victory();
+        for (int i = 0; i < 4; i++) {
+            if (playerButtons.get(i) != null) pcount++;
+            if (enemyButtons.get(i) != null) ecount++;
+        }
+
+        if (pcount == 0) defeat();
+
+        else if (ecount == 0) victory();
 
         else if (curNumber < moveOrder.size() - 1) {
             curNumber++;
             if(activeButton != null) activeButton.movePointLayout.getChildAt(0).setVisibility(View.INVISIBLE);
-            setActiveButton(moveOrder.get(curNumber));
+
+            setActiveButton(moveOrder.get(curNumber).button);
             activeButton.unit.applyEffects();
             activeButton.unit.moves--;
             activeButton.UpdateInfo();
             uButtonClick(activeButton);
+            if (activeButton.unit.stunned) {
+                nextMove();
+                return;
+            }
+
             if (activeButton.unit.team.player.intellect.type == IntellectTypes.Human) {state = BattleStates.PlayerMove;  }
             else {
                 state = BattleStates.EnemyMove;
 
                 refreshBattle();
-
+                Log.d("Debug", activeButton.unit.getName());
                 Pair<UnitButton, Skill> choice = activeButton.unit.team.player.intellect.think(battle);
 
                 pickedSkill = choice.second;
@@ -490,35 +446,50 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     void defeat(){
         Intent intent = new Intent();
+        for (Unit u :
+                player1.team) {
+            if (u != null) u.button = null;
+        }
         intent.putExtra("Player", player1);
+        intent.putExtra("lost", true);
         setResult(1, intent);
-        finish();
+        killActivity();
     }
 
     void victory(){
         Intent intent = new Intent();
         intent.putExtra("Player", player1);
+        for (Unit u :
+                player2.team) {
+            if (u != null) u.button = null;
+        }
+        for (Unit u :
+                player2.deadUnits) {
+            if (u != null) u.button = null;
+        }
+        intent.putExtra("enemy", player2);
+        intent.putExtra("result", true);
         setResult(1, intent);
-        finish();
+        killActivity();
     }
 
     void nextTurn(){
 
         curNumber = -1;
-
-        for (UnitButton b :
+        turnNumber++;
+        for (Unit u :
                 moveOrder) {
-            b.unit.moves = b.unit.maxMoves;
+            u.moves = u.maxMoves;
         }
 
         for (UnitButton b :
                 playerButtons) {
-            b.UpdateInfo();
+            if (b != null) b.UpdateInfo();
         }
 
         for (UnitButton b :
                 enemyButtons) {
-            b.UpdateInfo();
+            if (b != null) b.UpdateInfo();
         }
         nextMove();
     }
@@ -545,22 +516,22 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                     if (pickedSkill.friendly) {
                         for (UnitButton b :
                                 playerButtons) {
-                            targets.add(b);
+                            if (b != null) targets.add(b);
                         }
                     } else {
                         for (UnitButton b : enemyButtons) {
-                            if (enemyButtons.indexOf(b) > -1 && pickedSkill.canBeUsedOn[enemyButtons.indexOf(b)])
+                            if (b != null && pickedSkill.canBeUsedOn[enemyButtons.indexOf(b)])
                                 targets.add(b);
                         }
                     }
                 } else {
                     if (pickedSkill.friendly) {
                         for (UnitButton b : enemyButtons) {
-                            targets.add(b);
+                            if (b!= null) targets.add(b);
                         }
                     } else {
                         for (UnitButton b : playerButtons) {
-                            if (playerButtons.indexOf(b) > -1 && pickedSkill.canBeUsedOn[playerButtons.indexOf(b)])
+                            if (b != null && pickedSkill.canBeUsedOn[playerButtons.indexOf(b)])
                                 targets.add(b);
                         }
                     }
@@ -584,6 +555,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             pickedSkill.owner.mana -= pickedSkill.cost;
 
             LinkedList<LinkedList<Pair<Effect, Boolean>>> efs = new LinkedList<>();
+            LinkedList<Pair<UnitButton, Integer>> unitsToMove = new LinkedList<>();
 
             if (pickedSkill.friendly || pickedSkill.onSelf) {
                 for (UnitButton b : targets) {
@@ -595,7 +567,12 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                     for (Effect e :
                             pickedSkill.effects) {
                         if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
-                            e.addToTarget(b.unit);
+                            if (e.getClass() == Move.class) {
+                                unitsToMove.add(new Pair<UnitButton, Integer>(b, e.power));
+                            }
+                            else {
+                                e.addToTarget(b.unit);
+                            }
                             _efs.add(new Pair<>(e, true));
                         } else {
                             _efs.add(new Pair<>(e, false));
@@ -615,7 +592,12 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                         for (Effect e :
                                 pickedSkill.effects) {
                             if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
-                                e.addToTarget(b.unit);
+                                if (e.getClass() == Move.class) {
+                                    unitsToMove.add(new Pair<UnitButton, Integer>(b, e.power));
+                                }
+                                else {
+                                    e.addToTarget(b.unit);
+                                }
                                 _efs.add(new Pair<>(e, true));
                             } else {
                                 _efs.add(new Pair<>(e, false));
@@ -631,9 +613,13 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             startAnim(targets, efs, damages, self);
+            for (Pair<UnitButton, Integer> p:
+                 unitsToMove) {
+                MoveUnit(p.first, p.second);
+            }
         }
 
-        else {LinkedList bs = swapUnits(activeButton, pickedHero); finishUsage(bs);}
+        else {swapUnits(activeButton, pickedHero); finishUsage(new LinkedList<UnitButton>());}
     }
 
 
@@ -665,6 +651,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         battle.player1 = player1;
         battle.player2 = player2;
         battle.skillButtons = skillButtons;
+        battle.curNumber = curNumber;
+        battle.turnNumber = turnNumber;
     }
 
     public void startAnim(final LinkedList<UnitButton> targets, LinkedList<LinkedList<Pair<Effect, Boolean>>> efs, LinkedList<Integer> damages, boolean onSelf) {
@@ -674,17 +662,18 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         final RelativeLayout battleLayout =(RelativeLayout) findViewById(R.id.battleLayout);
 
-        for (LinearLayout ll :
-                uButLayouts) {
-            if(ll != activeButton.parentLayout) {
-                ll.setAlpha(0.3f);
-            }
+        for (UnitButton b :
+                unitButtons) {
+            b.setAlpha(0.3f);
         }
-        
+
+        activeButton.setAlpha(1f);
 
         for (UnitButton b : unitButtons){
             b.barLayout.setVisibility(View.INVISIBLE);
             b.movePointLayout.setVisibility(View.INVISIBLE);
+            b.effectLayout.setVisibility(View.INVISIBLE);
+            b.foreground.setVisibility(View.INVISIBLE);
         }
 
         float aScale = 1.2f, tScale = 1.2f;
@@ -733,13 +722,14 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         slideBack.setDuration(time / 2);
         slideBack.setStartDelay(attackDuration);
 
-        activeButton.setPivotY(activeButton.getHeight());
+        activeButton.setPivotY(activeButton.getMeasuredHeight());
 
         battleLayout.bringChildToFront((RelativeLayout)activeButton.parentLayout.getParent());
         slideBack.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                activeButton.setMaxWidth(activeButton.maxWidth);
+                activeButton.setPivotY(activeButton.getMeasuredHeight());
+                activeButton.setMaxWidth(activeButton.maxWidths.get("idle"));
                 activeButton.setImageResource(activeButton.unit.spriteIds.get("idle"));
             }
 
@@ -776,7 +766,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         for (UnitButton b :
                 targets) {
-            b.parentLayout.setAlpha(1f);
+            b.setAlpha(1f);
             PropertyValuesHolder tprx, tpry, t1, t2;
 
             if (b.getScaleX() > 0) {tprx = PropertyValuesHolder.ofFloat("scaleX", tScale); t1 = PropertyValuesHolder.ofFloat("scaleX", 1f);}
@@ -799,7 +789,19 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
             final TextView hittext = (TextView) LayoutInflater.from(this).inflate(R.layout.hittext, null);
             if (damages.get(i) == -1) hittext.setText("MISS");
-            else hittext.setText("-" + damages.get(i));
+            else {
+                if (!pickedSkill.heals) {
+                    hittext.setTextColor(Color.RED);
+                    int damage = damages.get(i);
+                    if (damage > pickedSkill.clearDamage) hittext.setTextColor(Color.YELLOW);
+                    hittext.setText("-" + damages.get(i));
+                }
+                else {
+                    hittext.setTextColor(Color.GREEN);
+                    int damage = damages.get(i);
+                    hittext.setText("" + damage);
+                }
+            }
             final RelativeLayout rl = (RelativeLayout) b.parentLayout.getParent();
             rl.addView(hittext);
             RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)hittext.getLayoutParams();
@@ -858,7 +860,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                activeButton.setMaxWidth(activeButton.maxAWidth);
+                activeButton.setMaxWidth(activeButton.maxWidths.get("attack"));
+                activeButton.setPivotY(activeButton.getMeasuredHeight());
                 activeButton.setImageResource(activeButton.unit.spriteIds.get("attack"));
                 for (ImageView v : views) {
                     v.setVisibility(View.VISIBLE);
@@ -907,8 +910,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         set.start();
     }
 
-    public LinkedList<UnitButton> swapUnits(UnitButton u1, UnitButton u2){
-        LinkedList<UnitButton> buttons;
+    public void swapUnits(UnitButton u1, UnitButton u2) {
+        ArrayList<UnitButton> buttons;
 
         if (u1.unit.team.player.intellect.type == IntellectTypes.Human) buttons = playerButtons;
         else buttons = enemyButtons;
@@ -916,18 +919,16 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         int index1 = buttons.indexOf(u1);
         int index2 = buttons.indexOf(u2);
 
-        UnitButton[] temp = new UnitButton[buttons.size()];
+        UnitButton[] temp = new UnitButton[4];
 
-        for (int i = 0; i < buttons.size(); i++) {
+        for (int i = 0; i < 4; i++) {
             temp[i] = buttons.get(i);
         }
 
         if (index1 > index2) {
             System.arraycopy(temp, index2, temp, index2 + 1, index1 - index2);
             temp[index2] = u1;
-        }
-
-        else {
+        } else {
             System.arraycopy(temp, index1 + 1, temp, index1, index2 - index1);
             temp[index2] = u1;
         }
@@ -938,46 +939,63 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
         Team team = u1.unit.team;
 
-        team.clear();
-
-        for (UnitButton b :
-                buttons) {
-            team.add(b.unit);
+        for (int i = 0; i < 4; i++) {
+            team.set(i, null);
         }
 
-        int kwidth = ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth();
+        for (int i = 0; i < temp.length; i++) {
+            if (temp[i] != null) team.set(i, temp[i].unit);
+        }
+
+
         if (team.player.intellect.type == IntellectTypes.Human) {
-            for (int i = 0; i < buttons.size(); i++) {
-
-                UnitButton b = buttons.get(i);
-
-                Drawable d = ContextCompat.getDrawable(this, b.unit.spriteIds.get("idle"));
-
-                RelativeLayout rl = (RelativeLayout) b.parentLayout.getParent();
-
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
-                int margin = posWidth*(3-i) - posWidth*(d.getIntrinsicWidth() - kwidth)/2/kwidth;
-                layoutParams.setMarginStart(margin);
-                layoutParams.setMargins(margin, 0, 0, 0);
-            }
-
+            setUpPlayerButtons();
+        } else {
+            setUpEnemyButtons();
         }
+    }
+
+    void MoveUnit(UnitButton target, int steps) {
+        Unit unit = target.unit;
+        int index1 = unit.team.indexOf(unit);
+        int index2 = Math.max(0, Math.min(3, index1 + steps));
+        ArrayList<UnitButton> buttons;
+        boolean player = false;
+
+        if (unit.team.player.intellect.type == IntellectTypes.Human) {buttons = playerButtons; player = true;}
+        else buttons = enemyButtons;
+
+        UnitButton[] temp = new UnitButton[4];
+
+        for (int i = 0; i < 4; i++) {
+            if (buttons.get(i) != null)temp[i] = buttons.get(i);
+        }
+
+        if (index1 > index2) {
+            System.arraycopy(temp, index2, temp, index2 + 1, index1 - index2);
+            temp[index2] = target;
+        }
+
         else {
-            for (int i = 0; i < buttons.size(); i++) {
-                UnitButton b = buttons.get(i);
-
-                Drawable d = ContextCompat.getDrawable(this, b.unit.spriteIds.get("idle"));
-
-                RelativeLayout rl = (RelativeLayout) b.parentLayout.getParent();
-
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
-                int margin = posWidth*(3-i) - posWidth*(d.getIntrinsicWidth() - kwidth)/2/kwidth;
-                layoutParams.setMarginStart(margin);
-                layoutParams.setMargins(margin, 0, 0, 0);
-            }
-            }
-            return buttons;
+            System.arraycopy(temp, index1 + 1, temp, index1, index2 - index1);
+            temp[index2] = target;
         }
+
+        Collections.addAll(buttons, temp);
+
+        Team team = target.unit.team;
+
+        for (int i = 0; i < 4; i++) {
+            team.set(i, null);
+        }
+
+        for (int i = 0; i < temp.length; i++) {
+            if (temp[i] != null) {team.set(i, temp[i].unit);}
+        }
+
+        if (player) setUpPlayerButtons();
+        else setUpEnemyButtons();
+    }
 
     public void finishUsage(LinkedList<UnitButton> targets){
 
@@ -988,7 +1006,6 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 targets) {
             target.UpdateInfo();
         }
-        pickedSkill = null;
         skillPicked = false;
         if (curSButton != null)curSButton.setCurrent(false);
         curSButton = null;
@@ -996,30 +1013,54 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         skillDescLayout.setClickable(false);
         for (UnitButton b :
                 playerButtons) {
-            b.setCanBeTarget(false);
+            if (b != null) b.setCanBeTarget(false);
         }
 
 
         for (UnitButton b :
                 enemyButtons) {
-            b.setCanBeTarget(false);
+            if (b != null) b.setCanBeTarget(false);
         }
 
         for (UnitButton target :
                 targets) {
-
-        if ((target.unit.isDead)&&(moveOrder.contains(target))) {
-            moveOrder.remove(target);
-            target.setBackgroundResource(R.color.colorPrimaryDark);
-            playerButtons.remove(target);
-            enemyButtons.remove(target);
-            player1.team.remove(target.unit);
-            player2.team.remove(target.unit);
-            player1.deadUnits.add(target.unit);
-            bl.removeView((View)target.parentLayout.getParent());
+            if ((target.unit.isDead) && (moveOrder.contains(target.unit))) {
+                moveOrder.remove(target.unit);
+                int index;
+                if (playerButtons.contains(target)) {
+                    index = playerButtons.indexOf(target);
+                    playerButtons.set(index, null);
+                    player1.team.set(index, null);
+                    player1.deadUnits.add(target.unit);
+                } else {
+                    index = enemyButtons.indexOf(target);
+                    enemyButtons.set(index, null);
+                    player2.team.set(index, null);
+                }
+                bl.removeView((View) (target.parentLayout.getParent()));
             }
         }
 
+        if (pickedSkill.getClass() == Resurrection.class) {
+
+            Unit unit = activeButton.unit;
+            for (Unit u :
+                    player2.team) {
+                if (u != null && !moveOrder.contains(u)) moveOrder.add(u);
+            }
+
+            Collections.sort(moveOrder, new SpeedComparator());
+
+            curNumber = moveOrder.indexOf(unit);
+
+            setUpEnemyButtons();
+        }
+
+        if (pickedSkill.getClass() == Devastation.class) {
+            new FinishLichBattleScript(this).run();
+        }
+
+        pickedSkill = null;
         heroPicked = false; if (pickedHero != null) {pickedHero.UpdateInfo(); pickedHero.setPicked(false); pickedHero = null; skillDescLayout.setTarget(null);}
         usingSkill = false;
         nextMove();
@@ -1031,13 +1072,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
         LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
 
-        messageLayout.setVisibility(View.INVISIBLE);
-        infoLayout.setVisibility(View.INVISIBLE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 14f);
-        battleLayout.setLayoutParams(params);
-        battleLayout.setClipChildren(false);
-        battleLayout.setClipToPadding(false);
-        onWindowFocusChanged(true);
+        messageLayout.setVisibility(View.GONE);
+        infoLayout.setAlpha(0.3f);
 
     }
 
@@ -1046,32 +1082,23 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         RelativeLayout battleLayout = (RelativeLayout) battleLayout1.getParent();
         RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
         LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
-        Animation ensmallen = AnimationUtils.loadAnimation(this, R.anim.anim_ensmallen);
 
-        for (LinearLayout ll :
-                uButLayouts) {
-            ll.setAlpha(1f);
+        for (UnitButton b :
+                unitButtons) {
+            b.setAlpha(1f);
         }
 
         for (UnitButton b :
                 unitButtons) {
             b.barLayout.setVisibility(View.VISIBLE);
             b.movePointLayout.setVisibility(View.VISIBLE);
+            b.effectLayout.setVisibility(View.VISIBLE);
+            b.foreground.setVisibility(View.VISIBLE);
         }
 
-        messageLayout.setVisibility(View.VISIBLE);
-        infoLayout.setVisibility(View.VISIBLE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 6f);
-        battleLayout.setLayoutParams(params);
-        battleLayout.setClipChildren(false);
-        battleLayout.setClipToPadding(false);
-        onWindowFocusChanged(true);
+        messageLayout.setVisibility(View.GONE);
+        infoLayout.setAlpha(1f);
 
-    }
-
-    public void closeDesc(View v){
-        ((View) skillDescLayout.getParent()).setVisibility(View.INVISIBLE);
-        skillDescLayout.setClickable(false);
     }
 
     void usePlayerSkill(UnitButton target, PlayerSkill skill) {
@@ -1089,12 +1116,14 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         }
         for (UnitButton b :
                 playerButtons) {
-            b.setCanBeTarget(false);
+            if (b != null) b.setCanBeTarget(false);
         }
         for (UnitButton b :
                 enemyButtons) {
-            b.setCanBeTarget(false);
+            if (b != null) b.setCanBeTarget(false);
         }
+
+        pickedHero.UpdateInfo();
 
         pSkillused = true;
         curPSButton.setCurrent(false);
@@ -1114,6 +1143,8 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             playerSkillLayout.setVisibility(View.INVISIBLE);
             ImageButton b = (ImageButton) findViewById(R.id.playerSkillButton);
             if (pSkillPicked) b.setImageResource(curPSButton.playerSkill.skillIco);
+            PlayerSkillDescLayout layout = (PlayerSkillDescLayout) findViewById(R.id.playerSkillDesc);
+            layout.setVisibility(View.GONE);
         }
         else {
             playerSkillLayout.setVisibility(View.VISIBLE);
@@ -1124,6 +1155,17 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
                 if (pSkillused || player1.mp < b.playerSkill.cost) b.setUsable(false);
                 else b.setUsable(true);
             }
+        }
+    }
+
+    public void selectPlayerSkill(View v) {
+        LinearLayout playerSkillLayout = (LinearLayout) findViewById(R.id.playerSkillLayout);
+        if (playerSkillLayout.getVisibility() == View.VISIBLE) {
+            playerSkillLayout.setVisibility(View.INVISIBLE);
+            ImageButton b = (ImageButton) findViewById(R.id.playerSkillButton);
+            if (pSkillPicked) b.setImageResource(curPSButton.playerSkill.skillIco);
+            PlayerSkillDescLayout layout = (PlayerSkillDescLayout) findViewById(R.id.playerSkillDesc);
+            layout.setVisibility(View.GONE);
         }
     }
 
@@ -1176,36 +1218,6 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         else pmv.setTextColor(Color.YELLOW);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("Debug", "Sart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("Debug", "Stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("Debug", "Destroy");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Debug", "Resume");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("Debug", "Restart");
-    }
-
     public class ProgressBarAnimation extends Animation{
         private ProgressBar progressBar;
         private float from;
@@ -1229,5 +1241,127 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
     public class SkillUsageAnimator{
         Drawable drawable;
+    }
+    void killActivity() {
+        for (Unit u :
+                player1.team) {
+            if (u != null) u.button = null;
+        }
+        for (Unit u : player1.deadUnits) if (u != null) u.button = null;
+        finish();
+    }
+    public void closeDesc(View v){
+        ((View) skillDescLayout.getParent()).setVisibility(View.INVISIBLE);
+        skillDescLayout.setClickable(false);
+    }
+
+    void setUpPlayerButtons(){
+
+        int kwidth = ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth();
+
+        for (UnitButton b : playerButtons) {
+            if (b != null){
+                unitButtons.remove(b);
+                bl.removeView((View) b.parentLayout.getParent());
+            }
+        }
+
+        playerButtons.clear();
+
+        for (int i = 0; i < 4; i++) {
+            playerButtons.add(null);
+        }
+
+        for (int i = 0; i < player1.team.size(); i++) {
+            if (player1.team.get(i) != null) {
+                Unit unit = player1.team.get(i);
+
+                RelativeLayout rl = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.unitbutton, bl, false);
+                UnitButton button = (UnitButton) rl.findViewById(R.id.unitButton);
+
+                button.unitLayout = (UnitLayout) findViewById(R.id.unitLayout);
+                button.setOnClickListener(this);
+                button.friendly = true;
+                button.setUnit(unit, posWidth);
+                button.setTag("unit");
+                unit.button = button;
+                playerButtons.set(i, button);
+                unitButtons.add(button);
+                bl.addView(rl);
+
+                Drawable d = ContextCompat.getDrawable(this, unit.spriteIds.get("idle"));
+
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
+                int margin = posWidth * (3 - i) - posWidth * (d.getIntrinsicWidth() - kwidth) / 2 / kwidth;
+                layoutParams.setMarginStart(margin);
+                layoutParams.setMargins(margin, 0, 0, 0);
+            }
+        }
+    }
+
+    void setUpEnemyButtons(){
+
+        int kwidth = ContextCompat.getDrawable(this, R.drawable.knight).getIntrinsicWidth();
+
+        for (UnitButton b :
+                enemyButtons) {
+            if (b != null) {
+                unitButtons.remove(b);
+                bl.removeView((View) b.parentLayout.getParent());
+            }
+        }
+
+        enemyButtons.clear();
+
+        for (int i = 0; i < 4; i++) {
+            enemyButtons.add(null);
+        }
+
+        for (int i = 0; i < player2.team.size(); i++) {
+            if (player2.team.get(i) != null) {
+                Unit unit = player2.team.get(i);
+
+                RelativeLayout rl = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.unitbutton, bl, false);
+                UnitButton button = (UnitButton) rl.findViewById(R.id.unitButton);
+
+                button.unitLayout = (UnitLayout) findViewById(R.id.unitLayout);
+                button.setOnClickListener(this);
+                button.setUnit(unit, posWidth);
+                button.setScaleX(1f);
+                button.setTag("unit");
+                unit.button = button;
+                enemyButtons.set(i, button);
+                unitButtons.add(button);
+                bl.addView(rl);
+
+                Drawable d = ContextCompat.getDrawable(this, unit.spriteIds.get("idle"));
+
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl.getLayoutParams();
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                int margin = posWidth * (3 - i) - posWidth * (d.getIntrinsicWidth() - kwidth) / 2 / kwidth;
+                layoutParams.setMarginEnd(margin);
+                layoutParams.setMargins(0, 0, margin, 0);
+            }
+        }
+    }
+
+    public void escapeButtonClick(View v) {
+        RelativeLayout escapeLayout = (RelativeLayout) findViewById(R.id.escapeLayout);
+        escapeLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void escapeBattle(View v) {
+        Intent intent = new Intent();
+        for (Unit u :
+                player1.team) {
+            if (u != null) u.button = null;
+        }
+        player1.mp = 0;
+        player1.souls /= 2;
+        intent.putExtra("escaped", true);
+        intent.putExtra("Player", player1);
+        setResult(1, intent);
+        killActivity();
     }
 }

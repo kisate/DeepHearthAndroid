@@ -32,7 +32,7 @@ public class ExitEvent extends Event {
         }
 
         public ExitChoice(DungeonEventHandler handler) {
-            super(handler, "", new LinkedList<Event>(Arrays.asList(new LeaveDungeonEvent(handler))));
+            super(handler, "Leave dungeon", new LinkedList<Event>(Arrays.asList(new LeaveDungeonEvent(handler))));
         }
     }
 }

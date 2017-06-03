@@ -131,7 +131,7 @@ public class InnActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.setBackgroundColor(0);
                     hero = (Hero) curData.getItemAt(0).getIntent().getSerializableExtra("Hero");
-                    from.objects.remove(hero);
+                    if (event.getResult()) from.objects.remove(hero);
                     from.notifyDataSetChanged();
                     return true;
                 default:
@@ -178,7 +178,12 @@ public class InnActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra("Game", game);
+        intent.putExtra("Inn", true);
         setResult(1, intent);
+        killActivity();
+    }
+
+    void killActivity() {
         finish();
     }
 }

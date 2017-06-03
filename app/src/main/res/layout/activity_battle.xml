@@ -5,7 +5,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:id="@+id/activity_battle">
 
     <LinearLayout
         android:orientation="vertical"
@@ -22,7 +23,7 @@
             android:layout_weight="2"
             android:orientation="horizontal"
             android:gravity="center"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_height="0dp"
             android:id="@+id/messageLayout">
 
@@ -85,6 +86,15 @@
             android:layout_height="0dp"
             android:layout_weight="6">
 
+            <Button
+                android:text="Escape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/escapeButton"
+                android:minWidth="0dip"
+                android:minHeight="0dip"
+                android:onClick="escapeButtonClick" />
+
             <com.example.dima.deephearth.CustomRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_weight="6"
@@ -95,943 +105,7 @@
                 android:clipChildren="false"
                 android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:id="@+id/LinearLayout4"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout4">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout4"
-                            android:clipChildren="false"
-                            android:orientation="vertical"
-                            android:gravity="bottom"
-                            android:clipToPadding="false">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton4"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitEnd"
-                                    android:layout_height="wrap_content"
-                                    android:scaleX="-1"
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"
-                                    android:background="@null"  />
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView4"
-                                android:scaleType="fitEnd"
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout4"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar4"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar4"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView4"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout4" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:id="@+id/LinearLayout3"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout3">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout3"
-                            android:clipChildren="false"
-                            android:orientation="vertical"
-                            android:gravity="bottom"
-                            android:clipToPadding="false">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton3"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitCenter"
-                                    android:background="@null"
-                                    android:layout_height="wrap_content"
-                                    android:scaleX="-1"
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"/>
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView3"
-                                android:scaleType="fitEnd"
-
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout3"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar3"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar3"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView3"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout3" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:id="@+id/LinearLayout2"
-                        android:gravity="center"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout2">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/FrameLayout2"
-                            android:clipChildren="false"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:orientation="vertical"
-                            android:gravity="bottom"
-                            android:clipToPadding="false">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton2"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitCenter"
-                                    android:background="@null"
-                                    android:layout_height="wrap_content"
-                                    android:scaleX="-1"
-
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"/>
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView2"
-                                android:scaleType="fitEnd"
-
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:id="@+id/barsLayout2"
-                                android:gravity="center"
-                                android:layout_width="wrap_content"
-                                android:addStatesFromChildren="true"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar2"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar2"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView2"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout2" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:id="@+id/LinearLayout1"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout1">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout1"
-                            android:clipChildren="false"
-                            android:orientation="vertical"
-                            android:gravity="bottom"
-                            android:clipToPadding="false">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton1"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitStart"
-                                    android:layout_height="wrap_content"
-                                    android:scaleX="-1"
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"
-                                    android:background="@null" />
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_green"
-                                android:id="@+id/fgView1"
-                                android:scaleType="fitEnd"
-
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout1"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar1"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar1"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView1"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout1" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:layout_alignParentRight="false"
-                        android:layout_alignParentEnd="false"
-                        android:id="@+id/LinearLayout5"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout5">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout5"
-                            android:clipChildren="false"
-                            android:orientation="vertical"
-                            android:clipToPadding="false"
-                            android:gravity="bottom">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton5"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitCenter"
-                                    android:layout_height="wrap_content"
-                                    android:adjustViewBounds="true"
-                                    android:background="@null" />
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView5"
-                                android:scaleType="fitEnd"
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout5"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar5"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar5"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView5"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout5" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:layout_alignParentRight="false"
-                        android:layout_alignParentEnd="false"
-                        android:id="@+id/LinearLayout6"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout6">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout6"
-                            android:clipChildren="false"
-                            android:gravity="bottom">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton6"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitCenter"
-                                    android:background="@null"
-                                    android:layout_height="wrap_content"
-
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"/>
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView6"
-                                android:scaleType="fitEnd"
-
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout6"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar6"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar6"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView6"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout6" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="false"
-                        android:clipChildren="false"
-                        android:layout_alignParentRight="false"
-                        android:layout_alignParentEnd="false"
-
-                        android:id="@+id/LinearLayout7"
-                        android:visibility="invisible"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:clipToPadding="false">
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/movePointLayout7">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/movepoint"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="8"
-                            android:id="@+id/FrameLayout7"
-                            android:clipChildren="false"
-                            android:gravity="bottom">
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <com.example.dima.deephearth.UnitButton
-                                    app:srcCompat="@drawable/knight"
-                                    android:id="@+id/UnitButton7"
-                                    android:layout_width="wrap_content"
-                                    android:scaleType="fitCenter"
-                                    android:background="@null"
-                                    android:layout_height="wrap_content"
-
-                                    android:adjustViewBounds="true"
-                                    android:layout_gravity="bottom"/>
-                            </RelativeLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/foreground_selected_yellow"
-                                android:id="@+id/fgView7"
-                                android:scaleType="fitEnd"
-
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:visibility="invisible" />
-
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_height="match_parent"
-                                android:layout_width="wrap_content"
-                                android:id="@+id/barsLayout7"
-                                android:layout_centerInParent="true">
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/healthBar7"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:id="@+id/manaBar7"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center" />
-
-                            </LinearLayout>
-                            <TextView
-                                android:text="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/movePointView7"
-                                android:gravity="start"
-                                android:layout_toRightOf="@id/barsLayout7" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-
             </com.example.dima.deephearth.CustomRelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:layout_alignParentRight="false"
-                    android:id="@+id/LinearLayout8"
-                    android:visibility="invisible"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:clipToPadding="false"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentBottom="false">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/movePointLayout8">
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            app:srcCompat="@drawable/movepoint"
-                            android:layout_weight="1"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
-                            android:visibility="invisible" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/FrameLayout8"
-                        android:clipChildren="false"
-                        android:orientation="vertical"
-                        android:gravity="bottom">
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <com.example.dima.deephearth.UnitButton
-                                app:srcCompat="@drawable/knight"
-                                android:id="@+id/UnitButton8"
-                                android:layout_width="wrap_content"
-                                android:scaleType="fitCenter"
-                                android:layout_height="wrap_content"
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="bottom"
-                                android:background="@null" />
-                        </RelativeLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/foreground_selected_yellow"
-                            android:id="@+id/fgView8"
-                            android:scaleType="fitEnd"
-
-                            android:adjustViewBounds="true"
-                            android:layout_gravity="bottom|center_horizontal"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-                    <RelativeLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_height="match_parent"
-                            android:layout_width="wrap_content"
-                            android:id="@+id/barsLayout8"
-                            android:layout_centerInParent="true">
-
-                            <ProgressBar
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:id="@+id/healthBar8"
-                                android:layout_weight="1"
-                                android:layout_gravity="center" />
-
-                            <ProgressBar
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:id="@+id/manaBar8"
-                                android:layout_weight="1"
-                                android:layout_gravity="center" />
-
-                        </LinearLayout>
-                        <TextView
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/movePointView8"
-                            android:gravity="start"
-                            android:layout_toRightOf="@id/barsLayout8" />
-
-                    </RelativeLayout>
-                </LinearLayout>
-            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -1125,7 +199,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:id="@+id/infoLayout">
 
             <com.example.dima.deephearth.EnemyDescLayout
@@ -1156,7 +230,8 @@
                     android:gravity="center"
                     android:layout_alignParentTop="true"
                     android:background="@android:color/darker_gray"
-                    android:layout_above="@+id/relativeLayout" />
+                    android:layout_above="@+id/relativeLayout"
+                    android:visibility="gone" />
 
                 <ImageView
                     app:srcCompat="@drawable/knight_ico"
@@ -1603,7 +678,8 @@
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_below="@+id/linearLayout" />
+                            android:layout_below="@+id/linearLayout"
+                            android:visibility="gone" />
 
                         <TextView
                             android:text="Mp : 10"
@@ -1818,9 +894,104 @@
 
             </RelativeLayout>
 
+            <com.example.dima.deephearth.PlayerSkillDescLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:clickable="true"
+                android:background="@color/dark"
+                android:padding="5dp"
+                android:id="@+id/playerSkillDesc">
+
+
+                <ImageView
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/skillico_undeadrage"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/imageView17"
+                    android:adjustViewBounds="true"
+                    android:layout_width="70dp" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView13"
+                    android:layout_toRightOf="@+id/imageView17"
+                    android:layout_toEndOf="@+id/imageView17"
+                    android:layout_alignTop="@+id/imageView17"
+                    android:textSize="24sp"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView14"
+                    android:layout_below="@+id/textView13"
+                    android:layout_alignLeft="@+id/textView13"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:text="Select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/selectButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="selectPlayerSkill" />
+            </com.example.dima.deephearth.PlayerSkillDescLayout>
+
         </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/escapeLayout"
+        android:clickable="true"
+        android:background="@color/darkt"
+        android:visibility="gone">
+
+        <TextView
+            android:text="Leaving the battle will result in a loss of all your player mp and 50% of your souls. \nDo you want to leave?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView22"
+            android:layout_centerInParent="true"
+            android:maxLines="4"
+            android:maxWidth="350dp"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <Button
+            android:text="Yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button9"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_alignLeft="@+id/textView22"
+            android:layout_below="@+id/textView22"
+            android:layout_alignStart="@+id/textView22"
+            android:layout_marginLeft="50dp"
+            android:onClick="escapeBattle" />
+
+        <Button
+            android:text="No"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button10"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_alignEnd="@+id/textView22"
+            android:layout_below="@+id/textView22"
+            android:layout_alignRight="@+id/textView22"
+            android:layout_marginRight="50dp" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -1837,6 +1008,7 @@
             android:layout_centerInParent="true"
             android:textSize="24sp"
             android:textStyle="normal|bold" />
+
     </RelativeLayout>
 
 </RelativeLayout>

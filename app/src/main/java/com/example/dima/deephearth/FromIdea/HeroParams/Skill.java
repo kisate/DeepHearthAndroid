@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public abstract class Skill implements Serializable {
     public int cost;
-    public int power, accuracy, damage;
+    public int power, accuracy, damage, clearDamage;
     public Scale dmgMod;
     public double accuracyMod;
     public String name, description;
@@ -35,6 +35,7 @@ public abstract class Skill implements Serializable {
     public int skillIco = R.drawable.skillico;
     public HashMap<String, Object> animMap = new HashMap<>();
     public LinkedList<Effect> effects = new LinkedList<>();
+    public boolean heals = false, moves = false;
     public Skill(Unit owner) {
         this.owner = owner;
     }
@@ -54,7 +55,15 @@ public abstract class Skill implements Serializable {
         effectMod = (100 + power)/100;
     }
 
-    public void action(Unit target){setup(); damage = (int)(power*bottom + power*(top-bottom)*Math.random());}
+    public void action(Unit target){
+        setup();
+        damage = (int)(power*bottom + power*(top-bottom)*Math.random());
+        clearDamage = damage;
+        if (owner.critical/100.0 > Math.random()) {
+            double critMod = 1.5 + Math.random()*2;
+            damage*=critMod;
+        }
+    }
     @Override
     public String toString() {
         return "Skill{" +

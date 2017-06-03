@@ -2,6 +2,10 @@ package com.example.dima.deephearth.FromIdea;
 
 import android.os.Build;
 
+import com.example.dima.deephearth.FromIdea.PlayerSkills.Curse;
+import com.example.dima.deephearth.FromIdea.PlayerSkills.Renewal;
+import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,8 +22,12 @@ public class Game implements Serializable{
 
     public Game(){
         player = new Player(new HumanIntellect());
+        player.skills.add(new Renewal(player));
+        player.skills.add(new Curse(player));
+        player.skills.add(new UndeadRage(player));
         unlockedBuildings.put("Inn", false);
         unlockedBuildings.put("Smith", false);
         reserve = new LinkedList<>();
+        availableHeroes = new LinkedList<>();
     }
 }

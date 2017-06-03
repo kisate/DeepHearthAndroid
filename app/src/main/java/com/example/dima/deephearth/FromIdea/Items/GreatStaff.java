@@ -11,6 +11,7 @@ import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 import com.example.dima.deephearth.FromIdea.Unit;
 import com.example.dima.deephearth.R;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -21,7 +22,7 @@ public class GreatStaff extends Item {
     public GreatStaff(){
         name = "Great staff";
         description = "Large sorcery staff, that keeps grand power within";
-        icoId = R.drawable.skillico2;
+        icoId = R.drawable.greatstaff_ico;
         effects.add(new GreatStaffBuff(null, 20, -1));
     }
 
@@ -49,11 +50,10 @@ public class GreatStaff extends Item {
             ids.add(e.id);
         }
 
-        for (Effect e :
-                owner.effects) {
+        for (Iterator<Effect> iterator = owner.effects.iterator(); iterator.hasNext();) {
+            Effect e = iterator.next();
             if (e.id != 0 && ids.contains(e.id)) {
-                e.remove();
-                effects.remove(e);
+                iterator.remove();
             }
         }
     }
@@ -66,14 +66,15 @@ public class GreatStaff extends Item {
         }
 
         @Override
-        public void apply() {
-            super.apply();
+        public boolean apply() {
+            boolean res = super.apply();
             if (!applied) {
                 Hero hero = (Hero) target;
                 hero.power*=(100 + power)/100.0;
                 hero.countStats();
             }
             applied = true;
+            return res;
         }
 
         @Override
@@ -89,7 +90,6 @@ public class GreatStaff extends Item {
             super.addToTarget(target);
             GreatStaffBuff ef = new GreatStaffBuff(target, power, turns);
             target.effects.add(ef);
-            ef.apply();
             return ef;
         }
     }

@@ -8,6 +8,10 @@ import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.Game;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -40,9 +44,26 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void newGame(View v) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, NarrateActivity.class);
+        intent.putExtra("Scene Id", 0);
+        startActivity(intent);
+    }
+
+    public void loadGame(View v) {
         Game game = new Game();
-        game.unlockedBuildings.put("Inn", true);
+        try {
+            FileInputStream fis = openFileInput("save.txt");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            game = (Game) is.readObject();
+            is.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("Game", game);
         startActivity(intent);
     }

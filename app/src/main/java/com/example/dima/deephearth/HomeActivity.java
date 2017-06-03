@@ -1,6 +1,8 @@
 package com.example.dima.deephearth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
@@ -9,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -21,16 +24,23 @@ import android.widget.Toast;
 import com.example.dima.deephearth.FromIdea.Effects.Buff;
 import com.example.dima.deephearth.FromIdea.Game;
 import com.example.dima.deephearth.FromIdea.Hero;
+import com.example.dima.deephearth.FromIdea.HeroNames;
 import com.example.dima.deephearth.FromIdea.Heroes.Archer;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
+import com.example.dima.deephearth.FromIdea.Phrase;
 import com.example.dima.deephearth.FromIdea.Player;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static android.view.View.GONE;
+
 public class HomeActivity extends AppCompatActivity {
 
-    LinkedList<Hero> heroes = new LinkedList<>();
     HeroAdapter adapter;
     Game game;
     boolean initialized = false;
@@ -54,8 +64,40 @@ public class HomeActivity extends AppCompatActivity {
 
         HomeLayout homeLayout = (HomeLayout) findViewById(R.id.activity_home);
         homeLayout.setGame(game);
+
+        if (getIntent().getBooleanExtra("tutorial", false)) {
+            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.infoLayout);
+            relativeLayout.setVisibility(View.VISIBLE);
+            relativeLayout.setClickable(true);
+            TextWriter textWriter = (TextWriter) findViewById(R.id.textView2);
+            textWriter.setMovementMethod(new ScrollingMovementMethod());
+            final Button button = (Button) findViewById(R.id.nextButton);
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    button.setText("finish");
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((View)v.getParent().getParent()).setVisibility(GONE);
+                        }
+                    });
+                }
+            };
+            textWriter.showPhrases(getPhrases(), findViewById(R.id.nextButton), runnable);
+            fillData();
+        }
     }
 
+    LinkedList<Phrase> getPhrases () {
+        LinkedList<Phrase> phrases = new LinkedList<>();
+        phrases.add(new Phrase(1, "Congratulations! You are lich now. And this is your dungeon's heart."));
+        phrases.add(new Phrase(1, "Hole in the centre is exit to the dungeon. It will take you to a random place in it. If you are lucky you will find exit, otherwise you will need to kill all the enemies for it to appear. Feel free to explore, but soon it will be not only you, who decided to explore it."));
+        phrases.add(new Phrase(1, "While you explore dungeon you can get souls and items. During the expedition you can use souls to recharge your mana and equip items in the \"Player\" menu."));
+        phrases.add(new Phrase(1, "Building to the left of it is improvised inn. Dungeon collects every dead body and your heart (fire in the middle) attracts some of them. Inn collects them while you in the dungeon and doesn't let them disappear. There you can hire new units for souls, or get rid of old ones for free."));
+        phrases.add(new Phrase(1, "That is all for now, good luck."));
+        return phrases;
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -92,26 +134,25 @@ public class HomeActivity extends AppCompatActivity {
         int size = 5;
 
         HeroConstructor constructor = new HeroConstructor();
-
-        while (heroes.size() < size) {
-            int r = (int)(Math.random()*3);
+        game.availableHeroes.clear();
+        while (game.availableHeroes.size() < size) {
+            int r = (int)(Math.random()*4);
             Hero hero = new Archer(0,0,"",null);
             switch (r) {
-                case 0 : hero = constructor.constructArcher("Mark", null); break;
-                case 1 : hero = constructor.constructSwordsman("Bob", null); break;
-                case 2 : hero = constructor.constructHealer("Tony", null); break;
+                case 0 : hero = constructor.constructUndeadArcher(HeroNames.getName(), null); break;
+                case 1 : hero = constructor.constructUndeadKnight(HeroNames.getName(), null); break;
+                case 2 : hero = constructor.constructUndeadGunner(HeroNames.getName(), null); break;
+                case 3 : hero = constructor.constructUndeadMage(HeroNames.getName(), null); break;
             }
 
             hero.health = Math.random()*hero.health;
 
-            heroes.add(hero);
+            game.availableHeroes.add(hero);
         }
     }
 
     public void enterInn(View view) {
         Intent intent = new Intent(this, InnActivity.class);
-        fillData();
-        game.availableHeroes = heroes;
         intent.putExtra("Game", game);
         startActivityForResult(intent, 1);
     }
@@ -125,10 +166,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Game game = (Game) data.getSerializableExtra("Game");
-        if (game != null) this.game = game;
-        Player player = (Player) data.getSerializableExtra("Player");
-        if (player != null) this.game.player = player;
+        if (data.getBooleanExtra("finished", false)) {
+            Player player = (Player) data.getSerializableExtra("Player");
+            if (player != null) this.game.player = player;
+            fillData();
+        }
+        else if (data.getBooleanExtra("Inn", false)) {
+            game = (Game) data.getSerializableExtra("Game");
+        }
     }
 
     void setUpButtons(double scale) {
@@ -153,6 +198,35 @@ public class HomeActivity extends AppCompatActivity {
             params = new RelativeLayout.LayoutParams((int) width, (int) height);
             params.setMargins(0,(int) margins[1], 0, 0);
             button_inn.setLayoutParams(params);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        saveGame();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveGame();
+    }
+
+    void saveGame() {
+        Log.d("Debug", "save" + game.availableHeroes.size() + " " + game.reserve.size());
+        try {
+            FileOutputStream fos = openFileOutput("save.txt", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(game);
+            os.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

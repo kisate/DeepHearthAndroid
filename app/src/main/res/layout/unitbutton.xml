@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_alignParentBottom="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"
+        android:clipChildren="false"
+        android:visibility="invisible"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/movepoint"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:clipChildren="false"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:clipToPadding="false">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.example.dima.deephearth.UnitButton
+                    app:srcCompat="@drawable/knight"
+                    android:scaleType="fitEnd"
+                    android:id="@+id/unitButton"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="bottom"
+                    android:background="@null"
+                    android:layout_width="wrap_content" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/foreground_selected_yellow"
+                android:scaleType="fitEnd"
+                android:adjustViewBounds="true"
+                android:layout_gravity="bottom|center_horizontal"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <com.example.dima.deephearth.EffectLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:orientation="horizontal"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+            <TextView
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

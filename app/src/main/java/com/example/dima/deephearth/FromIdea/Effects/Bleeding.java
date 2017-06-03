@@ -18,10 +18,11 @@ public class Bleeding extends Effect {
     }
 
     @Override
-    public void apply() {
-        super.apply();
+    public boolean apply() {
+        boolean res = super.apply();
         target.modHealth(power);
         Log.d("Debug", "applied");
+        return res;
     }
 
     @Override

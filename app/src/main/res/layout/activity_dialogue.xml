@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_dialogue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dima.deephearth.DialogueActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:srcCompat="@drawable/archer_ico"
+                    android:id="@+id/icoView1"
+                    android:scaleX="-1"
+                    android:scaleType="fitEnd"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nameView1"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <com.example.dima.deephearth.TextWriter
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textWriter1"
+                android:layout_weight="1"
+                android:background="@color/dark" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@android:color/black" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:srcCompat="@drawable/archer_ico"
+                    android:id="@+id/icoView2"
+                    android:adjustViewBounds="true"
+                    android:scaleX="-1"
+                    android:scaleType="fitEnd"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nameView2"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <com.example.dima.deephearth.TextWriter
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textWriter2"
+                android:layout_weight="1"
+                android:background="@color/dark" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:text="Finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/finishButton"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fadeLayout"
+        android:background="@android:color/black"
+        android:clickable="true">
+
+    </RelativeLayout>
+</RelativeLayout>

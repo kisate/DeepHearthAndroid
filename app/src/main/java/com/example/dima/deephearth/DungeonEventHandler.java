@@ -18,6 +18,7 @@ import com.example.dima.deephearth.FromIdea.Dungeon.Events.EntityEvent;
 import com.example.dima.deephearth.FromIdea.Dungeon.Events.TreasureEvent;
 import com.example.dima.deephearth.FromIdea.Item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -25,7 +26,7 @@ import java.util.LinkedList;
  * Created by Dima on 09.05.2017.
  */
 
-public class DungeonEventHandler {
+public class DungeonEventHandler implements Serializable{
     DungeonActivity activity;
 
     public DungeonEventHandler(DungeonActivity activity) {
@@ -45,7 +46,6 @@ public class DungeonEventHandler {
                 case takeDrop:
                     TakeEvent te = (TakeEvent) e;
                     activity.player.collect(te.drop);
-                    Toast.makeText(activity, "" +activity.player.souls , Toast.LENGTH_SHORT).show();
                     for (Item item:
                          activity.player.items) {
                         Log.d("Debug", "" + item.name);
@@ -60,6 +60,12 @@ public class DungeonEventHandler {
                     eventLayout.setVisibility(View.INVISIBLE);
                     activity.exitDungeon();
                     break;
+                case boss:
+                    bse = (BattleStartEvent) e;
+                    activity.launchBattle(bse.enemy);
+                    eventLayout.setVisibility(View.INVISIBLE);
+                    break;
+
                 case toDisplay:
                     showEvent(e);
                     break;

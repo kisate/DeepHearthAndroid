@@ -4,12 +4,13 @@ import com.example.dima.deephearth.DungeonEventHandler;
 import com.example.dima.deephearth.FromIdea.Effect;
 import com.example.dima.deephearth.FromIdea.Team;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by Dima on 10.04.2017.
  */
-public class Choice {
+public class Choice implements Serializable{
 
     public String name;
     public LinkedList<Event> events;

@@ -29,7 +29,6 @@ public abstract class Effect implements Serializable {
         this(target);
         this.turns = turns;
         this.power = power;
-        setData();
     }
 
     public void update(Unit target, int power, int turns) {
@@ -41,9 +40,10 @@ public abstract class Effect implements Serializable {
     public Effect addToTarget(Unit target) {
         Effect ef = new Effect(target) {
             @Override
-            public void apply() {
-                super.apply();
+            public boolean apply() {
+                boolean res = super.apply();
                 Log.wtf("Debug", "wtf");
+                return res;
             }
         };
         try {
@@ -64,17 +64,18 @@ public abstract class Effect implements Serializable {
     }
 
 
-    public void apply(){
+    public boolean apply(){
+        turns--;
         if (turns == 0) {
             remove();
+            return false;
         }
-        else turns--;
+        return true;
     }
 
     public void setData(){
     }
 
     public void remove() {
-        target.effects.remove(this);
     }
 }

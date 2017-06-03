@@ -25,9 +25,9 @@ public class UndeadRage extends PlayerSkill {
         power = 20;
         cost = 15;
         name = "Undead rage";
-        description = "Increase target's power by " + power + "% for " + turns + " moves";
+        description = "Increase target's power by " + power + "% for " + turns + " moves and heal it";
         effects.add(new UndeadRageBuff(null, power, turns));
-        skillIco = R.drawable.skillico3;
+        skillIco = R.drawable.skillico_undeadrage;
         friendly = true;
     }
 
@@ -44,20 +44,19 @@ public class UndeadRage extends PlayerSkill {
             super(target, power, turns);
         }
         @Override
-        public void apply() {
+        public boolean apply() {
             super.apply();
             if (!applied) {
                 Hero hero = (Hero) target;
-                Log.d("Debug", "" + hero.power);
                 hero.power*=(power + 100.0)/100;
-                Log.d("Debug", "" + hero.power);
                 hero.countStats();
                 hero.health = hero.maxHealth;
             }
             applied = true;
-            if (turns == 0) remove();
+            boolean res = true;
             turns--;
-            Log.d("Debug", "" + turns);
+            if (turns == 0) {remove(); res = false;}
+            return res;
         }
 
         @Override
@@ -77,7 +76,6 @@ public class UndeadRage extends PlayerSkill {
             hero.power/=(100 + power)/100.0;
             hero.countStats();
             hero.health = hero.maxHealth;
-            Log.d("Debug", "" + hero.power);
         }
 
 

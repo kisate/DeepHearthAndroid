@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <Button
             android:text="Hire"
@@ -41,21 +42,51 @@
         android:id="@+id/hireLayout"
         android:visibility="gone">
 
-        <ListView
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="200dp"
-            android:id="@+id/hireList"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_height="match_parent">
 
-        <ListView
+            <TextView
+                android:text="Available heroes:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView15"
+                android:textSize="16sp"
+                android:textStyle="normal|bold" />
+
+            <ListView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/hireList"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/heroList1" />
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:text="Your heroes:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView17"
+                android:textSize="16sp"
+                android:textStyle="normal|bold" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/heroList1" />
+        </LinearLayout>
 
         <TextView
             android:text="Drag"
@@ -66,6 +97,14 @@
             android:id="@+id/textView3"
             android:textStyle="normal|bold"
             android:textSize="18sp" />
+
+        <TextView
+            android:text="cost: 0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView21"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,21 +114,51 @@
         android:background="@android:color/black"
         android:visibility="gone">
 
-        <ListView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/heroList2" />
+            android:layout_height="match_parent">
 
-        <ListView
+            <TextView
+                android:text="To kick:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView20"
+                android:textSize="16sp"
+                android:textStyle="normal|bold" />
+
+            <ListView
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/kickList"
+                android:layout_width="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/kickList"
-            android:layout_width="200dp" />
+            android:layout_width="200dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:text="Your heroes:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView18"
+                android:textSize="16sp"
+                android:textStyle="normal|bold" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/heroList2" />
+        </LinearLayout>
 
         <TextView
             android:text="Drag"

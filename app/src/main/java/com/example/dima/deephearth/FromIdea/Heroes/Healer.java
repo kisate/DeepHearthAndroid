@@ -27,16 +27,16 @@ public class Healer extends Hero{
         accScale = Scale.B;
         effectDefs.put(EffectTypes.Holy, 100.0);
         effectDefs.put(EffectTypes.Curse, 70.0);
-        effectDefs.put(EffectTypes.Move, 30.0);
+        effectDefs.put(EffectTypes.Move, 0.0);
         effectDefs.put(EffectTypes.Nonmagic, 20.0);
         effectDefs.put(EffectTypes.Demonic, 5.0);
         effectDefs.put(EffectTypes.Stun, 30.0);
         luck = 10;
-
+        defence = 0;
 
         spriteIds.put("idle", R.drawable.mage);
-        spriteIds.put("prepairing", R.drawable.mage);
-        spriteIds.put("attack", R.drawable.mage);
+        spriteIds.put("prepairing", R.drawable.mage_prepairing);
+        spriteIds.put("attack", R.drawable.mage_attack);
         spriteIds.put("dodge", R.drawable.mage);
         spriteIds.put("hit", R.drawable.mage);
 

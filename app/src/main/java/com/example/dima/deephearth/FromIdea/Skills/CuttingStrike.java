@@ -16,7 +16,7 @@ public class CuttingStrike extends Skill  {
     public CuttingStrike(Unit owner) {
         super(owner);
         name = "Cutting strike";
-        cost = 0;
+        cost = 10;
         dmgMod = Scale.D;
         accuracyMod = 0.85;
         canBeUsedFrom[0] = true;
@@ -30,7 +30,7 @@ public class CuttingStrike extends Skill  {
         effects.add(new Bleeding(null, (int)(2*effectMod), 2));
         animMap.put("pivotX", 0.5f);
         animMap.put("pivotY", 0.5f);
-        animMap.put("drawable", R.drawable.hitanim_arrow);
+        animMap.put("drawable", R.drawable.skillanim_empty);
     }
 
     @Override

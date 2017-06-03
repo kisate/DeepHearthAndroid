@@ -45,11 +45,12 @@ public class SkillDescLayout extends LinearLayout {
         TableLayout effectTable = (TableLayout) findViewById(R.id.effectTable);
 
         skill.setup();
-
+        skillLayout.setVisibility(VISIBLE);
         skillNameView.setText(skill.name);
         skillImageView.setImageResource(skill.skillIco);
         mpView.setText("Mp : " + skill.cost);
         adView.setText("Dmg : " + (int)(skill.power*skill.bottom) + "-" + (int)(skill.power*skill.top) + "\nAcc : " + skill.accuracy);
+        if (skill.targetAmount > 1) mpView.setText(mpView.getText() + " CHAIN");
 
         if (!(skill.friendly && skill.onSelf)) {
             for (int i = 0; i < 4; i++) {
@@ -83,8 +84,6 @@ public class SkillDescLayout extends LinearLayout {
             eText.setText("" + e.power + "/" + e.turns);
 
             effectTable.addView(row);
-
-            Log.d("Debug", e.name);
         }
     }
 

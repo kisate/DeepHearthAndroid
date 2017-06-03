@@ -89,6 +89,21 @@ public class PlayerInspectorActivity extends AppCompatActivity implements View.O
         button.setOnClickListener(this);
         button = (Button) findViewById(R.id.finishExchangeButton);
         button.setOnClickListener(this);
+        findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.leaveLayout).setVisibility(View.GONE);
+            }
+        });
+        findViewById(R.id.button11).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.leaveLayout).setVisibility(View.VISIBLE);
+                if (getIntent().getIntExtra("Size", 0)*50 > player.souls) findViewById(R.id.leaveButton).setVisibility(View.GONE);
+            }
+        });
+        if (getIntent().getIntExtra("Size", 0) == 0) findViewById(R.id.leaveButton).setVisibility(View.GONE);
+        ((TextView) findViewById(R.id.textView19)).setText(String.format("Leaving the dungeon right now will cost you %d souls. Are you sure?", getIntent().getIntExtra("Size", 0)*50));
     }
 
     @Override
@@ -126,7 +141,7 @@ public class PlayerInspectorActivity extends AppCompatActivity implements View.O
         Intent intent = new Intent();
         intent.putExtra("Player", player);
         setResult(1, intent);
-        finish();
+        killActivity();
     }
 
     @Override
@@ -161,7 +176,7 @@ public class PlayerInspectorActivity extends AppCompatActivity implements View.O
                     break;
                 default: break;
             }
-            return true;
+            return false;
         }
     }
 
@@ -230,5 +245,18 @@ public class PlayerInspectorActivity extends AppCompatActivity implements View.O
         Intent intent = new Intent(this, HeroInspectorActivity.class);
         intent.putExtra("Hero", ((HeroButton) v).hero);
         startActivity(intent);
+    }
+
+    public void leave(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("Player", player);
+        player.souls-= getIntent().getIntExtra("Size", 0)*50;
+        intent.putExtra("leave", true);
+        setResult(1, intent);
+        killActivity();
+    }
+
+    void killActivity() {
+        finish();
     }
 }

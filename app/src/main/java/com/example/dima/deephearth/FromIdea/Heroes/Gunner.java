@@ -31,6 +31,7 @@ public class Gunner extends Hero {
         effectDefs.put(EffectTypes.Demonic, 5.0);
         effectDefs.put(EffectTypes.Stun, 50.0);
         luck = 13;
+        defence = 0.1;
         nature = NatureTypes.Alive;
         spriteIds.put("idle", R.drawable.gunner_idle);
         spriteIds.put("prepairing", R.drawable.gunner_prepairing);

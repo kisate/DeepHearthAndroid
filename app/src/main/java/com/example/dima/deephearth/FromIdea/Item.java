@@ -24,6 +24,10 @@ public abstract class Item implements Serializable, Droppable{
 
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Item{" +

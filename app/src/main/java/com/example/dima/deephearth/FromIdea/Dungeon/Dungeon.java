@@ -6,6 +6,7 @@ import android.util.Pair;
 import com.example.dima.deephearth.CorridorView;
 import com.example.dima.deephearth.DungeonEventHandler;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Exit;
 import com.example.dima.deephearth.RandomSelector;
 
 import java.util.LinkedList;
@@ -20,6 +21,7 @@ public class Dungeon {
     private RandomSelector<Interactable> selector;
     DungeonEventHandler handler;
     public int enemyCount = 0;
+    int retryCounter = 0;
 
     LinkedList<Pair<Interactable, Integer>> interactables = new LinkedList<>();
 
@@ -30,6 +32,11 @@ public class Dungeon {
         selector = new RandomSelector(interactables);
         this.handler = handler;
         Generate(size);
+        while (enemyCount == 0) {
+            rooms.clear();
+            corridors.clear();
+            Generate(size);
+        }
     }
 
     private void Generate(int size){
@@ -127,7 +134,13 @@ public class Dungeon {
             else if (room.x > minX && map[room.x - minX - 1][room.y - minY] != null && room.corridors[3] == null)
                 availableRooms.add(map[room.x - minX - 1][room.y - minY]);
 
+            retryCounter=0;
+
             while (availableRooms.size() == 0) {
+                if (retryCounter > 4) {
+                    addCorridors(amount - count - 1);
+                    return;
+                }
                 room = map[(int) (Math.random() * map.length)][(int) (Math.random() * map[0].length)];
                 while (room == null) room = map[(int) (Math.random() * map.length)][(int) (Math.random() * map[0].length)];
                 if (room.y < maxY && map[room.x - minX][room.y - minY + 1] != null && room.corridors[0] == null)
@@ -138,6 +151,7 @@ public class Dungeon {
                     availableRooms.add(map[room.x - minX][room.y - minY - 1]);
                 else if (room.x > minX && map[room.x - minX - 1][room.y - minY] != null && room.corridors[3] == null)
                     availableRooms.add(map[room.x - minX - 1][room.y - minY]);
+                retryCounter++;
             }
 
             Room next = availableRooms.get((int)(Math.random()*availableRooms.size()));

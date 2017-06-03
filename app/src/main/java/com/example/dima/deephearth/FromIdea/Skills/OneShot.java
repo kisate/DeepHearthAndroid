@@ -14,7 +14,7 @@ import com.example.dima.deephearth.R;
 public class OneShot extends Skill {
     public OneShot(Unit owner) {
         super(owner);
-        name = "Oneshot";
+        name = "One shot";
         dmgMod = Scale.S;
         cost = 15;
         accuracyMod = 1.5;

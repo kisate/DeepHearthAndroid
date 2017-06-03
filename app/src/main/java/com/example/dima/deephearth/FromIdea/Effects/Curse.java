@@ -16,6 +16,13 @@ public class Curse extends Effect {
     }
 
     @Override
+    public boolean apply() {
+        boolean res = super.apply();
+        target.modHealth(power);
+        return res;
+    }
+
+    @Override
     public void setData() {
         super.setData();
         type = EffectTypes.Curse;

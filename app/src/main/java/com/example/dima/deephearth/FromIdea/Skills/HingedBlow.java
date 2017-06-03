@@ -12,7 +12,7 @@ import com.example.dima.deephearth.R;
 public class HingedBlow extends Skill{
     public HingedBlow(Unit owner) {
         super(owner);
-        name = "Навесной удар";
+        name = "Hinged blow";
         dmgMod = Scale.C;
         cost = 10;
         accuracyMod = 0.60;
@@ -25,7 +25,7 @@ public class HingedBlow extends Skill{
         targetAmount = 4;
         bottom = 0.6;
         top = 1.3;
-        description = "Закидать команду противника градом стрел";
+        description = "Launch rain of arrows on your opponent.";
         skillIco = R.drawable.skillico_hingedblow;
         attackType = AttackTypes.Ranged;
         setup();

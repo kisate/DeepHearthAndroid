@@ -13,7 +13,7 @@ import com.example.dima.deephearth.R;
 public class DaggerStrike extends Skill{
     public DaggerStrike(Unit owner) {
         super(owner);
-        name = "Удар кинжалом";
+        name = "Dagger strike";
         dmgMod = Scale.B;
         cost = 7;
         accuracyMod = 0.8;
@@ -23,13 +23,13 @@ public class DaggerStrike extends Skill{
         canBeUsedOn[1] = true;
         bottom = 0.8;
         top = 1.1;
-        description = "Атаковать цель кинжалом";
+        description = "Hit target with dagger";
         skillIco = R.drawable.skillico_daggerstrike;
         attackType = AttackTypes.Melee;
         setup();
         animMap.put("pivotX", 0.5f);
         animMap.put("pivotY", 0.5f);
-        animMap.put("drawable", R.drawable.hitanim_arrow);
+        animMap.put("drawable", R.drawable.skillanim_empty);
     }
 
     @Override

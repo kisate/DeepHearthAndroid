@@ -50,7 +50,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/effectico_fire"
+                        app:srcCompat="@drawable/soulico"
                         android:id="@+id/imageView10"
                         android:adjustViewBounds="true" />
 
@@ -85,10 +85,10 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/teamView"
+                android:layout_toStartOf="@+id/relativeLayout2"
                 android:paddingTop="10dp"
                 android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/teamView">
+                android:layout_toLeftOf="@+id/relativeLayout2">
 
                 <ListView
                     android:layout_width="match_parent"
@@ -143,6 +143,21 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/teamView"
+                android:layout_toStartOf="@+id/teamView"
+                android:layout_width="wrap_content"
+                android:id="@+id/relativeLayout2">
+
+                <Button
+                    android:text="Leave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/leaveButton"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
 
             <ListView
                 android:layout_height="match_parent"
@@ -207,6 +222,56 @@
                     android:id="@+id/finishExchangeButton"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/leaveLayout"
+                android:clickable="true"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="50dp"
+                    android:padding="10dp"
+                    android:background="@color/dark">
+
+                    <TextView
+                        android:text="Leaving the dungeon right now will cost you 1000 souls. Are you sure?"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView19"
+                        android:maxWidth="300dp"
+                        android:textStyle="normal|bold"
+                        android:textSize="18sp"
+                        android:layout_centerInParent="true" />
+
+                    <Button
+                        android:text="yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button11"
+                        android:minHeight="0dp"
+                        android:layout_below="@+id/textView19"
+                        android:layout_alignLeft="@+id/textView19"
+                        android:layout_alignStart="@+id/textView19"
+                        android:minWidth="0dp"
+                        android:onClick="leave"/>
+
+                    <Button
+                        android:text="no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button8"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:layout_below="@+id/textView19"
+                        android:layout_alignRight="@+id/textView19"
+                        android:layout_alignEnd="@+id/textView19" />
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </RelativeLayout>

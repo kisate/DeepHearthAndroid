@@ -15,7 +15,8 @@ public class Swap extends Skill {
         skillIco = R.drawable.skillico_skip;
         friendly = true;
         onSelf = false;
-        name = "skip";
+        heals = true;
+        name = "Swap";
         canBeUsedFrom[0] = true;
         canBeUsedFrom[1] = true;
         canBeUsedFrom[2] = true;

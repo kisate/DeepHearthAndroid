@@ -5,5 +5,5 @@ package com.example.dima.deephearth.FromIdea.Dungeon.Events;
  */
 
 public enum EventTypes {
-    toDisplay, startBattle, takeDrop, leave, leaveDungeon
+    toDisplay, startBattle, takeDrop, leave, leaveDungeon, boss
 }

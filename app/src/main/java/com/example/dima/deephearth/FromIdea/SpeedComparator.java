@@ -7,9 +7,9 @@ import java.util.Comparator;
 /**
  * Created by Dima on 28.03.2017.
  */
-public class SpeedComparator implements Comparator<UnitButton> {
+public class SpeedComparator implements Comparator<Unit> {
     @Override
-    public int compare(UnitButton o1, UnitButton o2) {
-        return (int)(o2.unit.speed - o1.unit.speed);
+    public int compare(Unit o1, Unit o2) {
+        return (int)(o2.speed - o1.speed);
     }
 }

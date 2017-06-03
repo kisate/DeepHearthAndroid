@@ -7,56 +7,51 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.example.dima.deephearth.FromIdea.ComputerIntellect;
-import com.example.dima.deephearth.FromIdea.Dungeon.Choice;
 import com.example.dima.deephearth.FromIdea.Dungeon.Corridor;
-import com.example.dima.deephearth.FromIdea.Dungeon.Drop;
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
+import com.example.dima.deephearth.FromIdea.Dungeon.DungeonData;
+import com.example.dima.deephearth.FromIdea.Dungeon.DungeonDatas.BasicDungeonData;
+import com.example.dima.deephearth.FromIdea.Dungeon.DungeonDatas.IntroDungeonData;
 import com.example.dima.deephearth.FromIdea.Dungeon.Event;
+import com.example.dima.deephearth.FromIdea.Dungeon.Events.TreasureEvent;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactable;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Boss;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Empty;
-import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Enemy;
 import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Exit;
-import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Treasue;
+import com.example.dima.deephearth.FromIdea.Dungeon.Interactables.Treasure;
 import com.example.dima.deephearth.FromIdea.Dungeon.Room;
-import com.example.dima.deephearth.FromIdea.Dungeon.Soul;
-import com.example.dima.deephearth.FromIdea.Dungeon.SoulSizes;
-import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
-import com.example.dima.deephearth.FromIdea.HumanIntellect;
-import com.example.dima.deephearth.FromIdea.Items.FireSword;
 import com.example.dima.deephearth.FromIdea.Player;
-import com.example.dima.deephearth.FromIdea.PlayerConstructor;
-import com.example.dima.deephearth.FromIdea.PlayerSkills.Curse;
-import com.example.dima.deephearth.FromIdea.PlayerSkills.Renewal;
-import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class DungeonActivity extends AppCompatActivity implements View.OnClickListener{
+public class DungeonActivity extends AppCompatActivity implements View.OnClickListener, Serializable{
 
     Player player;
     Dungeon dungeon;
     HeroConstructor constructor = new HeroConstructor();
     public DungeonEventHandler handler;
+    boolean foughtBoss = true;
+    boolean finishActivity = false;
+    Boss boss;
 
-    int roomWidth, corWidth, corHeight, count;
+    int roomWidth, corWidth, corHeight, count, id;
     HashMap<Pair<Integer, Integer>, Integer> map = new HashMap<>();
     LinkedList<Pair <Room,Room>> rooms = new LinkedList<>();
     boolean[][] checkedRooms;
+    public boolean clearRoom = true;
+    int size = 0;
 
     RoomButton pickedRoomButton, currentRoomButton, enterButton;
 
@@ -73,33 +68,27 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         player = getPlayer();
-        int size = getIntent().getIntExtra("Size", 5);
         handler = new DungeonEventHandler(this);
 
-        Player player2 = PlayerConstructor.construct(new ComputerIntellect());
-        player2.team.add(constructor.constructSwordsman("P21", player2.team));
-        player2.team.add(constructor.constructHealer("P22", player2.team));
-        player2.team.add(constructor.constructArcher("P23", player2.team));
-        player2.team.add(constructor.constructArcher("P24", player2.team));
-
-        Player player3 = PlayerConstructor.construct(new ComputerIntellect());
-        player3.team.add(constructor.constructSwordsman("Lonely knight", player3.team));
-
-        Drop drop1 = new Drop();
-
-        drop1.add(new FireSword());
-        drop1.add(new Soul(SoulSizes.Common));
-
-        Drop drop2 = new Drop();
-
-        drop2.add(new Soul(SoulSizes.Legendary));
+        id = getIntent().getIntExtra("Id", 0);
 
         LinkedList<Pair<Interactable, Integer>> pairs = new LinkedList<>();
-        pairs.add(new Pair<Interactable, Integer>(new Empty(handler), 6));
-        pairs.add(new Pair<Interactable, Integer>(new Enemy(player2, handler), 1));
-        pairs.add(new Pair<Interactable, Integer>(new Enemy(player3, handler), 2));
-        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop1, handler), 3));
-        pairs.add(new Pair<Interactable, Integer>(new Treasue(drop2, handler), 1));
+        DungeonData dungeonData = new DungeonData();
+        switch (id) {
+            case 0 :
+                dungeonData = new IntroDungeonData(handler);
+                size = 10;
+                foughtBoss = false;
+                boss = dungeonData.boss;
+                break;
+            case 1 :
+                dungeonData = new BasicDungeonData(handler);
+                foughtBoss = true;
+                size = getIntent().getIntExtra("Size", 20);
+        }
+
+        pairs = dungeonData.interactables;
+
 
         dungeon = new Dungeon(size, pairs, handler);
         checkedRooms = new boolean[dungeon.maxX - dungeon.minX + 1][dungeon.maxY - dungeon.minY + 1];
@@ -156,6 +145,18 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
 
         Button button = (Button) findViewById(R.id.playerButton);
         button.setOnClickListener(this);
+        button = (Button) findViewById(R.id.enterButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterDungeon();
+            }
+        });
+    }
+
+    void enterDungeon() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.objectiveLayout);
+        relativeLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -297,6 +298,7 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         if (v.getId() == R.id.playerButton) {
             Intent intent = new Intent(this, PlayerInspectorActivity.class);
             intent.putExtra("Player", player);
+            intent.putExtra("Size", size);
             startActivityForResult(intent, 1);
         }
     }
@@ -305,17 +307,36 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         player = (Player) data.getSerializableExtra("Player");
-        if (data.getBooleanExtra("result", false)) dungeon.enemyCount--;
-        if (dungeon.enemyCount == 0) currentRoomButton.room.interactable = new Exit(handler);
+        if (data.getBooleanExtra("result", false)) {
+            dungeon.enemyCount--;
+            Player enemy = (Player) data.getSerializableExtra("enemy");
+            if (enemy.loot.dropList.size() > 0) {
+                LinkedList<Event> events = new LinkedList<>();
+                events.add(new TreasureEvent(handler, "Loot from enemy", "You have defeated the enemy and obtained loot", enemy.loot.loot()));
+                handler.handle(events);
+            }
+        }
+        if (data.getBooleanExtra("escaped", false)) clearRoom = false;
+        if (dungeon.enemyCount <= 0) {
+            if (foughtBoss) {
+                Log.d("Debug", "Made Exit");
+                currentRoomButton.room.interactable = new Exit(handler);
+                enterRoom(currentRoomButton.room);
+            } else {
+                foughtBoss = true;
+                if (id == 0) finishActivity = true;
+                currentRoomButton.room.interactable = boss;
+                enterRoom(currentRoomButton.room);
+            }
+        }
     }
 
     public void launchBattle(Player player2){
         Intent intent = new Intent(this, BattleActivity.class);
-        player.team.get(1).moves = 2;
-        player.team.get(1).maxMoves = 2;
         intent.putExtra("Player 1", player);
         intent.putExtra("Player 2", player2);
         startActivityForResult(intent, 1);
+        if (finishActivity) killActivity();
     }
 
     @Override
@@ -363,9 +384,6 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     private Player getPlayer(){
 
         player = (Player) getIntent().getSerializableExtra("startPlayer");
-        player.skills.add(new Renewal(player));
-        player.skills.add(new Curse(player));
-        player.skills.add(new UndeadRage(player));
         return player;
     }
 
@@ -373,12 +391,16 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
         currentRoomButton = next.button;
         next.button.setAccessible(true);
         next.button.setCurrent(true);
+
+        clearRoom = !(next.interactable.getClass() == Exit.class || next.interactable.getClass() == Boss.class || next.interactable.getClass() == Empty.class);
+
         next.interactable.interact(player);
-        if (next.interactable.getClass() != Empty.class)next.setInteractable(new Empty(handler));
+        if (clearRoom) next.setInteractable(new Empty(handler));
         next.button.update();
     }
 
     void leaveRoom () {
+
         currentRoomButton.setCurrent(false);
         currentRoomButton = null;
     }
@@ -392,6 +414,14 @@ public class DungeonActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void exitDungeon() {
+        Intent intent = new Intent();
+        intent.putExtra("Player", player);
+        intent.putExtra("finished", true);
+        setResult(1, intent);
+        killActivity();
+    }
 
+    void killActivity() {
+        finish();
     }
 }

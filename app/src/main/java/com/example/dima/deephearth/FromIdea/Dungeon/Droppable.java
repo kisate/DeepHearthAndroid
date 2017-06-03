@@ -5,4 +5,5 @@ package com.example.dima.deephearth.FromIdea.Dungeon;
  */
 
 public interface Droppable {
+    public String getName();
 }

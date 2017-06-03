@@ -2,6 +2,7 @@ package com.example.dima.deephearth;
 
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
@@ -61,7 +62,7 @@ public class HeroAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.hero_item, parent, false);
         }
 
-        Hero hero = getHero(position);
+        final Hero hero = getHero(position);
 
         ((ImageView) view.findViewById(R.id.icoView)).setImageResource(hero.icoId);
         ((TextView) view.findViewById(R.id.nameView)).setText(hero.name);
@@ -69,7 +70,7 @@ public class HeroAdapter extends BaseAdapter {
         ProgressBar manaBar = (ProgressBar) view.findViewById(R.id.manaBar);
 
         hpBar.getProgressDrawable().setColorFilter(
-                Color.RED, PorterDuff.Mode.MULTIPLY);
+                Color.RED, PorterDuff.Mode.SRC_ATOP);
 
         manaBar.getProgressDrawable().setColorFilter(
                 Color.BLUE, PorterDuff.Mode.MULTIPLY);
@@ -108,6 +109,15 @@ public class HeroAdapter extends BaseAdapter {
                     return false;
                 }
             });
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, HeroInspectorActivity.class);
+                    intent.putExtra("Hero", hero);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         MyDragEventListener myDragEventListener = new MyDragEventListener();
@@ -127,8 +137,8 @@ public class HeroAdapter extends BaseAdapter {
 
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED :
-                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) && event.getClipDescription().toString().equals(ItemAdapter.itemTag)) {
-                        v.setBackgroundColor(Color.RED);
+                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) && event.getClipDescription().getLabel().equals(ItemAdapter.itemTag)) {
+                        v.setBackgroundColor(Color.GRAY);
                         v.invalidate();
                         return true;
                     }
@@ -141,11 +151,11 @@ public class HeroAdapter extends BaseAdapter {
                     return true;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
-                    v.setBackgroundColor(Color.BLUE);
+                    v.setBackgroundColor(Color.LTGRAY);
                     v.invalidate();
                     return true;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackgroundColor(Color.RED);
+                    v.setBackgroundColor(Color.GRAY);
                     v.invalidate();
                     return true;
                 case DragEvent.ACTION_DROP:

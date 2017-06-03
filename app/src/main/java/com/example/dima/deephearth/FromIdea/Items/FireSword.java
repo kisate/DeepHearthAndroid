@@ -11,6 +11,7 @@ import com.example.dima.deephearth.FromIdea.Item;
 import com.example.dima.deephearth.FromIdea.Unit;
 import com.example.dima.deephearth.R;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -21,14 +22,14 @@ public class FireSword extends Item {
     public FireSword() {
         name = "Fire Sword";
         description = "Sword shrouded with fire. Sets enemies on fire. Safe for user.";
-        icoId = R.drawable.skillico1;
+        icoId = R.drawable.firesword_ico;
         Buff buff = new Buff(owner, 0, -1) {
 
             Effect effect = new Fire(null, 2, 3);
 
             @Override
-            public void apply() {
-                super.apply();
+            public boolean apply() {
+                boolean res = super.apply();
                 if (!applied) {
                     for (Skill s :
                             target.skills) {
@@ -36,6 +37,7 @@ public class FireSword extends Item {
                     }
                 }
                 applied = true;
+                return res;
             }
 
             @Override
@@ -75,11 +77,10 @@ public class FireSword extends Item {
             ids.add(e.id);
         }
 
-        for (Effect e :
-                owner.effects) {
+        for (Iterator<Effect> iterator = owner.effects.iterator(); iterator.hasNext();) {
+            Effect e = iterator.next();
             if (e.id != 0 && ids.contains(e.id)) {
-                e.remove();
-                effects.remove(e);
+                iterator.remove();
             }
         }
     }

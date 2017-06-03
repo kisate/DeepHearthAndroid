@@ -21,13 +21,18 @@ public class TreasureEvent extends Event {
         super(handler, name, description);
     }
 
-    public TreasureEvent(Drop drop, DungeonEventHandler handler) {
-        this(handler, "Treasure", "You have found treasure, would you take it?");
+    public TreasureEvent(DungeonEventHandler handler, String name, String description, Drop drop) {
+        super(handler, name, description);
         this.drop = drop;
+
+        this.description+="\n" + "Contains : " + drop.getName();
 
         choices.add(new TakeChoice(handler));
         choices.add(new LeaveChoice(handler));
+    }
 
+    public TreasureEvent(Drop drop, DungeonEventHandler handler) {
+        this(handler, "Treasure", "You have found treasure, would you take it?", drop);
     }
 
     class TakeChoice extends Choice{

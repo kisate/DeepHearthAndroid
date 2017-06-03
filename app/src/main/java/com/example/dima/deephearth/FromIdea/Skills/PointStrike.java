@@ -14,7 +14,7 @@ import com.example.dima.deephearth.R;
 public class PointStrike extends Skill {
     public PointStrike(Unit owner) {
         super(owner);
-        name = "Точечный выстрел";
+        name = "Point strike";
         dmgMod = Scale.A;
         cost = 10;
         accuracyMod = 0.95;
@@ -27,7 +27,7 @@ public class PointStrike extends Skill {
         canBeUsedOn[3] = true;
         bottom = 0.9;
         top = 1.5;
-        description = "Выстрел в слабое место противника, может вызвать кровотечение.";
+        description = "Strike target's tender spot, can cause bleeding.";
         skillIco = R.drawable.skillico_pointstrike;
         attackType = AttackTypes.Ranged;
         setup();

@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dima.deephearth.FromIdea.Dungeon.Dungeon;
+import com.example.dima.deephearth.FromIdea.Dungeon.DungeonSizes;
 import com.example.dima.deephearth.FromIdea.Game;
 import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.HeroNames;
@@ -25,6 +27,9 @@ import com.example.dima.deephearth.FromIdea.Items.GreatStaff;
 import com.example.dima.deephearth.FromIdea.Player;
 import com.example.dima.deephearth.FromIdea.PlayerConstructor;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.FromIdea.Unit;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +37,7 @@ import java.util.LinkedList;
 
 public class ExpeditionSetupActivity extends AppCompatActivity implements View.OnClickListener{
 
-    int size = 0;
+    DungeonSizes size = DungeonSizes.Tiny;
     LinkedList<Hero> heroes = new LinkedList<>();
     HeroAdapter adapter;
     Player player;
@@ -61,12 +66,33 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
         }
 
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar2);
-        final TextView textView = (TextView) findViewById(R.id.textView7);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textView.setText("" + progress);
-                size = (int)(50f*progress/100f);
+                TextView sizeView = (TextView) findViewById(R.id.sizeView);
+                switch (progress / 17) {
+                    case 0 :
+                        size = DungeonSizes.Tiny;
+                        break;
+                    case 1 :
+                        size = DungeonSizes.Small;
+                        break;
+                    case 2 :
+                        size = DungeonSizes.Normal;
+                        break;
+                    case 3 :
+                        size = DungeonSizes.Big;
+                        break;
+                    case 4 :
+                        size = DungeonSizes.Large;
+                        break;
+                    case 5 :
+                        size = DungeonSizes.Huge;
+                        break;
+                }
+
+                sizeView.setText(size.toString());
+                sizeView.setTextColor(size.color);
             }
 
             @Override
@@ -89,14 +115,10 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
         ListView listView = (ListView) findViewById(R.id.teamList);
 
         listView.setAdapter(adapter);
-        player = PlayerConstructor.construct(new HumanIntellect());
-        player.items.add(new FireSword());
-        player.items.add(new GreatStaff());
-        player.items.add(new FireSword());
-        team = new Team();
+        player = game.player;
+        team = new Team(4);
         team.player = player;
         player.team = team;
-
         Button b = (Button) findViewById(R.id.teamButton);
 
         b.setOnClickListener(this);
@@ -126,15 +148,16 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
 
         int index = 4;
 
-        for (int i = 3; i > -1; i--) {
-            if (pickedHeroes[i] == null) index = i;
+        for (int i = 0; i < 4; i++) {
+            if (team.get(i) == null) index = i;
         }
 
         if (index < 4) setHero(index, hero);
     }
 
     void setHero(int pos, Hero hero) {
-        pickedHeroes[pos] = hero;
+        team.set(pos, hero);
+        hero.team = team;
         heroButtons[pos].setHero(hero);
         Toast.makeText(this, hero.getName(), Toast.LENGTH_SHORT).show();
         heroes.remove(hero);
@@ -146,10 +169,10 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
         button.setHero(null);
         int index = 0;
         for (int i = 0; i < 4; i++) {
-            if (pickedHeroes[i] == hero) index = i;
+            if (team.get(i) == hero) index = i;
         }
 
-        pickedHeroes[index] = null;
+        team.set(index, null);
         heroes.add(hero);
         adapter.notifyDataSetChanged();
     }
@@ -169,17 +192,8 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
     }
 
     public void showTeam(View v) {
-        team.clear();
-        for (Hero hero :
-                pickedHeroes) {
-            if (hero!=null) {
-                team.add(hero);
-                hero.team = team;
-            }
-        }
 
         player.team = team;
-
         Intent intent = new Intent(this, TeamInspectorActivity.class);
         intent.putExtra("Player", player);
         startActivityForResult(intent, 1);
@@ -189,25 +203,23 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
 
         int count = 0;
 
-        for (Hero h : pickedHeroes) {
-            if (h != null) count++;
+        for (Unit u : team) {
+            if (u != null) count++;
         }
 
         if (count == 4) {
 
-            team.clear();
-            for (Hero hero :
-                    pickedHeroes) {
-                team.add(hero);
-                hero.team = team;
+            for (Unit u :
+                    team) {
+                u.team = team;
             }
 
             player.team = team;
-
             Intent intent = new Intent(this, DungeonActivity.class);
-            intent.putExtra("Size", size);
+            intent.putExtra("Size", size.getSize());
             intent.putExtra("startPlayer", player);
-            startActivity(intent);
+            intent.putExtra("Id", 1);
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -215,10 +227,13 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         player = (Player) data.getSerializableExtra("Player");
-        Intent intent = new Intent();
-        intent.putExtra("Player", player);
-        setResult(1, intent);
-        finish();
+        if (data.getBooleanExtra("finished", false)) {
+            Intent intent = new Intent();
+            intent.putExtra("Player", player);
+            intent.putExtra("finished", true);
+            setResult(1, intent);
+            killActivity();
+        }
     }
 
     @Override
@@ -226,6 +241,8 @@ public class ExpeditionSetupActivity extends AppCompatActivity implements View.O
         Intent intent = new Intent();
         intent.putExtra("Player", player);
         setResult(1, intent);
-        finish();
+        killActivity();
     }
+
+    void killActivity() {finish();}
 }

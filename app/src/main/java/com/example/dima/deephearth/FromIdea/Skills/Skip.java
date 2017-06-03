@@ -15,19 +15,21 @@ public class Skip extends Skill {
         super(owner);
         skillIco = R.drawable.skillico_skip;
         onSelf = true;
+        heals = true;
         dmgMod = Scale.D;
         attackType = AttackTypes.Ranged;
-        name = "skip";
+        name = "Skip";
         canBeUsedFrom[0] = true;
         canBeUsedFrom[1] = true;
         canBeUsedFrom[2] = true;
         canBeUsedFrom[3] = true;
         setup();
-        animMap.put("drawable", R.drawable.heal_anim);
+        animMap.put("drawable", R.drawable.skillanim_empty);
     }
 
     @Override
     public void action(Unit target) {
         super.action(target);
+        damage = 0;
     }
 }

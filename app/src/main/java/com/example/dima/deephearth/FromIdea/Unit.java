@@ -3,9 +3,11 @@ package com.example.dima.deephearth.FromIdea;
 import com.example.dima.deephearth.BattleActivity;
 import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
+import com.example.dima.deephearth.UnitButton;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import static com.example.dima.deephearth.FromIdea.EffectTypes.Buff;
@@ -31,9 +33,16 @@ public abstract class Unit implements Serializable{
     public int icoId;
     public int moves = 1, maxMoves = 1;
     public NatureTypes nature;
+    public boolean stunned = false;
+    public boolean nearDeath = false;
+    public double surviveChance = 0.30;
     public int position;
+    public UnitButton button;
     public void modHealth (int amount) {
-        health-=amount;
+        if (!nearDeath || (nearDeath && amount <= 0)) health-=amount;
+        else {
+            if (surviveChance < Math.random() && amount > 0) isDead = true;
+        }
     }
 
     public Unit(){
@@ -66,8 +75,9 @@ public abstract class Unit implements Serializable{
 
     public void applyEffects()
     {
-        for (Effect effect : effects) {
-            effect.apply();
+        for (Iterator<Effect> iterator = effects.iterator(); iterator.hasNext();) {
+            Effect effect = iterator.next();
+            if (!effect.apply()) iterator.remove();
         }
     }
 }

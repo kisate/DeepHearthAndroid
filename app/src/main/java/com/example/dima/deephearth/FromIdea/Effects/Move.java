@@ -12,7 +12,28 @@ import com.example.dima.deephearth.R;
 public class Move extends Effect {
     public Move(Unit target) {
         super(target);
+    }
+
+    public Move(Unit target, int power) {
+        this(target);
+        this.power = power;
+    }
+
+    @Override
+    public boolean apply() {
+        return false;
+    }
+
+    @Override
+    public Effect addToTarget(Unit target) {
+        return null;
+    }
+
+    @Override
+    public void setData() {
+        super.setData();
         type = EffectTypes.Move;
         icoId = R.drawable.effectico_move;
+        name = "Move";
     }
 }

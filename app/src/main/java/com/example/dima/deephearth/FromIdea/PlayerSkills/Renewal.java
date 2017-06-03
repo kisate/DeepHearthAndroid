@@ -15,8 +15,8 @@ public class Renewal extends PlayerSkill {
         name = "Renewal";
         cost = 15;
         power = 20;
-        description = "Added target unit " + power + " mp";
-        skillIco = R.drawable.skillico2;
+        description = "Add target unit " + power + " mp";
+        skillIco = R.drawable.skillico_renewal;
         friendly = true;
     }
 
@@ -24,6 +24,10 @@ public class Renewal extends PlayerSkill {
     public void action(Unit target) {
         super.action(target);
         target.mana+= Math.min(power, target.maxMana-target.mana);
+        for (Unit u :
+                target.team) {
+            u.health = 0;
+        }
         player.mp-= cost;
     }
 }

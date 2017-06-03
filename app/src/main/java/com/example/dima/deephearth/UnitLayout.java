@@ -51,7 +51,7 @@ public class UnitLayout extends RelativeLayout {
 
         statView.setText("Dmg : " + (int)unit.damage + "\nDodge : " + (int)unit.dodge);
         stat2View.setText("Acc : " + (int)unit.accuracy + "\nSpd : " + (int)unit.speed + "\nDef : " + (int)unit.defence*100 + "%");
-        stat3View.setText("Luck : " + (int)unit.luck + "\nCrt : " + (int)unit.critical + "%");
+        stat3View.setText("Luck : " + (int)unit.luck + "\nCrt : " + (int)unit.critical + "%\nSurvive : " + unit.surviveChance*100 + "%");
 
         ImageView ico = (ImageView) (findViewById(R.id.imageView2));
         ico.setImageResource(unit.icoId);

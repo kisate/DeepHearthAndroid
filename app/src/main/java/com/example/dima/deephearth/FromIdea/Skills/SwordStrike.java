@@ -16,7 +16,7 @@ public class SwordStrike extends Skill {
         name = "SwordStrike";
         dmgMod = Scale.B;
         accuracyMod = 0.9;
-        cost = 0;
+        cost = 10;
         canBeUsedFrom[0] = true;
         canBeUsedFrom[1] = true;
         canBeUsedOn[0] = true;
@@ -27,7 +27,7 @@ public class SwordStrike extends Skill {
         setup();
         animMap.put("pivotX", 0.5f);
         animMap.put("pivotY", 0.5f);
-        animMap.put("drawable", R.drawable.hitanim_arrow);
+        animMap.put("drawable", R.drawable.skillanim_empty);
     }
     @Override
     public void action(Unit target) {

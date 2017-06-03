@@ -27,12 +27,12 @@ public class Swordsman extends Hero {
         accScale = Scale.B;
         effectDefs.put(EffectTypes.Holy, 100.0);
         effectDefs.put(EffectTypes.Curse, 40.0);
-        effectDefs.put(EffectTypes.Move, 50.0);
+        effectDefs.put(EffectTypes.Move, 0.0);
         effectDefs.put(EffectTypes.Nonmagic, 60.0);
         effectDefs.put(EffectTypes.Demonic, 5.0);
         effectDefs.put(EffectTypes.Stun, 50.0);
         luck = 10;
-
+        defence = 0.2;
 
         spriteIds.put("idle", R.drawable.knight);
         spriteIds.put("prepairing", R.drawable.knight_prepairing);

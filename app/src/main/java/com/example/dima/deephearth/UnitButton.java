@@ -19,8 +19,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dima.deephearth.FromIdea.Hero;
+import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Unit;
 import com.example.dima.deephearth.FromIdea.UnitTypes;
+
+import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by Dima on 11.04.2017.
@@ -32,10 +36,10 @@ public class UnitButton extends AppCompatImageButton{
     public ImageView foreground;
     public TextView movePointsView;
     public UnitLayout unitLayout;
-    public int maxAWidth, maxWidth;
+    public HashMap<String, Integer> maxWidths = new HashMap<>();
     int foregroundId;
-    LinearLayout parentLayout, movePointLayout, frameLayout;
-    RelativeLayout barLayout;
+    LinearLayout parentLayout, movePointLayout, frameLayout, barLayout;
+    EffectLayout effectLayout;
 
     public boolean canBeTarget = false;
     public boolean friendly = false;
@@ -56,6 +60,8 @@ public class UnitButton extends AppCompatImageButton{
 
     public void setUnit(Unit unit, int positionWidth){
         this.unit = unit;
+        unit.button = this;
+
         setImageResource(unit.spriteIds.get("idle"));
         Drawable d =  getResources().getDrawable(R.drawable.knight);
         Drawable c = getResources().getDrawable(unit.spriteIds.get("idle"));
@@ -65,15 +71,18 @@ public class UnitButton extends AppCompatImageButton{
         parentLayout = (LinearLayout)(getParent().getParent().getParent());
         frameLayout = (LinearLayout)(getParent().getParent());
         movePointLayout = (LinearLayout) (parentLayout.getChildAt(0));
-        barLayout = (RelativeLayout) parentLayout.getChildAt(2);
+        effectLayout = (EffectLayout) parentLayout.getChildAt(2);
+        barLayout = (LinearLayout) parentLayout.getChildAt(3);
         LinearLayout temp2 = (LinearLayout) barLayout.getChildAt(0);
         healthBar = (ProgressBar) (temp2.getChildAt(0));
         manaBar = (ProgressBar) temp2.getChildAt(1);
         movePointsView = (TextView) barLayout.getChildAt(1);
         foreground = (ImageView) (frameLayout.getChildAt(1));
-        maxAWidth = positionWidth*e.getIntrinsicWidth()/kwidth;
-        maxWidth  = positionWidth*width/kwidth;
-        setMaxWidth(maxWidth);
+
+        maxWidths.put("attack", positionWidth*e.getIntrinsicWidth()/kwidth);
+        maxWidths.put("idle", positionWidth*width/kwidth);
+
+        setMaxWidth(maxWidths.get("idle"));
         foreground.setMaxWidth(positionWidth);
         if(friendly) foregroundId = R.drawable.foreground_selected_green;
         else foregroundId = R.drawable.foreground_selected_red;
@@ -83,7 +92,7 @@ public class UnitButton extends AppCompatImageButton{
         healthBar.setMax((int)unit.maxHealth);
         healthBar.setProgress((int)unit.health);
         healthBar.getProgressDrawable().setColorFilter(
-                Color.RED, PorterDuff.Mode.MULTIPLY);
+                Color.RED, PorterDuff.Mode.SRC_ATOP);
 
 
         manaBar.getLayoutParams().width = (int) (positionWidth*0.55);
@@ -91,7 +100,10 @@ public class UnitButton extends AppCompatImageButton{
         manaBar.setMax((int)unit.maxMana);
         manaBar.setProgress((int)unit.mana);
         manaBar.getProgressDrawable().setColorFilter(
-                Color.BLUE, PorterDuff.Mode.MULTIPLY);
+                Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+
+        effectLayout.setEffects(unit.effects);
+
         parentLayout.setVisibility(VISIBLE);
         UpdateInfo();
     }
@@ -101,7 +113,6 @@ public class UnitButton extends AppCompatImageButton{
         if (canBeTarget) {
             foreground.setImageResource(foregroundId);
             foreground.setVisibility(VISIBLE);
-            Log.d("Debug", "can");
         }
         else foreground.setVisibility(INVISIBLE);
     }
@@ -126,7 +137,29 @@ public class UnitButton extends AppCompatImageButton{
             healthBar.setProgress((int) unit.health);
             manaBar.setProgress((int) unit.mana);
             movePointsView.setText(unit.moves + "");
-            if (unit.health <= 0) {unit.isDead = true; BattleActivity.writeStatus(unit.name + " died");}
+            effectLayout.notifyDataChange();
+            if (unit.health <= 0) {
+                    unit.nearDeath = true;
+                    setAlpha(0.8f);
+                    unit.health = 0;
+            }
+            else {
+                unit.nearDeath = false;
+                setAlpha(1f);
+            }
+            if (unit.nature == NatureTypes.Undead) {
+                if (unit.mana <= 0) {
+                    unit.nearDeath = true;
+                    setAlpha(0.8f);
+                }
+                else {
+                    if (unit.health > 0) {
+                        unit.nearDeath = false;
+                        setAlpha(1f);
+                    }
+                }
+            }
+
         }
 
         else throw new NullPointerException();

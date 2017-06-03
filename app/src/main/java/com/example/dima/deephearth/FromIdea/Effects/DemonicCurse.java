@@ -17,9 +17,10 @@ public class DemonicCurse extends Effect {
     }
 
     @Override
-    public void apply() {
-        super.apply();
+    public boolean apply() {
+        boolean res = super.apply();
         target.modHealth(power);
+        return res;
     }
 
     @Override

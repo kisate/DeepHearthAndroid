@@ -11,7 +11,7 @@
     tools:context="com.example.dima.deephearth.MainMenu">
 
     <Button
-        android:text="New gane"
+        android:text="New game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -27,5 +27,5 @@
         android:id="@+id/button5"
         android:layout_below="@+id/button4"
         android:layout_centerHorizontal="true"
-        android:onClick="uselessAction"/>
+        android:onClick="loadGame"/>
 </RelativeLayout>

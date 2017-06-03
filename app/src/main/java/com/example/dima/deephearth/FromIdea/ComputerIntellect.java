@@ -3,10 +3,12 @@ package com.example.dima.deephearth.FromIdea;
 import android.util.Pair;
 
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
+import com.example.dima.deephearth.FromIdea.Heroes.Bosses.Lich;
 import com.example.dima.deephearth.FromIdea.Heroes.Swordsman;
-import com.example.dima.deephearth.SkillButton;
+import com.example.dima.deephearth.FromIdea.Skills.Skip;
 import com.example.dima.deephearth.UnitButton;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -21,17 +23,39 @@ public class ComputerIntellect extends Intellect {
     @Override
     public Pair<UnitButton, Skill> think(Battle battle) {
 
-        UnitButton target;
+        Unit current = battle.activeButton.unit;
 
-        Skill skill = battle.activeButton.unit.skills.get((int)(4*Math.random()));
-        if (battle.activeButton.unit.getClass() == Swordsman.class) skill = battle.activeButton.unit.skills.get(0);
-        if (skill.friendly) target = battle.enemyButtons.get((int)(Math.random()*battle.enemyButtons.size()));
-        else if (skill.onSelf) target = battle.activeButton;
-        else target = battle.playerButtons.get((int)(Math.random()*battle.playerButtons.size()));
+        LinkedList<Pair<UnitButton, Skill>> choices = new LinkedList<>();
 
+        for (Skill s :
+                current.skills) {
+            if (current.mana >= s.cost && s.canBeUsedFrom[current.team.indexOf(current)]&&s.getClass() != Skip.class) {
+                if (s.onSelf) {
+                    choices.add(new Pair<>(current.button, s));
+                }
+                if (s.friendly) {
+                    for (int i = 0; i < 4; i++) {
+                        Unit unit = current.team.get(i);
+                        if (unit != null && s.canBeUsedOn[i] && unit != current) choices.add(new Pair<>(battle.player2.team.get(i).button, s));
+                    }
+                }
+                else if (!s.onSelf) {
+                    for (int i = 0; i < 4; i++) {
+                        Unit unit = battle.player1.team.get(i);
+                        if (s.canBeUsedOn[i] && unit != null) choices.add(new Pair<>(unit.button, s));
+                    }
+                }
+            }
+        }
 
-        Pair<UnitButton, Skill> res = new Pair<>(target, skill);
+        if (choices.size() == 0) {
+            int index = 0;
+            for (int i = 0; i < current.skills.size(); i++) {
+                if (current.skills.get(i).getClass() == Skip.class) index = i;
+                }
+            choices.add(new Pair<UnitButton, Skill>(current.button, current.skills.get(index)));
+        }
 
-        return res;
+        return choices.get((int)(Math.random()*choices.size()));
     }
 }

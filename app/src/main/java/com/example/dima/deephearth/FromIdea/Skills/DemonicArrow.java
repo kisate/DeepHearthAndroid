@@ -15,7 +15,7 @@ import com.example.dima.deephearth.R;
 public class DemonicArrow extends Skill {
     public DemonicArrow(Unit owner) {
         super(owner);
-        name = "Демоническая стрела";
+        name = "Demonic arrow";
         dmgMod = Scale.B;
         cost = 15;
         accuracyMod = 0.85;
@@ -29,13 +29,11 @@ public class DemonicArrow extends Skill {
         canBeUsedOn[3] = true;
         bottom = 0.9;
         top = 1.2;
-        description = "Выпустить стрелу, пропитанную кровью демона.";
+        description = "Shoot an arrow, smeared with demon blood.";
         skillIco = R.drawable.skillico_demonicarrow;
         attackType = AttackTypes.Ranged;
         setup();
         effects.add(new DemonicCurse(null, (int)(1*effectMod), 5));
-        animMap.put("pivotX", 0.5f);
-        animMap.put("pivotY", 0.5f);
         animMap.put("drawable", R.drawable.hitanim_arrow);
     }
 

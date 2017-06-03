@@ -18,7 +18,7 @@ public class Curse extends PlayerSkill {
         name = "Curse";
         description = "Add Curse " + power +"/"+ turns + " to target";
         effects.add(new com.example.dima.deephearth.FromIdea.Effects.Curse(null, power, turns));
-        skillIco = R.drawable.skillico1;
+        skillIco = R.drawable.skillico_curse;
         friendly = false;
     }
 

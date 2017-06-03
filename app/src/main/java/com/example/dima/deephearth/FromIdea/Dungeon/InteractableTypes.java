@@ -5,5 +5,5 @@ package com.example.dima.deephearth.FromIdea.Dungeon;
  */
 
 public enum InteractableTypes {
-    Enemy, Empty, Treasure, Entity
+    Enemy, Empty, Treasure, Entity, Boss
 }
