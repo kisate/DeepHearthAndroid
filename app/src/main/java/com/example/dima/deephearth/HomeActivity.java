@@ -29,6 +29,7 @@ import com.example.dima.deephearth.FromIdea.Heroes.Archer;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroConstructor;
 import com.example.dima.deephearth.FromIdea.Phrase;
 import com.example.dima.deephearth.FromIdea.Player;
+import com.example.dima.deephearth.FromIdea.UnitStat;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -145,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 3 : hero = constructor.constructUndeadMage(HeroNames.getName(), null); break;
             }
 
-            hero.health = Math.random()*hero.health;
+            hero.health = new UnitStat(Math.random()*hero.health.clearValue);
 
             game.availableHeroes.add(hero);
         }

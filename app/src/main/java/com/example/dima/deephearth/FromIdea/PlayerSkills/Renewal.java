@@ -23,11 +23,7 @@ public class Renewal extends PlayerSkill {
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.mana+= Math.min(power, target.maxMana-target.mana);
-        for (Unit u :
-                target.team) {
-            u.health = 0;
-        }
+        target.mana.clearValue+= Math.min(power, target.maxMana.getValue()-target.mana.clearValue);
         player.mp-= cost;
     }
 }

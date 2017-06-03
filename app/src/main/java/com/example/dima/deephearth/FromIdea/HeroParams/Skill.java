@@ -40,18 +40,9 @@ public abstract class Skill implements Serializable {
         this.owner = owner;
     }
 
-    public void use(Unit target){
-            setup();
-            if (new Probability((int)(owner.luck + accuracy),(int) (owner.luck + accuracy + target.luck + target.dodge)).check()) {
-                action(target);
-            }
-            else BattleActivity.writeStatus(owner.name + " промахнулся");
-            if (owner.mana <= 0) owner.manaEnd();
-    }
-
     public void setup(){
-        power = (int)(owner.damage*dmgMod.scale);
-        accuracy = (int)(owner.accuracy*accuracyMod);
+        power = (int)(owner.damage.getValue()*dmgMod.scale);
+        accuracy = (int)(owner.accuracy.getValue()*accuracyMod);
         effectMod = (100 + power)/100;
     }
 
@@ -59,7 +50,7 @@ public abstract class Skill implements Serializable {
         setup();
         damage = (int)(power*bottom + power*(top-bottom)*Math.random());
         clearDamage = damage;
-        if (owner.critical/100.0 > Math.random()) {
+        if (owner.critical.getValue()/100.0 > Math.random()) {
             double critMod = 1.5 + Math.random()*2;
             damage*=critMod;
         }

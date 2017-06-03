@@ -39,7 +39,7 @@ public class Devastation extends Skill {
     @Override
     public void action(Unit target) {
         super.action(target);
-        target.health = 1;
+        target.health.clearValue = 1;
         damage = 9999;
         clearDamage = 9999;
         target.modHealth(damage);

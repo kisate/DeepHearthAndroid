@@ -89,16 +89,16 @@ public class UnitButton extends AppCompatImageButton{
 
         healthBar.getLayoutParams().width = (int) (positionWidth*0.55);
         healthBar.invalidate();
-        healthBar.setMax((int)unit.maxHealth);
-        healthBar.setProgress((int)unit.health);
+        healthBar.setMax((int)unit.maxHealth.getValue());
+        healthBar.setProgress((int)unit.health.clearValue);
         healthBar.getProgressDrawable().setColorFilter(
                 Color.RED, PorterDuff.Mode.SRC_ATOP);
 
 
         manaBar.getLayoutParams().width = (int) (positionWidth*0.55);
         manaBar.invalidate();
-        manaBar.setMax((int)unit.maxMana);
-        manaBar.setProgress((int)unit.mana);
+        manaBar.setMax((int)unit.maxMana.getValue());
+        manaBar.setProgress((int)unit.mana.clearValue);
         manaBar.getProgressDrawable().setColorFilter(
                 Color.BLUE, PorterDuff.Mode.SRC_ATOP);
 
@@ -134,26 +134,26 @@ public class UnitButton extends AppCompatImageButton{
                 unitLayout.updateUnitInfo(unit);
             }
 
-            healthBar.setProgress((int) unit.health);
-            manaBar.setProgress((int) unit.mana);
+            healthBar.setProgress((int) unit.health.clearValue);
+            manaBar.setProgress((int) unit.mana.clearValue);
             movePointsView.setText(unit.moves + "");
             effectLayout.notifyDataChange();
-            if (unit.health <= 0) {
+            if (unit.health.clearValue <= 0) {
                     unit.nearDeath = true;
                     setAlpha(0.8f);
-                    unit.health = 0;
+                    unit.health.clearValue = 0;
             }
             else {
                 unit.nearDeath = false;
                 setAlpha(1f);
             }
             if (unit.nature == NatureTypes.Undead) {
-                if (unit.mana <= 0) {
+                if (unit.mana.clearValue <= 0) {
                     unit.nearDeath = true;
                     setAlpha(0.8f);
                 }
                 else {
-                    if (unit.health > 0) {
+                    if (unit.health.clearValue > 0) {
                         unit.nearDeath = false;
                         setAlpha(1f);
                     }

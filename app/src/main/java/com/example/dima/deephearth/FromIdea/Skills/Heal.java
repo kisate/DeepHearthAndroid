@@ -35,7 +35,7 @@ public class Heal extends Skill{
     public void action(Unit target) {
         setup();
         damage = (int) (power*bottom + power*(top-bottom)*Math.random());
-        if ((target.maxHealth - target.health) < damage) target.modHealth((int)(target.health-target.maxHealth));
+        if ((target.maxHealth.getValue() - target.health.clearValue) < damage) target.modHealth((target.health.clearValue-target.maxHealth.getValue()));
         else target.modHealth(-damage);
     }
 }

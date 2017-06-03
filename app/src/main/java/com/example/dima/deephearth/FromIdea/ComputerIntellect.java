@@ -29,7 +29,7 @@ public class ComputerIntellect extends Intellect {
 
         for (Skill s :
                 current.skills) {
-            if (current.mana >= s.cost && s.canBeUsedFrom[current.team.indexOf(current)]&&s.getClass() != Skip.class) {
+            if (current.mana.clearValue >= s.cost && s.canBeUsedFrom[current.team.indexOf(current)]&&s.getClass() != Skip.class) {
                 if (s.onSelf) {
                     choices.add(new Pair<>(current.button, s));
                 }

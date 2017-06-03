@@ -371,7 +371,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             for (SkillButton s :
                     skillButtons) {
                 v.UpdateInfo();
-                if (playerButtons.contains(v)) {s.setUsable(s.skill.canBeUsedFrom[playerButtons.indexOf(v)] && s.skill.cost < v.unit.mana);}
+                if (playerButtons.contains(v)) {s.setUsable(s.skill.canBeUsedFrom[playerButtons.indexOf(v)] && s.skill.cost < v.unit.mana.clearValue);}
                 if ((s == curSButton) && (skillPicked)) s.setCurrent(true);
             }
         }
@@ -399,7 +399,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         pSkillused = false;
         for (Unit u :
                 moveOrder) {
-            if ((u.nature == NatureTypes.Alive) && (u.mana + 1 <= u.maxMana)) {u.mana += 1; u.button.UpdateInfo();}
+            if ((u.nature == NatureTypes.Alive) && (u.mana.clearValue + 1 <= u.maxMana.getValue())) {u.mana.clearValue += 1; u.button.UpdateInfo();}
         }
 
         int ecount = 0, pcount = 0;
@@ -552,7 +552,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
             writeStatus(info);
 
-            pickedSkill.owner.mana -= pickedSkill.cost;
+            pickedSkill.owner.mana.clearValue -= pickedSkill.cost;
 
             LinkedList<LinkedList<Pair<Effect, Boolean>>> efs = new LinkedList<>();
             LinkedList<Pair<UnitButton, Integer>> unitsToMove = new LinkedList<>();
@@ -566,7 +566,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
                     for (Effect e :
                             pickedSkill.effects) {
-                        if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
+                        if (!(b.unit.effectDefs.get(e.type).getValue() / 100 > Math.random())) {
                             if (e.getClass() == Move.class) {
                                 unitsToMove.add(new Pair<UnitButton, Integer>(b, e.power));
                             }
@@ -583,7 +583,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 for (UnitButton b :
                         targets) {
-                    if (new Probability((int)2*pickedSkill.accuracy + (int)pickedSkill.owner.luck, (int)2*pickedSkill.accuracy + (int)pickedSkill.owner.luck + (int)b.unit.luck + (int)b.unit.dodge).check()) {
+                    if (new Probability(2*pickedSkill.accuracy + pickedSkill.owner.luck.getValue(), 2*pickedSkill.accuracy + pickedSkill.owner.luck.getValue() + b.unit.luck.getValue() + b.unit.dodge.getValue()).check()) {
                         pickedSkill.action(b.unit);
                         damages.add(pickedSkill.damage);
 
@@ -591,7 +591,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
 
                         for (Effect e :
                                 pickedSkill.effects) {
-                            if (!(b.unit.effectDefs.get(e.type) / 100 > Math.random())) {
+                            if (!(b.unit.effectDefs.get(e.type).getValue() / 100 > Math.random())) {
                                 if (e.getClass() == Move.class) {
                                     unitsToMove.add(new Pair<UnitButton, Integer>(b, e.power));
                                 }
@@ -1107,7 +1107,7 @@ public class BattleActivity extends AppCompatActivity implements View.OnClickLis
         LinkedList<Pair<Effect, Boolean>> efs = new LinkedList<>();
         for (Effect e :
                 skill.effects) {
-            if (!(target.unit.effectDefs.get(e.type) / 100 > Math.random())) {
+            if (!(target.unit.effectDefs.get(e.type).getValue() / 100 > Math.random())) {
                 e.addToTarget(target.unit);
                 efs.add(new Pair<>(e, true));
             } else {

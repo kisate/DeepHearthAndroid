@@ -16,13 +16,13 @@ import static com.example.dima.deephearth.FromIdea.EffectTypes.Buff;
  * Created by Dima on 23.02.2017.
  */
 public abstract class Unit implements Serializable{
-    public double maxHealth, maxMana;
-    public HashMap<EffectTypes, Double> effectDefs = new HashMap<>();
+    public UnitStat maxHealth = new UnitStat(0), maxMana = new UnitStat(0);
+    public HashMap<EffectTypes, UnitStat> effectDefs = new HashMap<>();
     public HashMap<String, Integer> spriteIds = new HashMap<>();
-    public double health, mana, damage, accuracy;
-    public double luck, dodge, critical = 0;
-    public double speed;
-    public double defence, prdefence;
+    public UnitStat health = new UnitStat(0), mana= new UnitStat(0), damage= new UnitStat(0), accuracy= new UnitStat(0);
+    public UnitStat luck= new UnitStat(0), dodge= new UnitStat(0), critical = new UnitStat(0);
+    public UnitStat speed= new UnitStat(0);
+    public UnitStat defence= new UnitStat(0);
     public String description;
     public UnitTypes type;
     public LinkedList<Skill> skills = new LinkedList<Skill>();
@@ -35,25 +35,25 @@ public abstract class Unit implements Serializable{
     public NatureTypes nature;
     public boolean stunned = false;
     public boolean nearDeath = false;
-    public double surviveChance = 0.30;
+    public UnitStat surviveChance = new UnitStat(0.3);
     public int position;
     public UnitButton button;
-    public void modHealth (int amount) {
-        if (!nearDeath || (nearDeath && amount <= 0)) health-=amount;
+    public void modHealth (double amount) {
+        if (!nearDeath || (nearDeath && amount <= 0)) health.clearValue-=amount;
         else {
-            if (surviveChance < Math.random() && amount > 0) isDead = true;
+            if (surviveChance.getValue() < Math.random() && amount > 0) isDead = true;
         }
     }
 
     public Unit(){
-        effectDefs.put(EffectTypes.Stun, 0.0);
-        effectDefs.put(EffectTypes.Move, 0.0);
-        effectDefs.put(EffectTypes.Demonic, 0.0);
-        effectDefs.put(EffectTypes.Curse, 0.0);
-        effectDefs.put(EffectTypes.Holy, 0.0);
-        effectDefs.put(EffectTypes.Nonmagic, 0.0);
-        effectDefs.put(EffectTypes.Other, 0.0);
-        effectDefs.put(Buff, 0.0);
+        effectDefs.put(EffectTypes.Stun, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Move, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Demonic, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Curse, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Holy, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Nonmagic, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Other, new UnitStat(0.0));
+        effectDefs.put(Buff, new UnitStat(0.0));
     }
 
     public void manaEnd(){

@@ -44,14 +44,14 @@ public class UnitLayout extends RelativeLayout {
 
     public void updateUnitInfo(Unit unit){
         TextView nameView = (TextView) findViewById(R.id.textView5);
-        nameView.setText("" + unit.getName() + " | Hp : " + (int)unit.health + "/" + (int)unit.maxHealth + " | Mp :" + (int)unit.mana + "/" + (int)unit.maxMana);
+        nameView.setText("" + unit.getName() + " | Hp : " + (int)unit.health.getValue() + "/" + (int)unit.maxHealth.getValue() + " | Mp :" + (int)unit.mana.clearValue + "/" + (int)unit.maxMana.getValue());
         TextView statView = (TextView) findViewById(R.id.dmgDodgeTView);
         TextView stat2View = (TextView) findViewById(R.id.ADSTView);
         TextView stat3View = (TextView) findViewById(R.id.LCTView);
 
-        statView.setText("Dmg : " + (int)unit.damage + "\nDodge : " + (int)unit.dodge);
-        stat2View.setText("Acc : " + (int)unit.accuracy + "\nSpd : " + (int)unit.speed + "\nDef : " + (int)unit.defence*100 + "%");
-        stat3View.setText("Luck : " + (int)unit.luck + "\nCrt : " + (int)unit.critical + "%\nSurvive : " + unit.surviveChance*100 + "%");
+        statView.setText("Dmg : " + (int)unit.damage.getValue() + "\nDodge : " + (int)unit.dodge.getValue());
+        stat2View.setText("Acc : " + (int)unit.accuracy.getValue() + "\nSpd : " + (int)unit.speed.getValue() + "\nDef : " + Math.floor(unit.defence.getValue()*10000)/100.0 + "%");
+        stat3View.setText("Luck : " + (int)unit.luck.getValue() + "\nCrt : " + Math.floor(unit.critical.getValue()*10000)/100.0 + "%\nSurvive : " + Math.floor(unit.surviveChance.getValue()*10000)/100.0 + "%");
 
         ImageView ico = (ImageView) (findViewById(R.id.imageView2));
         ico.setImageResource(unit.icoId);
@@ -111,7 +111,7 @@ public class UnitLayout extends RelativeLayout {
                 ImageView iv = (ImageView) ll1.getChildAt(0);
                 TextView tv = (TextView) ll1.getChildAt(1);
                 iv.setImageResource(et.icoId);
-                tv.setText("" + unit.effectDefs.get(et).intValue() + "%");
+                tv.setText("" + unit.effectDefs.get(et).getValue() + "%");
                 LinearLayout ll2 = (LinearLayout) mll.getChildAt(1);
                 if (i.hasNext()) {
                     ll2.setVisibility(VISIBLE);
@@ -119,7 +119,7 @@ public class UnitLayout extends RelativeLayout {
                     iv = (ImageView) ll2.getChildAt(0);
                     tv = (TextView) ll2.getChildAt(1);
                     iv.setImageResource(et.icoId);
-                    tv.setText("" + unit.effectDefs.get(et).intValue() + "%");
+                    tv.setText("" + unit.effectDefs.get(et).getValue() + "%");
                 }
 
                 else ll2.setVisibility(INVISIBLE);

@@ -75,11 +75,11 @@ public class HeroAdapter extends BaseAdapter {
         manaBar.getProgressDrawable().setColorFilter(
                 Color.BLUE, PorterDuff.Mode.MULTIPLY);
 
-        hpBar.setMax((int)hero.maxHealth);
-        hpBar.setProgress((int)hero.health);
+        hpBar.setMax((int)hero.maxHealth.getValue());
+        hpBar.setProgress((int)hero.health.clearValue);
 
-        manaBar.setMax((int)hero.maxMana);
-        manaBar.setProgress((int)hero.mana);
+        manaBar.setMax((int)hero.maxMana.getValue());
+        manaBar.setProgress((int)hero.mana.clearValue);
         HeroButton button = (HeroButton) view.findViewById(R.id.button3);
         button.setHero(hero);
         button.setTag(heroTag);

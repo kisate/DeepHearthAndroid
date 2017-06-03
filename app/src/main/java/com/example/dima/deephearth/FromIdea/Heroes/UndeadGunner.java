@@ -5,6 +5,7 @@ import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.FromIdea.UnitStat;
 import com.example.dima.deephearth.R;
 
 /**
@@ -24,14 +25,14 @@ public class UndeadGunner extends Hero{
         speedScale = Scale.B;
         dmgScale = Scale.A;
         accScale = Scale.A;
-        effectDefs.put(EffectTypes.Holy, 10.0);
-        effectDefs.put(EffectTypes.Curse, 100.0);
-        effectDefs.put(EffectTypes.Move, 30.0);
-        effectDefs.put(EffectTypes.Nonmagic, 30.0);
-        effectDefs.put(EffectTypes.Demonic, 5.0);
-        effectDefs.put(EffectTypes.Stun, 50.0);
-        luck = 13;
-        defence = 0.1;
+        effectDefs.put(EffectTypes.Holy, new UnitStat(10.0));
+        effectDefs.put(EffectTypes.Curse, new UnitStat(100.0));
+        effectDefs.put(EffectTypes.Move, new UnitStat(30.0));
+        effectDefs.put(EffectTypes.Nonmagic, new UnitStat(30.0));
+        effectDefs.put(EffectTypes.Demonic, new UnitStat(5.0));
+        effectDefs.put(EffectTypes.Stun, new UnitStat(50.0));
+        luck = new UnitStat(13);
+        defence = new UnitStat(0.1);
         nature = NatureTypes.Undead;
         spriteIds.put("idle", R.drawable.gunner_undead_idle);
         spriteIds.put("prepairing", R.drawable.gunner_undead_prepairing);

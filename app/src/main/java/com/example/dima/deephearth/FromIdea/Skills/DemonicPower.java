@@ -10,6 +10,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.Modificators.Mult;
 import com.example.dima.deephearth.R;
 
 /**
@@ -56,7 +57,7 @@ public class DemonicPower extends Skill {
             if (!applied) {
                 Hero hero = (Hero) target;
                 Log.d("Debug", "" + hero.power);
-                hero.power *= (power + 100.0) / 100;
+                hero.power.addMod(new Mult(1 + power/100.0, "demonic power"));
                 Log.d("Debug", "" + hero.power);
                 hero.countStats();
             }
@@ -85,7 +86,7 @@ public class DemonicPower extends Skill {
         public void remove() {
             super.remove();
             Hero hero = (Hero) target;
-            hero.power /= (100 + power) / 100.0;
+            hero.power.removeMod("demonic power");
             hero.countStats();
             hero.health = hero.maxHealth;
             Log.d("Debug", "" + hero.power);

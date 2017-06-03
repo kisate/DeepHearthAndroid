@@ -9,6 +9,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.AttackTypes;
 import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.Modificators.Add;
 import com.example.dima.deephearth.R;
 
 /**
@@ -54,7 +55,7 @@ public class EnhanceArmor extends Skill {
             super.apply();
             if (!applied) {
                 Hero hero = (Hero) target;
-                hero.defence += power/100;
+                hero.defence.addMod(new Add(power/100.0, "enhance armor"));
                 hero.countStats();
             }
             applied = true;
@@ -81,7 +82,7 @@ public class EnhanceArmor extends Skill {
         public void remove() {
             super.remove();
             Hero hero = (Hero) target;
-            hero.defence -= power/100;
+            hero.defence.removeMod("enhance armor");
             hero.countStats();
         }
 

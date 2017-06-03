@@ -18,7 +18,7 @@ public class HolyFire extends Effect {
     public boolean apply() {
         boolean res = super.apply();
         target.modHealth(power);
-        target.mana--;
+        target.mana.clearValue--;
         return res;
     }
 

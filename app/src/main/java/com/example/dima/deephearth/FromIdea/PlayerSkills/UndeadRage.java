@@ -9,6 +9,8 @@ import com.example.dima.deephearth.FromIdea.HeroParams.Skill;
 import com.example.dima.deephearth.FromIdea.Player;
 import com.example.dima.deephearth.FromIdea.PlayerSkill;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.FromIdea.UnitStat;
+import com.example.dima.deephearth.Modificators.Mult;
 import com.example.dima.deephearth.R;
 
 import java.lang.reflect.Constructor;
@@ -48,7 +50,7 @@ public class UndeadRage extends PlayerSkill {
             super.apply();
             if (!applied) {
                 Hero hero = (Hero) target;
-                hero.power*=(power + 100.0)/100;
+                hero.power.addMod(new Mult(1 + power/100.0, "undead rage"));
                 hero.countStats();
                 hero.health = hero.maxHealth;
             }
@@ -73,7 +75,7 @@ public class UndeadRage extends PlayerSkill {
         public void remove() {
             super.remove();
             Hero hero = (Hero) target;
-            hero.power/=(100 + power)/100.0;
+            hero.power.removeMod("undead rage");
             hero.countStats();
             hero.health = hero.maxHealth;
         }

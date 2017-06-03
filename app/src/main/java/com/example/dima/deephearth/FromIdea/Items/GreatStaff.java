@@ -9,6 +9,7 @@ import com.example.dima.deephearth.FromIdea.Inventory;
 import com.example.dima.deephearth.FromIdea.Item;
 import com.example.dima.deephearth.FromIdea.PlayerSkills.UndeadRage;
 import com.example.dima.deephearth.FromIdea.Unit;
+import com.example.dima.deephearth.Modificators.Mult;
 import com.example.dima.deephearth.R;
 
 import java.util.Iterator;
@@ -70,7 +71,7 @@ public class GreatStaff extends Item {
             boolean res = super.apply();
             if (!applied) {
                 Hero hero = (Hero) target;
-                hero.power*=(100 + power)/100.0;
+                hero.power.addMod(new Mult(1 + power/100.0, "greatstaff buff"));
                 hero.countStats();
             }
             applied = true;
@@ -81,7 +82,7 @@ public class GreatStaff extends Item {
         public void remove() {
             super.remove();
             Hero hero = (Hero) target;
-            hero.power/=(100 + power)/100.0;
+            hero.power.removeMod("greatstaff buff");
             hero.countStats();
         }
 

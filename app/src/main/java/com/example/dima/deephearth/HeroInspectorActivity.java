@@ -49,9 +49,9 @@ public class HeroInspectorActivity extends AppCompatActivity {
         typeView.setText(hero.nature.toString());
         nameView.setText(hero.name);
         profView.setText(hero.heroClass.toString());
-        powerDexView.setText("Power : " + (int) hero.power + "|Dex : " + (int) hero.dexterity);
-        statView1.setText("Dmg : " + (int) hero.damage + "\nDodge : " + (int) hero.dodge + "\nDef : " + (int)hero.defence*100 + "%\nCrt : " + hero.critical);
-        statView2.setText("Luck : " + (int) hero.luck + "\nAcc : " + (int) hero.accuracy + "\nSpeed : " + (int) hero.speed);
+        powerDexView.setText("Power : " + (int) hero.power.getValue() + "|Dex : " + (int) hero.dexterity.getValue());
+        statView1.setText("Dmg : " + (int) hero.damage.getValue() + "\nDodge : " + (int) hero.dodge.getValue() + "\nDef : " + Math.floor(hero.defence.getValue()*10000)/100.0 + "%\nCrt : " + Math.floor(hero.critical.getValue()*10000)/100.0 + "%");
+        statView2.setText("Luck : " + (int) hero.luck.getValue() + "\nAcc : " + (int) hero.accuracy.getValue() + "\nSpeed : " + (int) hero.speed.getValue() + "\nSurvive : " + Math.floor(hero.surviveChance.getValue()*10000)/100.0 + "%");
         heroView.setImageResource(hero.spriteIds.get("idle"));
 
         for (int i = 0; i < 4; i++) {
@@ -88,7 +88,7 @@ public class HeroInspectorActivity extends AppCompatActivity {
             ImageView iv = (ImageView) ll1.getChildAt(0);
             TextView tv = (TextView) ll1.getChildAt(1);
             iv.setImageResource(et.icoId);
-            tv.setText("" + hero.effectDefs.get(et).intValue() + "%");
+            tv.setText("" + hero.effectDefs.get(et).getValue() + "%");
             LinearLayout ll2 = (LinearLayout) mll.getChildAt(1);
             if (i.hasNext()) {
                 ll2.setVisibility(View.VISIBLE);
@@ -96,7 +96,7 @@ public class HeroInspectorActivity extends AppCompatActivity {
                 iv = (ImageView) ll2.getChildAt(0);
                 tv = (TextView) ll2.getChildAt(1);
                 iv.setImageResource(et.icoId);
-                tv.setText("" + hero.effectDefs.get(et).intValue() + "%");
+                tv.setText("" + hero.effectDefs.get(et).getValue() + "%");
             }
 
             else ll2.setVisibility(View.INVISIBLE);

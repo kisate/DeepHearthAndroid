@@ -5,6 +5,7 @@ import com.example.dima.deephearth.FromIdea.Hero;
 import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.FromIdea.UnitStat;
 import com.example.dima.deephearth.R;
 
 /**
@@ -25,14 +26,14 @@ public class UndeadHealer extends Hero {
         speedScale = Scale.C;
         dmgScale = Scale.C;
         accScale = Scale.B;
-        effectDefs.put(EffectTypes.Holy, 30.0);
-        effectDefs.put(EffectTypes.Curse, 100.0);
-        effectDefs.put(EffectTypes.Move, 30.0);
-        effectDefs.put(EffectTypes.Nonmagic, 20.0);
-        effectDefs.put(EffectTypes.Demonic, 5.0);
-        effectDefs.put(EffectTypes.Stun, 30.0);
-        luck = 10;
-        defence = 0;
+        effectDefs.put(EffectTypes.Holy, new UnitStat(30.0));
+        effectDefs.put(EffectTypes.Curse, new UnitStat(100.0));
+        effectDefs.put(EffectTypes.Move, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Nonmagic, new UnitStat(20.0));
+        effectDefs.put(EffectTypes.Demonic, new UnitStat(5.0));
+        effectDefs.put(EffectTypes.Stun, new UnitStat(30.0));
+        luck = new UnitStat(10);
+        defence = new UnitStat(0);
         spriteIds.put("idle", R.drawable.mage_undead);
         spriteIds.put("prepairing", R.drawable.mage_undead_prepairing);
         spriteIds.put("attack", R.drawable.mage_undead_attack);

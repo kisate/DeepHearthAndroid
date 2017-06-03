@@ -8,8 +8,8 @@ import java.util.Random;
  * Created by Dima on 28.03.2017.
  */
 public class Probability {
-    public float success, all;
-    public Probability(int success, int all) {
+    public double success, all;
+    public Probability(double success, double all) {
         this.success = success;
         this.all = all;
     }

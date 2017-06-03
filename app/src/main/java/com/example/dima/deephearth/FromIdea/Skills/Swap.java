@@ -24,10 +24,6 @@ public class Swap extends Skill {
     }
 
     @Override
-    public void use(Unit target) {
-    }
-
-    @Override
     public void setup() {
     }
 

@@ -12,17 +12,16 @@ import java.util.LinkedList;
 public abstract class Hero extends Unit implements Hireable{
     private double prDexterity, prPower;
     public Scale hpScale, crtScale, mpScale, speedScale, dodgeScale, dmgScale, accScale;
-    public double power, dexterity, experience, level;
+    public UnitStat power, dexterity;
+    public int  experience, level;
     public HeroClasses heroClass;
     public Inventory inventory = new Inventory(this);
     boolean initialized = false;
 
     public Hero(int dexterity, int power, String name,  Team team) {
         super();
-        this.prDexterity = dexterity;
-        this.prPower = power;
-        this.power = power;
-        this.dexterity = dexterity;
+        this.power = new UnitStat(power);
+        this.dexterity = new UnitStat(dexterity);
         this.name = name;
         this.team = team;
         type = UnitTypes.Hero;
@@ -33,17 +32,17 @@ public abstract class Hero extends Unit implements Hireable{
     public void manaEnd() {}
 
     public void countStats() {
-        maxHealth = 10 + (int)(2*power * hpScale.scale);
-        maxMana = 60 + 3*(int)(power * mpScale.scale);
-        critical = (int)(power * crtScale.scale);
-        dodge = (int)(dexterity * dodgeScale.scale);
-        speed = (int)(dexterity * speedScale.scale);
-        damage = (int)(power* dmgScale.scale);
-        accuracy = (int)(power*accScale.scale);
-        if (!initialized || health > maxHealth)
-        health = maxHealth;
-        if (!initialized || mana > maxMana)
-        mana = maxMana;
+        maxHealth.clearValue = 10 + (2*power.getValue() * hpScale.scale);
+        maxMana.clearValue = 60 + 3* (power.getValue() * mpScale.scale);
+        critical = new UnitStat((power.getValue() * crtScale.scale));
+        dodge = new UnitStat((dexterity.getValue() * dodgeScale.scale));
+        speed = new UnitStat((dexterity.getValue() * speedScale.scale));
+        damage = new UnitStat((power.getValue()* dmgScale.scale));
+        accuracy = new UnitStat((power.getValue()*accScale.scale));
+        if (!initialized || health.getValue() > maxHealth.getValue())
+        health.clearValue = maxHealth.getValue();
+        if (!initialized || mana.getValue() > maxMana.getValue())
+        mana.clearValue = maxMana.getValue();
         initialized = true;
     }
 

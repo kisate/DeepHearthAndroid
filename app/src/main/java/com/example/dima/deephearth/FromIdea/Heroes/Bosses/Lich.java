@@ -6,6 +6,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Heroes.HeroClasses;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.FromIdea.UnitStat;
 import com.example.dima.deephearth.R;
 
 /**
@@ -24,21 +25,21 @@ public class Lich extends Hero {
         speedScale = Scale.C;
         dmgScale = Scale.C;
         accScale = Scale.B;
-        effectDefs.put(EffectTypes.Holy, 60.0);
-        effectDefs.put(EffectTypes.Curse, 150.0);
-        effectDefs.put(EffectTypes.Move, 80.0);
-        effectDefs.put(EffectTypes.Nonmagic, 40.0);
-        effectDefs.put(EffectTypes.Demonic, 40.0);
-        effectDefs.put(EffectTypes.Stun, 90.0);
-        luck = 13;
-        defence = 0.1;
+        effectDefs.put(EffectTypes.Holy, new UnitStat(60.0));
+        effectDefs.put(EffectTypes.Curse, new UnitStat(150.0));
+        effectDefs.put(EffectTypes.Move, new UnitStat(80.0));
+        effectDefs.put(EffectTypes.Nonmagic, new UnitStat(40.0));
+        effectDefs.put(EffectTypes.Demonic, new UnitStat(40.0));
+        effectDefs.put(EffectTypes.Stun, new UnitStat(90.0));
+        luck = new UnitStat(13);
+        defence = new UnitStat(0.1);
         nature = NatureTypes.Alive;
         spriteIds.put("idle", R.drawable.lich_idle);
         spriteIds.put("prepairing", R.drawable.lich_prepairing);
         spriteIds.put("attack", R.drawable.lich_attack);
         spriteIds.put("dodge", R.drawable.lich_idle);
         spriteIds.put("hit", R.drawable.lich_idle);
-        surviveChance = 0;
+        surviveChance = new UnitStat(0);
         icoId = R.drawable.lich_ico;
         countStats();
     }
@@ -46,7 +47,7 @@ public class Lich extends Hero {
     @Override
     public void countStats() {
         super.countStats();
-        maxHealth = 300;
-        health = 300;
+        maxHealth.clearValue = 300;
+        health.clearValue = 300;
     }
 }

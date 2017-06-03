@@ -6,6 +6,7 @@ import com.example.dima.deephearth.FromIdea.HeroParams.NatureTypes;
 import com.example.dima.deephearth.FromIdea.Scale;
 import com.example.dima.deephearth.FromIdea.Skills.SwordStrike;
 import com.example.dima.deephearth.FromIdea.Team;
+import com.example.dima.deephearth.FromIdea.UnitStat;
 import com.example.dima.deephearth.R;
 
 /**
@@ -25,14 +26,14 @@ public class Swordsman extends Hero {
         speedScale = Scale.B;
         dmgScale = Scale.B;
         accScale = Scale.B;
-        effectDefs.put(EffectTypes.Holy, 100.0);
-        effectDefs.put(EffectTypes.Curse, 40.0);
-        effectDefs.put(EffectTypes.Move, 0.0);
-        effectDefs.put(EffectTypes.Nonmagic, 60.0);
-        effectDefs.put(EffectTypes.Demonic, 5.0);
-        effectDefs.put(EffectTypes.Stun, 50.0);
-        luck = 10;
-        defence = 0.2;
+        effectDefs.put(EffectTypes.Holy, new UnitStat(100.0));
+        effectDefs.put(EffectTypes.Curse, new UnitStat(40.0));
+        effectDefs.put(EffectTypes.Move, new UnitStat(0.0));
+        effectDefs.put(EffectTypes.Nonmagic, new UnitStat(60.0));
+        effectDefs.put(EffectTypes.Demonic, new UnitStat(5.0));
+        effectDefs.put(EffectTypes.Stun, new UnitStat(50.0));
+        luck = new UnitStat(10);
+        defence = new UnitStat(0.2);
 
         spriteIds.put("idle", R.drawable.knight);
         spriteIds.put("prepairing", R.drawable.knight_prepairing);

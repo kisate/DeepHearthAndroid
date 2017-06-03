@@ -10,6 +10,6 @@ import java.util.Comparator;
 public class SpeedComparator implements Comparator<Unit> {
     @Override
     public int compare(Unit o1, Unit o2) {
-        return (int)(o2.speed - o1.speed);
+        return (int)(o2.speed.getValue() - o1.speed.getValue());
     }
 }

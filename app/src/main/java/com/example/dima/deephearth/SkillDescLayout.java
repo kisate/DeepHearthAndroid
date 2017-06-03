@@ -100,9 +100,9 @@ public class SkillDescLayout extends LinearLayout {
             ImageView icoView = (ImageView) findViewById(R.id.skillTargetIco);
             icoView.setImageResource(target.icoId);
             nameView.setText(target.getName());
-            hmView.setText("Hp: " + (int)target.health + "/" + (int)target.maxHealth + " | Mp: " + (int)target.mana  + "/" + (int)target.maxMana);
-            ddView.setText("Def: " + (int)target.defence*100 + "%\nDg : " + (int)target.dodge);
-            dalView.setText("Dmg: " + (int)target.damage + "\nAcc: " + (int)target.accuracy + "\nLuck: " + (int)target.luck);
+            hmView.setText("Hp: " + (int)target.health.clearValue + "/" + (int)target.maxHealth.getValue() + " | Mp: " + (int)target.mana.clearValue  + "/" + (int)target.maxMana.getValue());
+            ddView.setText("Def: " + (int)target.defence.getValue()*100 + "%\nDg : " + (int)target.dodge.getValue());
+            dalView.setText("Dmg: " + (int)target.damage.getValue() + "\nAcc: " + (int)target.accuracy.getValue() + "\nLuck: " + (int)target.luck.getValue());
 
 
             TableLayout skillTable = (TableLayout) findViewById(R.id.skillTable);
@@ -140,7 +140,7 @@ public class SkillDescLayout extends LinearLayout {
                 ImageView iv = (ImageView) ll1.getChildAt(0);
                 TextView tv = (TextView) ll1.getChildAt(1);
                 iv.setImageResource(et.icoId);
-                tv.setText("" + target.effectDefs.get(et).intValue() + "%");
+                tv.setText("" + target.effectDefs.get(et).getValue() + "%");
                 LinearLayout ll2 = (LinearLayout) mll.getChildAt(1);
                 if (i.hasNext()) {
                     ll2.setVisibility(VISIBLE);
@@ -148,7 +148,7 @@ public class SkillDescLayout extends LinearLayout {
                     iv = (ImageView) ll2.getChildAt(0);
                     tv = (TextView) ll2.getChildAt(1);
                     iv.setImageResource(et.icoId);
-                    tv.setText("" + target.effectDefs.get(et).intValue() + "%");
+                    tv.setText("" + target.effectDefs.get(et).getValue() + "%");
                 }
 
                 else ll2.setVisibility(INVISIBLE);

@@ -40,7 +40,7 @@ public class DemonicArrow extends Skill {
     @Override
     public void action(Unit target) {
         super.action(target);
-        damage = (int)(damage*(1-target.defence));
+        damage = (int)(damage*(1-target.defence.getValue()));
         target.modHealth(damage);
     }
 }

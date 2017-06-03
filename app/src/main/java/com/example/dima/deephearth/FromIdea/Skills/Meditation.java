@@ -30,6 +30,7 @@ public class Meditation extends Skill {
     @Override
     public void action(Unit target) {
         super.action(target);
-        owner.mana+= Math.min(damage, owner.maxMana-owner.mana);
+        owner.mana.clearValue+= Math.min(damage, owner.maxMana.getValue()-owner.mana.clearValue);
+        damage = 0;
     }
 }
